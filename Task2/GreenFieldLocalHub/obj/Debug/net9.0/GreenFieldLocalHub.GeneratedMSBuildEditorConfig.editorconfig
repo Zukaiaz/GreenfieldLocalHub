@@ -1,0 +1,245 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = GreenFieldLocalHub
+build_property.RootNamespace = GreenFieldLocalHub
+build_property.ProjectDir = C:\Users\Digi-T-Y2-12\source\repos\GreenFieldLocalHub\GreenFieldLocalHub\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Digi-T-Y2-12\source\repos\GreenFieldLocalHub\GreenFieldLocalHub
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/BasketProducts/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0UHJvZHVjdHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/BasketProducts/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0UHJvZHVjdHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/BasketProducts/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0UHJvZHVjdHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/BasketProducts/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0UHJvZHVjdHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/BasketProducts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0UHJvZHVjdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Baskets/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Baskets/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Baskets/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Baskets/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Baskets/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmFza2V0c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Farmers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFybWVyc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Farmers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFybWVyc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Farmers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFybWVyc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Farmers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFybWVyc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Farmers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFybWVyc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Favourites/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3VyaXRlc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Favourites/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3VyaXRlc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Favourites/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3VyaXRlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Favourites/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3VyaXRlc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Favourites/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmF2b3VyaXRlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyAccounts/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eUFjY291bnRzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyAccounts/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eUFjY291bnRzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyAccounts/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eUFjY291bnRzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyAccounts/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eUFjY291bnRzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyAccounts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eUFjY291bnRzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyTransactions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eVRyYW5zYWN0aW9uc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyTransactions/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eVRyYW5zYWN0aW9uc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyTransactions/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eVRyYW5zYWN0aW9uc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyTransactions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eVRyYW5zYWN0aW9uc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/LoyaltyTransactions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG95YWx0eVRyYW5zYWN0aW9uc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/OrderProducts/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJQcm9kdWN0c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/OrderProducts/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJQcm9kdWN0c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/OrderProducts/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJQcm9kdWN0c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/OrderProducts/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJQcm9kdWN0c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/OrderProducts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJQcm9kdWN0c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Orders/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Orders/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Orders/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Orders/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Orders/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Products/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Products/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Products/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Products/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Products/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Digi-T-Y2-12/source/repos/GreenFieldLocalHub/GreenFieldLocalHub/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-3iejl0yoed
