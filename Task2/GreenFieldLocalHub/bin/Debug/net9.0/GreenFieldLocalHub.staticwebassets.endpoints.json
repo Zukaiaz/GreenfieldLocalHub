@@ -9428,6 +9428,334 @@
       ]
     },
     {
+      "Route": "images/armbrustanna-green-onions-699943.jpg",
+      "AssetFile": "images/armbrustanna-green-onions-699943.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1237841"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eej4J6wauhnYky28mGnEsnMTkfVme/bVdj4P5hi1mpY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 13 Apr 2026 15:07:00 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-eej4J6wauhnYky28mGnEsnMTkfVme/bVdj4P5hi1mpY="
+        }
+      ]
+    },
+    {
+      "Route": "images/armbrustanna-green-onions-699943.ztpnh51lnj.jpg",
+      "AssetFile": "images/armbrustanna-green-onions-699943.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1237841"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"eej4J6wauhnYky28mGnEsnMTkfVme/bVdj4P5hi1mpY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 13 Apr 2026 15:07:00 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ztpnh51lnj"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-eej4J6wauhnYky28mGnEsnMTkfVme/bVdj4P5hi1mpY="
+        },
+        {
+          "Name": "label",
+          "Value": "images/armbrustanna-green-onions-699943.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/bajarita-berner-rose-75320.jpg",
+      "AssetFile": "images/bajarita-berner-rose-75320.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1932162"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"n/W5O5jxBgmsJptVu+RPnbjfWCS0BLkyvdr4KKW5NIo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 14 Apr 2026 08:23:27 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-n/W5O5jxBgmsJptVu+RPnbjfWCS0BLkyvdr4KKW5NIo="
+        }
+      ]
+    },
+    {
+      "Route": "images/bajarita-berner-rose-75320.xkrflfk3lt.jpg",
+      "AssetFile": "images/bajarita-berner-rose-75320.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1932162"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"n/W5O5jxBgmsJptVu+RPnbjfWCS0BLkyvdr4KKW5NIo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 14 Apr 2026 08:23:27 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "xkrflfk3lt"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-n/W5O5jxBgmsJptVu+RPnbjfWCS0BLkyvdr4KKW5NIo="
+        },
+        {
+          "Name": "label",
+          "Value": "images/bajarita-berner-rose-75320.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/jackmac34-basket-strawberries-2208356.31i6tjqh4d.jpg",
+      "AssetFile": "images/jackmac34-basket-strawberries-2208356.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2605228"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ORZYjO417AutmRlN7i1MF0NaNmcghY/685xUPqzHNQw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 14 Apr 2026 08:26:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "31i6tjqh4d"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ORZYjO417AutmRlN7i1MF0NaNmcghY/685xUPqzHNQw="
+        },
+        {
+          "Name": "label",
+          "Value": "images/jackmac34-basket-strawberries-2208356.jpg"
+        }
+      ]
+    },
+    {
+      "Route": "images/jackmac34-basket-strawberries-2208356.jpg",
+      "AssetFile": "images/jackmac34-basket-strawberries-2208356.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2605228"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ORZYjO417AutmRlN7i1MF0NaNmcghY/685xUPqzHNQw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 14 Apr 2026 08:26:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ORZYjO417AutmRlN7i1MF0NaNmcghY/685xUPqzHNQw="
+        }
+      ]
+    },
+    {
+      "Route": "images/jackmac34-carrots-673184_1920.jpg",
+      "AssetFile": "images/jackmac34-carrots-673184_1920.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "576744"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"68HERtEqqoGZW8O4688DCioXnqMxp7OCrGDSQfayBqc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 14 Apr 2026 08:24:44 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-68HERtEqqoGZW8O4688DCioXnqMxp7OCrGDSQfayBqc="
+        }
+      ]
+    },
+    {
+      "Route": "images/jackmac34-carrots-673184_1920.tu4a70evsm.jpg",
+      "AssetFile": "images/jackmac34-carrots-673184_1920.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "576744"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"68HERtEqqoGZW8O4688DCioXnqMxp7OCrGDSQfayBqc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 14 Apr 2026 08:24:44 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tu4a70evsm"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-68HERtEqqoGZW8O4688DCioXnqMxp7OCrGDSQfayBqc="
+        },
+        {
+          "Name": "label",
+          "Value": "images/jackmac34-carrots-673184_1920.jpg"
+        }
+      ]
+    },
+    {
       "Route": "js/site.js",
       "AssetFile": "js/site.js.gz",
       "Selectors": [

@@ -54,6 +54,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await SeedData.SeedUsersAndRoles(services, userManager, roleManager);
     await SeedData.SeedFarmers(services);
+    await SeedData.SeedProducts(services);
 }
 
 app.Run();

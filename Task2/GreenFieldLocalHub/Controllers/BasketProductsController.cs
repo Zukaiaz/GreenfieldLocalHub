@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GreenFieldLocalHub.Data;
 using GreenFieldLocalHub.Models;
+using System.Security.Claims;
 
 namespace GreenFieldLocalHub.Controllers
 {
@@ -72,20 +73,62 @@ namespace GreenFieldLocalHub.Controllers
         // Saves the new basket product when the form is submitted
         [HttpPost]
         [ValidateAntiForgeryToken]// Security check to block fake form submissions
-        public async Task<IActionResult> Create([Bind("BasketProductsId,BasketId,ProductsId,ProductQuantity")] BasketProducts basketProducts)
+        public async Task<IActionResult> Create(int ProductsId)
         {
-            // If the form is filled in correctly, save it
-            if (ModelState.IsValid)
+           var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductsId == ProductsId);
+
+            if (product == null)
             {
-                _context.Add(basketProducts); //Add to database
-                await _context.SaveChangesAsync(); //Save
-                return RedirectToAction(nameof(Index)); //Go back to the list
+                return NotFound();
             }
 
-            // If the form had errors, reload the dropdowns and show the form again
-            ViewData["BasketId"] = new SelectList(_context.Basket, "BasketId", "BasketId", basketProducts.BasketId);
-            ViewData["ProductsId"] = new SelectList(_context.Set<Products>(), "ProductsId", "ProductsId", basketProducts.ProductsId);
-            return View(basketProducts);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var basket = await _context.Basket.FirstOrDefaultAsync(x => x.UserId == userId && x.Status == true);
+
+            if (basket == null)
+            {
+                basket = new Basket
+                {
+                    Status = true,
+                    UserId = userId,
+                    BasketCreatedAt = DateTime.UtcNow,
+
+                };
+
+                _context.Basket.Add(basket);
+                await _context.SaveChangesAsync();
+            }
+
+            var basketProduct = await _context.BasketProducts
+                .FirstOrDefaultAsync(bp => bp.BasketId == basket.BasketId && bp.ProductsId == ProductsId);
+
+            if (basketProduct != null)
+            {
+                basketProduct.ProductQuantity++;
+            }
+            else
+            {
+                basketProduct = new BasketProducts
+                {
+                    BasketId = basket.BasketId,
+                    ProductsId = ProductsId,
+                    ProductQuantity = 1
+                };
+
+                _context.BasketProducts.Add(basketProduct);
+
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Baskets");
+
         }
 
         // GET: BasketProducts/Edit/5

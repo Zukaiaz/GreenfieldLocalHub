@@ -1,47 +1,56 @@
-﻿@model IEnumerable<GreenFieldLocalHub.Models.Basket>
-
+﻿@model IEnumerable<GreenFieldLocalHub.Models.BasketProducts>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Your Basket";
 }
 
-<h1>Index</h1>
+<h1>Your Basket</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BasketCreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BasketCreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BasketId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BasketId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BasketId">Delete</a>
-            </td>
-        </tr>
+@if (!Model.Any())
+{
+    <p>Your basket is empty.</p>
+    <p>You havent added any products yet.</p>
+    <a asp-controller="Products" asp-action="Index">Continue Shopping</a>
 }
-    </tbody>
-</table>
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Products.ProductName</td>
+                    <td>£@item.Products.ProductPrice</td>
+                    <td>@item.ProductQuantity</td>
+                    <td>£@(item.Products.ProductPrice * item.ProductQuantity)</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.BasketProductsId">Remove</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+    <div>
+        <p>Subtotal: £@ViewBag.Subtotal</p>
+        <p>Loyalty Tier: @ViewBag.Tier</p>
+        <p>Discount: -£@ViewBag.DiscountAmount</p>
+        <h4><strong>Total: £@ViewBag.Total</strong></h4>
+    </div>
+
+
+
+
+    <a asp-controller="Products" asp-action="Index" class="btn btn-secondary">Continue Shopping</a>
+    <a asp-controller="Orders" asp-action="Create" class="btn btn-success">Checkout</a>
+}

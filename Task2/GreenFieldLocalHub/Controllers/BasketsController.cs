@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GreenFieldLocalHub.Data;
 using GreenFieldLocalHub.Models;
+using System.Security.Claims;
 
 namespace GreenFieldLocalHub.Controllers
 {
@@ -22,7 +23,73 @@ namespace GreenFieldLocalHub.Controllers
         // GET: Baskets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Basket.ToListAsync());
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var basket = await _context.Basket
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status);
+
+            if (basket == null)
+            {
+                {
+                    basket = new Basket
+                    {
+                        Status = true,
+                        UserId = userId,
+                        BasketCreatedAt = DateTime.UtcNow
+                    };
+
+                    _context.Basket.Add(basket);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            var basketProducts = await _context.BasketProducts
+                .Where(x => x.BasketId == basket.BasketId)
+                .Include(x => x.Basket)
+                .Include(x => x.Products)
+                .ToListAsync();
+
+            decimal subtotal = 0m;
+
+            foreach (var basketProduct in basketProducts)
+            {
+                var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity;
+                subtotal += productTotal;
+            }
+
+            // Get the users loyalty account
+            var loyaltyAccount = await _context.LoyaltyAccount
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            // Work out discount based on their tier
+            decimal discountPercent = 0m;
+
+            if (loyaltyAccount != null)
+            {
+                discountPercent = loyaltyAccount.Tier switch
+                {
+                    "Bronze" => 0.05m,  // 5% off
+                    "Silver" => 0.10m,  // 10% off
+                    "Gold" => 0.15m,  // 15% off
+                    _ => 0m      // No discount for standard users
+                };
+            }
+
+            decimal discountAmount = subtotal * discountPercent;
+            decimal total = subtotal - discountAmount;
+
+            // Pass values to the view
+            ViewBag.Subtotal = subtotal;
+            ViewBag.DiscountAmount = discountAmount;
+            ViewBag.Total = total;
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None";
+
+            return View(basketProducts);
         }
 
         // GET: Baskets/Details/5

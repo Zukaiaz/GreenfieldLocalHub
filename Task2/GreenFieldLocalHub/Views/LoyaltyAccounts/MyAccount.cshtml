@@ -1,0 +1,74 @@
+﻿@model GreenFieldLocalHub.Models.LoyaltyAccount
+@{
+    ViewData["Title"] = "My Loyalty Account";
+}
+
+<h2>My Loyalty Account 🌟</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4>
+            Current Tier:
+            @if (Model.Tier == "Gold")
+            {
+                <span class="badge bg-warning text-dark">🥇 Gold</span>
+            }
+            else if (Model.Tier == "Silver")
+            {
+                <span class="badge bg-secondary">🥈 Silver</span>
+            }
+            else if (Model.Tier == "Bronze")
+            {
+                <span class="badge" style="background-color:#cd7f32; color:white">🥉 Bronze</span>
+            }
+            else
+            {
+                <span class="badge bg-light text-dark">None</span>
+            }
+        </h4>
+        <h4>Points: <strong>@Model.Points</strong></h4>
+        <p>Member since: @Model.CreatedAt.ToString("dd MMM yyyy")</p>
+
+        @{
+            // Work out points needed for next tier
+            string nextTierMessage = Model.Points switch
+            {
+                >= 1000 => "You've reached the highest tier! 🎉",
+                >= 600 => $"{1000 - Model.Points} points until Gold",
+                >= 300 => $"{600 - Model.Points} points until Silver",
+                _ => $"{300 - Model.Points} points until Bronze"
+            };
+        }
+        <p class="text-muted">@nextTierMessage</p>
+    </div>
+</div>
+
+<h4>Point History</h4>
+@if (ViewBag.Transactions != null && ((List<GreenFieldLocalHub.Models.LoyaltyTransactions>)ViewBag.Transactions).Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Reason</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in (List<GreenFieldLocalHub.Models.LoyaltyTransactions>)ViewBag.Transactions)
+            {
+                <tr>
+                    <td>@t.CreatedAt.ToString("dd MMM yyyy")</td>
+                    <td>@t.Reason</td>
+                    <td class="text-success">+@t.PointsChange</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">No transactions yet. Start shopping to earn points!</p>
+}
+
+<a asp-controller="Products" asp-action="Index" class="btn btn-success">Shop Now</a>

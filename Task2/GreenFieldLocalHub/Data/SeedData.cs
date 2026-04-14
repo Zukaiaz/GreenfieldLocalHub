@@ -1,5 +1,6 @@
 ﻿using GreenFieldLocalHub.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenFieldLocalHub.Data
 {
@@ -152,7 +153,79 @@ namespace GreenFieldLocalHub.Data
 
             context.Farmers.AddRange(farmers);
             await context.SaveChangesAsync();
-   
+
         }
+        
+        public static async Task SeedProducts(IServiceProvider serviceProvider)
+        {
+            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var ViennesLocalGrub = await context.Farmers.FirstOrDefaultAsync(x => x.FarmerName == "Vienne's Local Grub");
+            var HendersonsHarvest = await context.Farmers.FirstOrDefaultAsync(x => x.FarmerName == "Henderson's Harvest");
+            var GreenAcresFarm = await context.Farmers.FirstOrDefaultAsync(x => x.FarmerName == "Green Acres Farm");
+
+            if(ViennesLocalGrub == null || HendersonsHarvest == null || GreenAcresFarm == null)
+            {
+                throw new Exception("Farmer not Found");
+            }
+
+            if (!context.Products.Any())
+            {
+                {
+                    var products = new List<Products>
+                    {
+                        new Products()
+                        {
+                            ProductName = "Green Onions",
+                            ProductDescription = "Fresh green onions, organically grown by our family!",
+                            StockQuantity = 50,
+                            IsAvailable = true,
+                            ProductPrice = 0.60m,
+                            FarmersId = ViennesLocalGrub.FarmersId,
+                            ImagePath = "/images/armbrustanna-green-onions-699943.jpg"
+                        },
+                        new Products()
+                        {
+                            ProductName = "Apples",
+                            ProductDescription = "Red juicy apples, hand picked from our acre of apple trees!",
+                            StockQuantity = 250,
+                            IsAvailable = true,
+                            ProductPrice = 0.80m,
+                            FarmersId = GreenAcresFarm.FarmersId,
+                            ImagePath = "/images/bajarita-berner-rose-75320.jpg"
+                        },
+
+                        new Products()
+                        {
+                            ProductName = "Carrots",
+                            ProductDescription = "Our carrots are the perfect balance of refreshing and sweet, making them perfect for any meal!",
+                            StockQuantity = 200,
+                            IsAvailable = true,
+                            ProductPrice = 0.45m,
+                            FarmersId = HendersonsHarvest.FarmersId,
+                            ImagePath = "/images/jackmac34-carrots-673184_1920.jpg"
+                        },
+
+                        new Products()
+                        {
+                            ProductName = "Strawberries",
+                            ProductDescription = "Our strawberries are fresh, juicy, and naturally sweet—perfect for desserts, snacks, or adding a burst of flavour to any meal!",
+                            StockQuantity = 150,
+                            IsAvailable = true,
+                            ProductPrice = 1.20m,
+                            FarmersId = ViennesLocalGrub.FarmersId,
+                            ImagePath = "/images/jackmac34-basket-strawberries-2208356.jpg"
+                        }
+                    };
+
+                    await context.Products.AddRangeAsync(products);
+                    await context.SaveChangesAsync();
+                }
+            }
+        }
+    
+
+        
     }
+
 }

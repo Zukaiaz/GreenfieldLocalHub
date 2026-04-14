@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Join Our Loyalty Scheme";
+}
+
+<h1>Join Our Loyalty Scheme</h1>
+<p>Enter your email address to sign up and start earning points!</p>
+
+<ul>
+    <li>Bronze: 300 points = 5% off</li>
+    <li>Silver: 600 points = 10% off</li>
+    <li>Gold: 1000 points = 15% off</li>
+</ul>
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;">@ViewBag.Error</p>
+}
+
+@if (ViewBag.Success != null)
+{
+    <p style="color:green;">@ViewBag.Success</p>
+}
+
+<form asp-action="SignUp" method="post">
+    @Html.AntiForgeryToken()
+    <div>
+        <label>Email Address</label>
+        <input type="email" name="email" class="form-control" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Sign Up</button>
+</form>
+
+<br />
+<a asp-controller="Products" asp-action="Index" class="btn btn-secondary">Back to Products</a>

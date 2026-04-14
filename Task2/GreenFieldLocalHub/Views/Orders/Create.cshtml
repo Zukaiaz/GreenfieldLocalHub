@@ -1,68 +1,69 @@
-﻿@model GreenFieldLocalHub.Models.Orders
-
-@{
-    ViewData["Title"] = "Create";
+﻿@{
+    ViewData["Title"] = "Checkout";
 }
 
-<h1>Create</h1>
-
-<h4>Orders</h4>
+<h2>Checkout</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalAmount" class="control-label"></label>
-                <input asp-for="TotalAmount" class="form-control" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Delivery" /> @Html.DisplayNameFor(model => model.Delivery)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Collection" /> @Html.DisplayNameFor(model => model.Collection)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeliveryType" class="control-label"></label>
-                <input asp-for="DeliveryType" class="form-control" />
-                <span asp-validation-for="DeliveryType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderTrackingStatus" class="control-label"></label>
-                <input asp-for="OrderTrackingStatus" class="form-control" />
-                <span asp-validation-for="OrderTrackingStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CollectionDate" class="control-label"></label>
-                <input asp-for="CollectionDate" class="form-control" />
-                <span asp-validation-for="CollectionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderDate" class="control-label"></label>
-                <input asp-for="OrderDate" class="form-control" />
-                <span asp-validation-for="OrderDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (ViewBag.BasketProducts != null)
+{
+    <h4>Order Summary</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.BasketProducts)
+            {
+                <tr>
+                    <td>@item.Products.ProductName</td>
+                    <td>£@item.Products.ProductPrice</td>
+                    <td>@item.ProductQuantity</td>
+                    <td>£@(item.Products.ProductPrice * item.ProductQuantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+    <p>Subtotal: £@ViewBag.Subtotal</p>
+    <p>Loyalty Tier: @ViewBag.Tier</p>
+    <p>Discount: -£@ViewBag.DiscountAmount</p>
+    <h4><strong>Total: £@ViewBag.Total</strong></h4>
+    <hr />
+}
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Delivery Type</label>
+        <select name="DeliveryType" class="form-select" id="deliveryTypeSelect">
+            <option value="">-- Select --</option>
+            <option value="Delivery">Delivery</option>
+            <option value="Collection">Collection</option>
+        </select>
+    </div>
+
+    <div id="collectionDateDiv" class="mb-3" style="display:none">
+        <label class="form-label">Collection Date</label>
+        <input type="date" name="CollectionDate" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Place Order</button>
+    <a asp-controller="Baskets" asp-action="Index" class="btn btn-secondary">Back to Basket</a>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('deliveryTypeSelect').addEventListener('change', function () {
+            var collectionDiv = document.getElementById('collectionDateDiv');
+            collectionDiv.style.display = this.value === 'Collection' ? 'block' : 'none';
+        });
+    </script>
 }

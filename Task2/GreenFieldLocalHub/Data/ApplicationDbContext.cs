@@ -19,5 +19,6 @@ namespace GreenFieldLocalHub.Data
         public DbSet<GreenFieldLocalHub.Models.OrderProducts> OrderProducts { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.Orders> Orders { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.Products> Products { get; set; } = default!;
+
     }
 }

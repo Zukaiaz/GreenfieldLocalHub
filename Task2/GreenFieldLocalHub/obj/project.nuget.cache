@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JDBOGfJ3+h8=",
+  "dgSpecHash": "LO/vmQztmwA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Digi-T-Y2-12\\source\\repos\\GreenFieldLocalHub\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
+  "projectFilePath": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Digi-T-Y2-12\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Digi-T-Y2-12\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

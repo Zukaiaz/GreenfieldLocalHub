@@ -8667,11 +8667,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Digi-T-Y2-12\\source\\repos\\GreenFieldLocalHub\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
+      "projectUniqueName": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
       "projectName": "GreenFieldLocalHub",
-      "projectPath": "C:\\Users\\Digi-T-Y2-12\\source\\repos\\GreenFieldLocalHub\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
+      "projectPath": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
       "packagesPath": "C:\\Users\\Digi-T-Y2-12\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Digi-T-Y2-12\\source\\repos\\GreenFieldLocalHub\\GreenFieldLocalHub\\obj\\",
+      "outputPath": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

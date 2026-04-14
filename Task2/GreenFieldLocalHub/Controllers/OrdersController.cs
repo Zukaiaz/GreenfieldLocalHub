@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GreenFieldLocalHub.Data;
 using GreenFieldLocalHub.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GreenFieldLocalHub.Controllers
 {
@@ -44,25 +46,190 @@ namespace GreenFieldLocalHub.Controllers
         }
 
         // GET: Orders/Create
-        public IActionResult Create()
+        [Authorize]
+        public async Task<IActionResult> Create()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var basket = await _context.Basket
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status == true);
+
+            if (basket == null)
+            {
+                return RedirectToAction("Index", "Products");
+            }
+
+            var basketProducts = await _context.BasketProducts
+                .Where(x => x.BasketId == basket.BasketId)
+                .Include(x => x.Products)
+                .ToListAsync();
+
+            decimal subtotal = 0.00m;
+            foreach (var basketProduct in basketProducts)
+            {
+                subtotal += basketProduct.Products.ProductPrice * basketProduct.ProductQuantity;
+            }
+
+            var loyaltyAccount = await _context.LoyaltyAccount
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            decimal discountPercent = loyaltyAccount?.Tier switch
+            {
+                "Bronze" => 0.05m,
+                "Silver" => 0.10m,
+                "Gold" => 0.15m,
+                _ => 0m
+            };
+
+            decimal discountAmount = subtotal * discountPercent;
+            decimal total = subtotal - discountAmount;
+
+            ViewBag.BasketId = basket.BasketId;
+            ViewBag.Subtotal = subtotal;
+            ViewBag.DiscountAmount = discountAmount;
+            ViewBag.Total = total;
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None";
+            ViewBag.BasketProducts = basketProducts;
+
             return View();
         }
 
         // POST: Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders)
+        public async Task<IActionResult> Create([Bind("OrdersId,Delivery,Collection,DeliveryType,CollectionDate")] Orders orders, int basketId)
         {
-            if (ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
             {
-                _context.Add(orders);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.BasketId = basketId;
+                return View(orders);
             }
-            return View(orders);
+
+            orders.UserId = userId;
+            ModelState.Remove("UserId");
+
+            orders.OrderDate = DateOnly.FromDateTime(DateTime.Today);
+            ModelState.Remove("OrderDate");
+
+            orders.OrderTrackingStatus = "Pending";
+            ModelState.Remove("OrderTrackingStatus");
+
+            var basket = await _context.Basket
+                .FirstOrDefaultAsync(x => x.BasketId == basketId && x.UserId == userId && x.Status);
+
+            if (basket == null)
+            {
+                return NotFound();
+
+            }
+
+            var basketProducts = await _context.BasketProducts
+                .Where(x => x.BasketId == basketId)
+                .Include(x => x.Products)
+                .ToListAsync();
+
+            if (!basketProducts.Any())
+            {
+                ModelState.AddModelError("", "Your basket is empty");
+                ViewBag.BasketId = basketId;
+                return View(orders);
+            }
+
+            decimal subtotal = 0.00m;
+            foreach (var basketProduct in basketProducts)
+            {
+                var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity;
+                subtotal = productTotal + subtotal;
+            }
+
+            var orderCount = await _context.Orders.CountAsync(x => x.UserId == userId);
+
+            decimal discount = 0m;
+
+            if (orderCount >= 5)
+            {
+                discount = subtotal * 0.10m;
+            }
+
+            orders.TotalAmount = subtotal - discount;
+
+            ModelState.Remove("subtotal");
+
+            if (!orders.Collection && !orders.Delivery)
+            {
+                ModelState.AddModelError("Delivery", "Must choose Collection or Delivery");
+
+            }
+
+            if (orders.Delivery)
+            {
+                ModelState.Remove("DeliveryType");
+
+                if (orders.CollectionDate == null)
+                {
+                    ModelState.AddModelError("CollectionDate", "Collection date is Required");
+
+                }
+
+                else
+                {
+                    var earliestDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2));
+
+                    if (orders.CollectionDate.Value < earliestDate)
+                    {
+                        ModelState.AddModelError("CollectionDate", "Collection must be at least 2 days from now");
+                    }
+                }
+            }
+
+            if (orders.Delivery)
+            {
+                ModelState.Remove("CollectionDate");
+
+                if (string.IsNullOrWhiteSpace(orders.DeliveryType))
+                {
+                    ModelState.AddModelError("DeliveryType", "Delivery type is required");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.BasketId = basketId;
+                return View(orders);
+            }
+
+            _context.Orders.Add(orders);
+            await _context.SaveChangesAsync();
+
+            foreach (var basketProduct in  basketProducts)
+            {
+                if (basketProduct.Products.StockQuantity < basketProduct.ProductQuantity)
+                {
+                    ModelState.AddModelError("", $"Not enough stock for {basketProduct.Products.ProductName}");
+                    ViewBag.BasketId = basketId;
+                    return View(orders);
+                }
+
+                var orderProduct = new OrderProducts
+                {
+                    OrdersId = orders.OrdersId,
+                    ProductsId = basketProduct.ProductsId,
+                    ProductsQuantity = basketProduct.ProductQuantity,
+                };
+
+                _context.OrderProducts.Add(orderProduct);
+
+                basketProduct.Products.StockQuantity -= basketProduct.ProductQuantity;
+            }
+
+            basket.Status = false;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+
         }
 
         // GET: Orders/Edit/5
@@ -82,8 +249,6 @@ namespace GreenFieldLocalHub.Controllers
         }
 
         // POST: Orders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders)

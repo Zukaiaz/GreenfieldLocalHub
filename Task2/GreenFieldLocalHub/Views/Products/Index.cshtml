@@ -6,6 +6,10 @@
 
 <h1>Index</h1>
 
+<a asp-controller="LoyaltyAccounts" asp-action="SignUp" class="btn btn-warning">
+    Join Our Loyalty Scheme 🌟
+</a>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -64,6 +68,22 @@
                 <a asp-action="Edit" asp-route-id="@item.ProductsId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ProductsId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ProductsId">Delete</a>
+                <form asp-controller="BasketProducts" asp-action="Create" method="post">
+                    <input type="hidden" name="ProductsId" value="@item.ProductsId"/>
+
+                    @if (item.StockQuantity > 0)
+                    {
+                        <button type="submit" class="btn btn-secondary w-100">
+                            Add to Basket
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-secondary w-100">
+                            Out of Stock
+                        </button>
+                    }
+                </form>
             </td>
         </tr>
 }
