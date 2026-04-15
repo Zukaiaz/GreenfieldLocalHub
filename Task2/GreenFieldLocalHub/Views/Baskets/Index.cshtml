@@ -7,50 +7,77 @@
 
 @if (!Model.Any())
 {
-    <p>Your basket is empty.</p>
-    <p>You havent added any products yet.</p>
-    <a asp-controller="Products" asp-action="Index">Continue Shopping</a>
+    <div>
+        <h3>Your basket is empty</h3>
+        <p>Looks like you haven't added any products yet.</p>
+
+    </div>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div>
+        <div>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.Products.ProductName</td>
-                    <td>£@item.Products.ProductPrice</td>
-                    <td>@item.ProductQuantity</td>
-                    <td>£@(item.Products.ProductPrice * item.ProductQuantity)</td>
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@item.BasketProductsId">Remove</a>
-                    </td>
-                </tr>
+                <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+
+                    <div>
+                        <h4>@item.Products.ProductName</h4>
+                        <p>Price: £@item.Products.ProductPrice.ToString("0.00")</p>
+                    </div>
+
+                    <div>
+                        <p>Qty: @item.ProductQuantity</p>
+                    </div>
+
+                    <div>
+                        <p>
+                            Total: £@((item.Products.ProductPrice * item.ProductQuantity).ToString("0.00"))
+                        </p>
+                    </div>
+
+                    <a asp-controller="BasketProducts"
+                       asp-action="Delete"
+                       asp-route-id="@item.BasketProductsId">
+                        Remove
+                    </a>
+
+                </div>
             }
-        </tbody>
-    </table>
-
-    <hr />
-
-    <div>
-        <p>Subtotal: £@ViewBag.Subtotal</p>
-        <p>Loyalty Tier: @ViewBag.Tier</p>
-        <p>Discount: -£@ViewBag.DiscountAmount</p>
-        <h4><strong>Total: £@ViewBag.Total</strong></h4>
+        </div>
     </div>
 
+    <div style="border:1px solid #000; padding:15px; margin-top:20px;">
+        <h3>Order Summary</h3>
+
+        <div>
+            <span>Subtotal:</span>
+            <span>£@(((decimal)ViewBag.Subtotal).ToString("0.00"))</span>
+        </div>
+
+        <div>
+            <span>Loyalty Discount (@ViewBag.Tier):</span>
+            <span>-£@(((decimal)ViewBag.DiscountAmount).ToString("0.00"))</span>
+        </div>
+
+        <hr />
+
+        <div>
+            <strong>Total:</strong>
+            <strong>£@(((decimal)ViewBag.Total).ToString("0.00"))</strong>
+        </div>
 
 
 
-    <a asp-controller="Products" asp-action="Index" class="btn btn-secondary">Continue Shopping</a>
-    <a asp-controller="Orders" asp-action="Create" class="btn btn-success">Checkout</a>
+        <a asp-controller="Products" asp-action="Index">
+            Continue Shopping
+        </a>
+        <a asp-controller="Orders"
+           asp-action="Create"
+           asp-route-basketId="@ViewBag.BasketId"
+           class="btn btn-primary w-100 mb-2">
+            Proceed to Checkout
+        </a>
+
+    </div>
 }

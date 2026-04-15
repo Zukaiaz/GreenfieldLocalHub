@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GreenFieldLocalHub.Data;
 using GreenFieldLocalHub.Models;
+using System.Security.Claims;
 
 namespace GreenFieldLocalHub.Controllers
 {
@@ -22,8 +23,37 @@ namespace GreenFieldLocalHub.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Farmers);
-            return View(await applicationDbContext.ToListAsync());
+            if (User.IsInRole("Farmer"))
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId == null)
+                {
+                    return Unauthorized();
+                }
+
+                var farmer = await _context.Farmers.FirstOrDefaultAsync(s => s.UserId == userId);
+
+                if (farmer == null)
+                {
+                    return NotFound();
+                }
+
+                var farmerProducts = await _context.Products
+                    .Where(p => p.FarmersId == farmer.FarmersId)
+                    .Include(p => p.Farmers)
+                    .ToListAsync();
+
+                return View(farmerProducts);
+            }
+            else
+            {
+                var allProducts = await _context.Products
+                    .Include(p => p.Farmers)
+                    .ToListAsync();
+
+                return View(allProducts);
+            }
         }
 
         // GET: Products/Details/5
@@ -82,7 +112,7 @@ namespace GreenFieldLocalHub.Controllers
             {
                 return NotFound();
             }
-            ViewData["FarmersId"] = new SelectList(_context.Farmers, "FarmersId", "FarmersId", products.FarmersId);
+
             return View(products);
         }
 
@@ -91,8 +121,24 @@ namespace GreenFieldLocalHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductsId,FarmersId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable,ImagePath")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable,ImagePath")] Products products)
         {
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var farmers = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            if(farmers == null)
+            {
+                return NotFound();
+            }
+
+            products.FarmersId = farmers.FarmersId;
+            ModelState.Remove("FarmersId");
+
             if (id != products.ProductsId)
             {
                 return NotFound();
@@ -146,7 +192,25 @@ namespace GreenFieldLocalHub.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+
             var products = await _context.Products.FindAsync(id);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var farmers = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            if (farmers == null)
+            {
+                return NotFound();
+            }
+
+            products.FarmersId = farmers.FarmersId;
+            ModelState.Remove("FarmersId");
+
             if (products != null)
             {
                 _context.Products.Remove(products);
@@ -154,6 +218,8 @@ namespace GreenFieldLocalHub.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
+
         }
 
         private bool ProductsExists(int id)

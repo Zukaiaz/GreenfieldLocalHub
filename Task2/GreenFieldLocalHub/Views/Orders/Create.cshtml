@@ -1,69 +1,111 @@
-﻿@{
+﻿@model GreenFieldLocalHub.Models.Orders
+
+@{
     ViewData["Title"] = "Checkout";
 }
 
-<h2>Checkout</h2>
-<hr />
+<h1>Checkout</h1>
 
-@if (ViewBag.BasketProducts != null)
-{
-    <h4>Order Summary</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.BasketProducts)
-            {
-                <tr>
-                    <td>@item.Products.ProductName</td>
-                    <td>£@item.Products.ProductPrice</td>
-                    <td>@item.ProductQuantity</td>
-                    <td>£@(item.Products.ProductPrice * item.ProductQuantity)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <hr />
-    <p>Subtotal: £@ViewBag.Subtotal</p>
-    <p>Loyalty Tier: @ViewBag.Tier</p>
-    <p>Discount: -£@ViewBag.DiscountAmount</p>
-    <h4><strong>Total: £@ViewBag.Total</strong></h4>
-    <hr />
-}
+<p>Choose how you would like to recieve your order.</p>
 
 <form asp-action="Create" method="post">
-    @Html.AntiForgeryToken()
 
-    <div class="mb-3">
-        <label class="form-label">Delivery Type</label>
-        <select name="DeliveryType" class="form-select" id="deliveryTypeSelect">
-            <option value="">-- Select --</option>
-            <option value="Delivery">Delivery</option>
-            <option value="Collection">Collection</option>
+    <div asp-validation-summary="ModelOnly" style="color:red;"></div>
+
+    <input type="hidden" name="basketId" value="@ViewBag.BasketId" />
+
+    <div style="margin-bottom:20px;">
+        <label style="font-weight:bold; display:block; margin-bottom:10px;">Order Method</label>
+
+        <div>
+            <input asp-for="Delivery" id="deliveryCheck" />
+            <label asp-for="Delivery">Delivery</label>
+        </div>
+
+        <div>
+            <input asp-for="Collection" id="collectionCheck" />
+            <label asp-for="Collection">Collection</label>
+        </div>
+    </div>
+
+    <div id="deliveryTypeGroup" style="display:none; margin-bottom:15px;">
+        <label asp-for="DeliveryType"></label>
+        <select asp-for="DeliveryType">
+            <option value="">Select Delivery Type</option>
+            <option value="Next Day">Next Day</option>
+            <option value="First Class">First Class</option>
+            <option value="Standard">Standard</option>
         </select>
+        <br />
+        <span asp-validation-for="DeliveryType" style="color:red;"></span>
     </div>
 
-    <div id="collectionDateDiv" class="mb-3" style="display:none">
-        <label class="form-label">Collection Date</label>
-        <input type="date" name="CollectionDate" class="form-control" />
+    <div id="collectionDateGroup" style="display:none; margin-bottom:20px;">
+        <label asp-for="CollectionDate"></label>
+        <input asp-for="CollectionDate" type="date" id="CollectionDate" />
+        <div>Earliest collection date is 2 days from today.</div>
+        <span asp-validation-for="CollectionDate" style="color:red;"></span>
     </div>
 
-    <button type="submit" class="btn btn-success">Place Order</button>
-    <a asp-controller="Baskets" asp-action="Index" class="btn btn-secondary">Back to Basket</a>
+    <div>
+        <button type="submit">Place Order</button>
+    </div>
+
+    <div style="margin-top:10px;">
+        <a asp-controller="Baskets" asp-action="Index">
+            Back to Basket
+        </a>
+    </div>
+
 </form>
 
+<script>
+    const collectionDateInput = document.getElementById("CollectionDate");
+
+    const today = new Date();
+    today.setDate(today.getDate() + 2);
+    const minDate = today.toISOString().split("T")[0];
+
+    if (collectionDateInput) {
+        collectionDateInput.min = minDate;
+    }
+
+    const deliveryCheck = document.getElementById("deliveryCheck");
+    const collectionCheck = document.getElementById("collectionCheck");
+
+    const deliveryTypeGroup = document.getElementById("deliveryTypeGroup");
+    const collectionDateGroup = document.getElementById("collectionDateGroup");
+
+    function updateForm() {
+
+        deliveryTypeGroup.style.display = "none";
+        collectionDateGroup.style.display = "none";
+
+        deliveryCheck.disabled = false;
+        collectionCheck.disabled = false;
+
+        if (deliveryCheck.checked) {
+
+            deliveryTypeGroup.style.display = "block";
+            collectionCheck.disabled = true;
+
+        }
+        else if (collectionCheck.checked) {
+
+            collectionDateGroup.style.display = "block";
+            deliveryCheck.disabled = true;
+
+        }
+    }
+
+    deliveryCheck.addEventListener("change", updateForm);
+    collectionCheck.addEventListener("change", updateForm);
+
+    updateForm();
+</script>
+
 @section Scripts {
-    <script>
-        document.getElementById('deliveryTypeSelect').addEventListener('change', function () {
-            var collectionDiv = document.getElementById('collectionDateDiv');
-            collectionDiv.style.display = this.value === 'Collection' ? 'block' : 'none';
-        });
-    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

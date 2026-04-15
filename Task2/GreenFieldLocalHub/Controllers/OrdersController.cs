@@ -21,11 +21,53 @@ namespace GreenFieldLocalHub.Controllers
             _context = context;
         }
 
+
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Orders.ToListAsync());
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            if (User.IsInRole("Admin"))
+            {
+                var allOrders = await _context.Orders
+                    .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Products)
+                    .ToListAsync();
+
+                return View(allOrders);
+            }
+            else if (User.IsInRole("Farmer"))
+            {
+                var supplierProducts = await _context.Products
+                    .Where(p => p.Farmers.UserId == userId)
+                    .Select(p => p.ProductsId)
+                    .ToListAsync(); // Find all supplier products first
+
+                var supplierOrders = await _context.OrderProducts
+                    .Where(op => supplierProducts.Contains(op.ProductsId))
+                    .Include(op => op.Orders)
+                    .Include(op => op.Products)
+                    .ToListAsync(); // Now use the supplier products to find supplier orders
+
+                return View(supplierOrders.Select(op => op.Orders).Distinct().ToList());
+            }
+            else
+            {
+                var userOrders = await _context.Orders
+                    .Where(o => o.UserId == userId)
+                    .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Products)
+                    .ToListAsync();
+
+                return View(userOrders);
+            }
         }
+
 
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -35,8 +77,12 @@ namespace GreenFieldLocalHub.Controllers
                 return NotFound();
             }
 
-            var orders = await _context.Orders
-                .FirstOrDefaultAsync(m => m.OrdersId == id);
+            var orders = await _context.OrderProducts
+                .Where(op => op.OrdersId == id)
+                .Include(op => op.Orders)
+                .Include(op => op.Products)
+                .ToListAsync();
+
             if (orders == null)
             {
                 return NotFound();
@@ -47,7 +93,7 @@ namespace GreenFieldLocalHub.Controllers
 
         // GET: Orders/Create
         [Authorize]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int basketId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -233,6 +279,7 @@ namespace GreenFieldLocalHub.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Farmer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -249,6 +296,7 @@ namespace GreenFieldLocalHub.Controllers
         }
 
         // POST: Orders/Edit/5
+        [Authorize(Roles = "Farmer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders)
