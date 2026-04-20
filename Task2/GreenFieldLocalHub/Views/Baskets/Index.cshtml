@@ -19,11 +19,15 @@ else
         <div>
             @foreach (var item in Model)
             {
-                <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                <div data-item style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
 
-                    <div>
-                        <h4>@item.Products.ProductName</h4>
-                        <p>Price: £@item.Products.ProductPrice.ToString("0.00")</p>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img src="@item.Products.ImagePath" alt="@item.Products.ProductName"
+                             style="width:70px; height:70px; object-fit:cover; border-radius:6px;" />
+                        <div>
+                            <h4>@item.Products.ProductName</h4>
+                            <p>Price: £@item.Products.ProductPrice.ToString("0.00")</p>
+                        </div>
                     </div>
 
                     <div>
@@ -36,48 +40,79 @@ else
                         </p>
                     </div>
 
-                    <a asp-controller="BasketProducts"
-                       asp-action="Delete"
-                       asp-route-id="@item.BasketProductsId">
-                        Remove
-                    </a>
+                    <form asp-controller="BasketProducts" asp-action="DeleteAjax" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.BasketProductsId" />
+                        <button type="submit" class="btn btn-danger btn-sm remove-item-btn">Remove</button>
+                    </form>
 
                 </div>
             }
         </div>
     </div>
 
-    <div style="border:1px solid #000; padding:15px; margin-top:20px;">
-        <h3>Order Summary</h3>
-
-        <div>
-            <span>Subtotal:</span>
-            <span>£@(((decimal)ViewBag.Subtotal).ToString("0.00"))</span>
+        <div style="border:1px solid #000; padding:15px; margin-top:20px;">
+            <h3>Order Summary</h3>
+            <div style="display:flex; justify-content:space-between;">
+                <span>Subtotal:</span>
+                <span id="subtotal">£@(((decimal)ViewBag.Subtotal).ToString("0.00"))</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span>Loyalty Discount (@ViewBag.Tier):</span>
+                <span id="discount">-£@(((decimal)ViewBag.DiscountAmount).ToString("0.00"))</span>
+            </div>
+            <hr />
+            <div style="display:flex; justify-content:space-between;">
+                <strong>Total:</strong>
+                <strong id="total">£@(((decimal)ViewBag.Total).ToString("0.00"))</strong>
+            </div>
+            <a asp-controller="Products" asp-action="Index">
+                Continue Shopping
+            </a>
+            <a asp-controller="Orders"
+               asp-action="Create"
+               asp-route-basketId="@ViewBag.BasketId"
+               class="btn btn-primary w-100 mb-2">
+                Proceed to Checkout
+            </a>
         </div>
 
-        <div>
-            <span>Loyalty Discount (@ViewBag.Tier):</span>
-            <span>-£@(((decimal)ViewBag.DiscountAmount).ToString("0.00"))</span>
-        </div>
-
-        <hr />
-
-        <div>
-            <strong>Total:</strong>
-            <strong>£@(((decimal)ViewBag.Total).ToString("0.00"))</strong>
-        </div>
 
 
+}
 
-        <a asp-controller="Products" asp-action="Index">
-            Continue Shopping
-        </a>
-        <a asp-controller="Orders"
-           asp-action="Create"
-           asp-route-basketId="@ViewBag.BasketId"
-           class="btn btn-primary w-100 mb-2">
-            Proceed to Checkout
-        </a>
+@section Scripts {
+    <script>
+        document.addEventListener('click', async function (e) {
+            const btn = e.target.closest('.remove-item-btn');
+            if (!btn) return;
 
-    </div>
+            e.preventDefault();
+            const form = btn.closest('form');
+            const id = form.querySelector('input[name="id"]').value;
+            const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            const response = await fetch('/BasketProducts/DeleteAjax', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: `id=${id}&__RequestVerificationToken=${encodeURIComponent(token)}`
+            });
+
+            if (response.ok) {
+                btn.closest('[data-item]').remove();
+                await refreshTotals();
+            }
+        });
+
+        async function refreshTotals() {
+            const response = await fetch('/Baskets/GetTotals');
+            const data = await response.json();
+
+            document.getElementById('subtotal').textContent = '£' + data.subtotal;
+            document.getElementById('discount').textContent = '-£' + data.discountAmount;
+            document.getElementById('total').textContent = '£' + data.total;
+        }
+    </script>
 }

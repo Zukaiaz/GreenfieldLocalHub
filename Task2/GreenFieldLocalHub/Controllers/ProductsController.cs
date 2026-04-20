@@ -87,15 +87,51 @@ namespace GreenFieldLocalHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductsId,FarmersId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable,ImagePath")] Products products)
+        public async Task<IActionResult> Create([Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable")] Products products, IFormFile? ImageFile)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            if (farmer == null) return NotFound();
+
+            products.FarmersId = farmer.FarmersId;
+            ModelState.Remove("FarmersId");
+            ModelState.Remove("Farmers");
+
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+                var extension = Path.GetExtension(ImageFile.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ViewData["ImageError"] = "Only .jpg, .png, and .webp files are allowed.";
+                    return View(products);
+                }
+
+                var fileName = Guid.NewGuid() + extension;
+                var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", fileName);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath)!);
+
+                using var stream = new FileStream(savePath, FileMode.Create);
+                await ImageFile.CopyToAsync(stream);
+
+                products.ImagePath = "/images/products/" + fileName;
+            }
+            else
+            {
+                products.ImagePath = "/images/default.png";
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(products);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FarmersId"] = new SelectList(_context.Farmers, "FarmersId", "FarmersId", products.FarmersId);
+
             return View(products);
         }
 
@@ -121,50 +157,52 @@ namespace GreenFieldLocalHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable,ImagePath")] Products products)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable,ImagePath")] Products products, IFormFile? ImageFile)
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
+            if (userId == null) return Unauthorized();
 
-            var farmers = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
-            if(farmers == null)
-            {
-                return NotFound();
-            }
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            if (farmer == null) return NotFound();
 
-            products.FarmersId = farmers.FarmersId;
+            products.FarmersId = farmer.FarmersId;
             ModelState.Remove("FarmersId");
+            ModelState.Remove("Farmers");
 
-            if (id != products.ProductsId)
+            if (ImageFile != null && ImageFile.Length > 0)
             {
-                return NotFound();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+                var extension = Path.GetExtension(ImageFile.FileName).ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ViewData["ImageError"] = "Only .jpg, .png, and .webp files are allowed.";
+                    return View(products);
+                }
+
+                var fileName = Guid.NewGuid() + extension;
+                var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/products", fileName);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath)!);
+
+                using var stream = new FileStream(savePath, FileMode.Create);
+                await ImageFile.CopyToAsync(stream);
+
+                products.ImagePath = "/images/products/" + fileName;
+            }
+            else
+            {
+                products.ImagePath = "/images/default.png";
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(products);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductsExists(products.ProductsId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Add(products);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FarmersId"] = new SelectList(_context.Farmers, "FarmersId", "FarmersId", products.FarmersId);
+
             return View(products);
         }
 
@@ -220,6 +258,50 @@ namespace GreenFieldLocalHub.Controllers
             return RedirectToAction(nameof(Index));
 
 
+        }
+
+        public async Task<IActionResult> SidebarPartial()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+                return Content("<p>Please log in to view your basket.</p>", "text/html");
+
+            var basket = await _context.Basket
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status);
+
+            if (basket == null)
+                return Content("<p>Your basket is empty.</p>", "text/html");
+
+            var basketProducts = await _context.BasketProducts
+                .Where(x => x.BasketId == basket.BasketId)
+                .Include(x => x.Products)
+                .ToListAsync();
+
+            if (!basketProducts.Any())
+                return Content("<p>Your basket is empty.</p>", "text/html");
+
+            var loyaltyAccount = await _context.LoyaltyAccount
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            decimal subtotal = basketProducts.Sum(x => x.Products.ProductPrice * x.ProductQuantity);
+
+            decimal discountPercent = loyaltyAccount?.Tier switch
+            {
+                "Bronze" => 0.05m,
+                "Silver" => 0.10m,
+                "Gold" => 0.15m,
+                _ => 0m
+            };
+
+            decimal discountAmount = subtotal * discountPercent;
+
+            ViewBag.Subtotal = subtotal;
+            ViewBag.DiscountAmount = discountAmount;
+            ViewBag.Total = subtotal - discountAmount;
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None";
+
+            return PartialView("SidebarPartial", basketProducts);
         }
 
         private bool ProductsExists(int id)

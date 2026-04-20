@@ -66,6 +66,7 @@ namespace GreenFieldLocalHub.Controllers
 
                 return View(userOrders);
             }
+
         }
 
 
@@ -191,15 +192,18 @@ namespace GreenFieldLocalHub.Controllers
                 subtotal = productTotal + subtotal;
             }
 
-            var orderCount = await _context.Orders.CountAsync(x => x.UserId == userId);
+            var loyaltyAccount = await _context.LoyaltyAccount
+            .FirstOrDefaultAsync(x => x.UserId == userId);
 
-            decimal discount = 0m;
-
-            if (orderCount >= 5)
+            decimal discountPercent = loyaltyAccount?.Tier switch
             {
-                discount = subtotal * 0.10m;
-            }
+                "Bronze" => 0.05m,
+                "Silver" => 0.10m,
+                "Gold" => 0.15m,
+                _ => 0m
+            };
 
+            decimal discount = subtotal * discountPercent;
             orders.TotalAmount = subtotal - discount;
 
             ModelState.Remove("subtotal");
@@ -273,6 +277,34 @@ namespace GreenFieldLocalHub.Controllers
 
             basket.Status = false;
             await _context.SaveChangesAsync();
+
+            // Award loyalty points — 10 points per £1 spent (based on subtotal before discount)
+            if (loyaltyAccount != null)
+            {
+                int pointsEarned = (int)(subtotal * 10);
+                loyaltyAccount.Points += pointsEarned;
+
+                // Update tier based on new total points
+                loyaltyAccount.Tier = loyaltyAccount.Points switch
+                {
+                    >= 1000 => "Gold",
+                    >= 600 => "Silver",
+                    >= 300 => "Bronze",
+                    _ => loyaltyAccount.Tier  // keep existing tier if below threshold
+                };
+
+                var transaction = new LoyaltyTransactions
+                {
+                    LoyaltyAccountId = loyaltyAccount.LoyaltyAccountId,
+                    OrdersId = orders.OrdersId,
+                    PointsChange = pointsEarned,
+                    Reason = $"Order #{orders.OrdersId} — £{subtotal:F2} spent",
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _context.LoyaltyTransactions.Add(transaction);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction("Index", "Home");
 

@@ -154,8 +154,20 @@ namespace GreenFieldLocalHub.Controllers
         }
 
         // GET: Shows the loyalty sign up form
-        public IActionResult SignUp()
+        [Authorize]
+        public async Task<IActionResult> SignUp()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // If they already have an account, send them straight to MyAccount
+            var existing = await _context.LoyaltyAccount
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (existing != null)
+            {
+                return RedirectToAction(nameof(MyAccount));
+            }
+
             return View();
         }
 

@@ -64,8 +64,11 @@ wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\armbrustanna-green-onions-699943.jpg
 wwwroot\images\bajarita-berner-rose-75320.jpg
+wwwroot\images\default.png
 wwwroot\images\jackmac34-basket-strawberries-2208356.jpg
 wwwroot\images\jackmac34-carrots-673184_1920.jpg
+wwwroot\images\products\70d769c0-b262-4f16-b63a-9cf7c5036d30.jpg
+wwwroot\images\products\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css
 wwwroot\lib\bootstrap\dist\css\bootstrap.css.map

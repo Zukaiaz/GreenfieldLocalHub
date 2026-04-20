@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GreenFieldLocalHub")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d29af10c10ac33472a9154d9d31317d446ff6016")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+815a3eb3bbe25ae2eceab08251afff677e2a9a37")]
 [assembly: System.Reflection.AssemblyProductAttribute("GreenFieldLocalHub")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GreenFieldLocalHub")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -55,6 +55,7 @@ using (var scope = app.Services.CreateScope())
     await SeedData.SeedUsersAndRoles(services, userManager, roleManager);
     await SeedData.SeedFarmers(services);
     await SeedData.SeedProducts(services);
+    await SeedData.SeedLoyaltyAccounts(services);
 }
 
 app.Run();

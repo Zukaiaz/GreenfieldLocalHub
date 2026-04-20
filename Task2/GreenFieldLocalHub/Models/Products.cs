@@ -10,7 +10,7 @@
         public decimal ProductPrice { get; set; }
         public bool IsAvailable { get; set; }
         public string? ImagePath { get; set; } //To be able to seed image links using url later on
-        public Farmers Farmers { get; set; } //Many products for one farmer
+        public Farmers? Farmers { get; set; } //Many products for one farmer
         public ICollection<OrderProducts>? OrderProducts { get; set; } //One Product can have many order products
         public ICollection<BasketProducts>? BasketProducts { get; set; } //One Product can have many Basket Products
         public ICollection<Favourites>? Favourites { get; set; } //One Product can have many Favourites

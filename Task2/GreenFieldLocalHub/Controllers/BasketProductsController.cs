@@ -127,6 +127,9 @@ namespace GreenFieldLocalHub.Controllers
 
             await _context.SaveChangesAsync();
 
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Ok();
+
             return RedirectToAction("Index", "Baskets");
 
         }
@@ -245,6 +248,23 @@ namespace GreenFieldLocalHub.Controllers
         private bool BasketProductsExists(int id)
         {
             return _context.BasketProducts.Any(e => e.BasketProductsId == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAjax(int id)
+        {
+            var basketProduct = await _context.BasketProducts.FindAsync(id);
+            if (basketProduct != null)
+            {
+                _context.BasketProducts.Remove(basketProduct);
+                await _context.SaveChangesAsync();
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Ok();
+
+            return RedirectToAction("Index", "Baskets");
         }
     }
 }

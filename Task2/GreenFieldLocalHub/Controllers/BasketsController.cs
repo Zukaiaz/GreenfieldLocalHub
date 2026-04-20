@@ -113,6 +113,7 @@ namespace GreenFieldLocalHub.Controllers
         // GET: Baskets/Create
         public IActionResult Create()
         {
+
             return View();
         }
 
@@ -129,6 +130,8 @@ namespace GreenFieldLocalHub.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
+
             return View(basket);
         }
 
@@ -220,5 +223,45 @@ namespace GreenFieldLocalHub.Controllers
         {
             return _context.Basket.Any(e => e.BasketId == id);
         }
+        public async Task<IActionResult> GetTotals()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
+
+            var basket = await _context.Basket
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status);
+
+            if (basket == null)
+                return Json(new { subtotal = "0.00", discountAmount = "0.00", total = "0.00" });
+
+            var basketProducts = await _context.BasketProducts
+                .Where(x => x.BasketId == basket.BasketId)
+                .Include(x => x.Products)
+                .ToListAsync();
+
+            decimal subtotal = basketProducts.Sum(x => x.Products.ProductPrice * x.ProductQuantity);
+
+            var loyaltyAccount = await _context.LoyaltyAccount
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            decimal discountPercent = loyaltyAccount?.Tier switch
+            {
+                "Bronze" => 0.05m,
+                "Silver" => 0.10m,
+                "Gold" => 0.15m,
+                _ => 0m
+            };
+
+            decimal discountAmount = subtotal * discountPercent;
+            decimal total = subtotal - discountAmount;
+
+            return Json(new
+            {
+                subtotal = subtotal.ToString("0.00"),
+                discountAmount = discountAmount.ToString("0.00"),
+                total = total.ToString("0.00")
+            });
+        }
+
     }
 }
