@@ -1,402 +1,402 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GreenFieldLocalHub.Data;
-using GreenFieldLocalHub.Models;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using System; // Imports basic system functionality
+using System.Collections.Generic; // Imports support for Lists and Collections
+using System.Linq; // Imports LINQ for filtering and selecting data
+using System.Threading.Tasks; // Imports support for asynchronous programming
+using Microsoft.AspNetCore.Mvc; // Imports MVC controller and action result classes
+using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for rendering HTML elements like dropdowns
+using Microsoft.EntityFrameworkCore; // Imports Entity Framework for database operations
+using GreenFieldLocalHub.Data; // Imports your ApplicationDbContext
+using GreenFieldLocalHub.Models; // Imports your data models
+using System.Security.Claims; // Imports tools to retrieve the logged-in user's ID
+using Microsoft.AspNetCore.Authorization; // Imports security attributes like [Authorize]
 
-namespace GreenFieldLocalHub.Controllers
-{
-    public class OrdersController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+namespace GreenFieldLocalHub.Controllers // Defines the namespace for this controller
+{ // Start of namespace
+    public class OrdersController : Controller // Defines the OrdersController class inheriting from Controller
+    { // Start of class
+        private readonly ApplicationDbContext _context; // Private variable for database access
 
-        public OrdersController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public OrdersController(ApplicationDbContext context) // Constructor to inject the database context
+        { // Start of constructor
+            _context = context; // Assigns the injected context to the private variable
+        } // End of constructor
 
 
         // GET: Orders
-        public async Task<IActionResult> Index()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        public async Task<IActionResult> Index() // Method to list orders based on user role
+        { // Start of Index
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the unique ID of the current user
 
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
+            if (userId == null) // Checks if the user is not logged in
+            { // Start if
+                return Unauthorized(); // Returns a 401 Unauthorized status
+            } // End if
 
-            if (User.IsInRole("Admin"))
-            {
-                var allOrders = await _context.Orders
-                    .Include(o => o.OrderProducts)
-                    .ThenInclude(op => op.Products)
-                    .ToListAsync();
+            if (User.IsInRole("Admin")) // Logic for Administrator users
+            { // Start if Admin
+                var allOrders = await _context.Orders // Queries all orders in the system
+                    .Include(o => o.OrderProducts) // Includes the link to products
+                    .ThenInclude(op => op.Products) // Includes the actual product details
+                    .ToListAsync(); // Executes the query and returns the list
 
-                return View(allOrders);
-            }
-            else if (User.IsInRole("Farmer"))
-            {
-                var supplierProducts = await _context.Products
-                    .Where(p => p.Farmers.UserId == userId)
-                    .Select(p => p.ProductsId)
-                    .ToListAsync(); // Find all supplier products first
+                return View(allOrders); // Sends all orders to the view
+            } // End if Admin
+            else if (User.IsInRole("Farmer")) // Logic for Farmer/Supplier users
+            { // Start if Farmer
+                var supplierProducts = await _context.Products // Queries the Products table
+                    .Where(p => p.Farmers.UserId == userId) // Filters for products belonging to this farmer
+                    .Select(p => p.ProductsId) // Only grabs the IDs of those products
+                    .ToListAsync(); // Executes query to find supplier products first
 
-                var supplierOrders = await _context.OrderProducts
-                    .Where(op => supplierProducts.Contains(op.ProductsId))
-                    .Include(op => op.Orders)
-                    .Include(op => op.Products)
-                    .ToListAsync(); // Now use the supplier products to find supplier orders
+                var supplierOrders = await _context.OrderProducts // Queries the linking table
+                    .Where(op => supplierProducts.Contains(op.ProductsId)) // Finds rows where the product belongs to this farmer
+                    .Include(op => op.Orders) // Joins the parent Order info
+                    .Include(op => op.Products) // Joins the Product info
+                    .ToListAsync(); // Executes query to find relevant orders
 
-                return View(supplierOrders.Select(op => op.Orders).Distinct().ToList());
-            }
-            else
-            {
-                var userOrders = await _context.Orders
-                    .Where(o => o.UserId == userId)
-                    .Include(o => o.OrderProducts)
-                    .ThenInclude(op => op.Products)
-                    .ToListAsync();
+                return View(supplierOrders.Select(op => op.Orders).Distinct().ToList()); // Returns a unique list of orders containing the farmer's products
+            } // End if Farmer
+            else // Logic for standard Customers
+            { // Start else
+                var userOrders = await _context.Orders // Queries the Orders table
+                    .Where(o => o.UserId == userId) // Filters only for orders matching the current user's ID
+                    .Include(o => o.OrderProducts) // Includes the products in those orders
+                    .ThenInclude(op => op.Products) // Includes full product details
+                    .ToListAsync(); // Executes query
 
-                return View(userOrders);
-            }
+                return View(userOrders); // Sends the user's personal order history to the view
+            } // End else
 
-        }
+        } // End of Index
 
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        public async Task<IActionResult> Details(int? id) // Method to show specific items within one order
+        { // Start of Details
+            if (id == null) // Checks if ID is missing
+            { // Start if
+                return NotFound(); // Returns 404
+            } // End if
 
-            var orders = await _context.OrderProducts
-                .Where(op => op.OrdersId == id)
-                .Include(op => op.Orders)
-                .Include(op => op.Products)
-                .ToListAsync();
+            var orders = await _context.OrderProducts // Queries the table linking orders and products
+                .Where(op => op.OrdersId == id) // Filters for the specific Order ID
+                .Include(op => op.Orders) // Joins order header info
+                .Include(op => op.Products) // Joins product details
+                .ToListAsync(); // Executes query
 
-            if (orders == null)
-            {
-                return NotFound();
-            }
+            if (orders == null) // Checks if no record was found
+            { // Start if
+                return NotFound(); // Returns 404
+            } // End if
 
-            return View(orders);
-        }
+            return View(orders); // Sends the list of order items to the Details view
+        } // End of Details
 
         // GET: Orders/Create
-        [Authorize]
-        public async Task<IActionResult> Create(int basketId)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        [Authorize] // Restricts access to logged-in users
+        public async Task<IActionResult> Create(int basketId) // Method to load the checkout/order creation page
+        { // Start of Create GET
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets current user ID
 
-            var basket = await _context.Basket
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status == true);
+            var basket = await _context.Basket // Looks for the user's active basket
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status == true); // Checks ID and that the basket is "Open"
 
-            if (basket == null)
-            {
-                return RedirectToAction("Index", "Products");
-            }
+            if (basket == null) // If no active basket is found
+            { // Start if
+                return RedirectToAction("Index", "Products"); // Redirects back to shopping
+            } // End if
 
-            var basketProducts = await _context.BasketProducts
-                .Where(x => x.BasketId == basket.BasketId)
-                .Include(x => x.Products)
-                .ToListAsync();
+            var basketProducts = await _context.BasketProducts // Gets items currently in the basket
+                .Where(x => x.BasketId == basket.BasketId) // Filters by basket ID
+                .Include(x => x.Products) // Joins product info to get prices
+                .ToListAsync(); // Executes query
 
-            decimal subtotal = 0.00m;
-            foreach (var basketProduct in basketProducts)
-            {
-                subtotal += basketProduct.Products.ProductPrice * basketProduct.ProductQuantity;
-            }
+            decimal subtotal = 0.00m; // Initializes subtotal variable
+            foreach (var basketProduct in basketProducts) // Loops through each item in basket
+            { // Start foreach
+                subtotal += basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Calculates price x quantity and adds to total
+            } // End foreach
 
-            var loyaltyAccount = await _context.LoyaltyAccount
-                .FirstOrDefaultAsync(x => x.UserId == userId);
+            var loyaltyAccount = await _context.LoyaltyAccount // Looks for the user's loyalty record
+                .FirstOrDefaultAsync(x => x.UserId == userId); // Matches by User ID
 
-            decimal discountPercent = loyaltyAccount?.Tier switch
-            {
-                "Bronze" => 0.05m,
-                "Silver" => 0.10m,
-                "Gold" => 0.15m,
-                _ => 0m
-            };
+            decimal discountPercent = loyaltyAccount?.Tier switch // Determines discount percentage based on tier name
+            { // Start switch
+                "Bronze" => 0.05m, // 5% discount
+                "Silver" => 0.10m, // 10% discount
+                "Gold" => 0.15m, // 15% discount
+                _ => 0m // 0% for "None" or unknown
+            }; // End switch
 
-            decimal discountAmount = subtotal * discountPercent;
-            decimal total = subtotal - discountAmount;
+            decimal discountAmount = subtotal * discountPercent; // Calculates the cash value of the discount
+            decimal total = subtotal - discountAmount; // Subtracts discount from subtotal for the final price
 
-            ViewBag.BasketId = basket.BasketId;
-            ViewBag.Subtotal = subtotal;
-            ViewBag.DiscountAmount = discountAmount;
-            ViewBag.Total = total;
-            ViewBag.Tier = loyaltyAccount?.Tier ?? "None";
-            ViewBag.BasketProducts = basketProducts;
+            ViewBag.BasketId = basket.BasketId; // Passes Basket ID to the view
+            ViewBag.Subtotal = subtotal; // Passes Subtotal to the view
+            ViewBag.DiscountAmount = discountAmount; // Passes Discount to the view
+            ViewBag.Total = total; // Passes Final Total to the view
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Passes Tier name to the view
+            ViewBag.BasketProducts = basketProducts; // Passes the list of items to the view
 
-            return View();
-        }
+            return View(); // Returns the checkout page view
+        } // End of Create GET
 
         // POST: Orders/Create
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrdersId,Delivery,Collection,DeliveryType,CollectionDate")] Orders orders, int basketId)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        [HttpPost] // Marks this as a form submission handler
+        [Authorize] // Requires login
+        [ValidateAntiForgeryToken] // Security layer
+        public async Task<IActionResult> Create([Bind("OrdersId,Delivery,Collection,DeliveryType,CollectionDate")] Orders orders, int basketId) // Saves the order
+        { // Start of Create POST
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets User ID
 
-            if (userId == null)
-            {
-                ViewBag.BasketId = basketId;
-                return View(orders);
-            }
+            if (userId == null) // Check for session loss
+            { // Start if
+                ViewBag.BasketId = basketId; // Keeps basket ID for reload
+                return View(orders); // Returns view with data
+            } // End if
 
-            orders.UserId = userId;
-            ModelState.Remove("UserId");
+            orders.UserId = userId; // Assigns the order to the current user
+            ModelState.Remove("UserId"); // Removes validation requirement for UserId since we set it manually
 
-            orders.OrderDate = DateOnly.FromDateTime(DateTime.Today);
-            ModelState.Remove("OrderDate");
+            orders.OrderDate = DateOnly.FromDateTime(DateTime.Today); // Sets order date to today
+            ModelState.Remove("OrderDate"); // Removes validation requirement
 
-            orders.OrderTrackingStatus = "Pending";
-            ModelState.Remove("OrderTrackingStatus");
+            orders.OrderTrackingStatus = "Pending"; // Sets initial status
+            ModelState.Remove("OrderTrackingStatus"); // Removes validation requirement
 
-            var basket = await _context.Basket
-                .FirstOrDefaultAsync(x => x.BasketId == basketId && x.UserId == userId && x.Status);
+            var basket = await _context.Basket // Finds the basket being checked out
+                .FirstOrDefaultAsync(x => x.BasketId == basketId && x.UserId == userId && x.Status); // Ensures it's theirs and still open
 
-            if (basket == null)
-            {
-                return NotFound();
+            if (basket == null) // Error handling for missing basket
+            { // Start if
+                return NotFound(); // Returns 404
 
-            }
+            } // End if
 
-            var basketProducts = await _context.BasketProducts
-                .Where(x => x.BasketId == basketId)
-                .Include(x => x.Products)
-                .ToListAsync();
+            var basketProducts = await _context.BasketProducts // Gets items to convert to order items
+                .Where(x => x.BasketId == basketId) // Filter by ID
+                .Include(x => x.Products) // Include product data
+                .ToListAsync(); // Execute query
 
-            if (!basketProducts.Any())
-            {
-                ModelState.AddModelError("", "Your basket is empty");
-                ViewBag.BasketId = basketId;
-                return View(orders);
-            }
+            if (!basketProducts.Any()) // Logic for empty basket checkout attempt
+            { // Start if
+                @ModelState.AddModelError("", "Your basket is empty"); // Adds error message
+                ViewBag.BasketId = basketId; // Keeps ID for reload
+                return View(orders); // Reloads the view
+            } // End if
 
-            decimal subtotal = 0.00m;
-            foreach (var basketProduct in basketProducts)
-            {
-                var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity;
-                subtotal = productTotal + subtotal;
-            }
+            decimal subtotal = 0.00m; // Subtotal calculation
+            foreach (var basketProduct in basketProducts) // Loop items
+            { // Start foreach
+                var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Calculate line total
+                subtotal = productTotal + subtotal; // Accumulate subtotal
+            } // End foreach
 
-            var loyaltyAccount = await _context.LoyaltyAccount
-            .FirstOrDefaultAsync(x => x.UserId == userId);
+            var loyaltyAccount = await _context.LoyaltyAccount // Get loyalty data
+            .FirstOrDefaultAsync(x => x.UserId == userId); // Filter by user
 
-            decimal discountPercent = loyaltyAccount?.Tier switch
-            {
-                "Bronze" => 0.05m,
-                "Silver" => 0.10m,
-                "Gold" => 0.15m,
-                _ => 0m
-            };
+            decimal discountPercent = loyaltyAccount?.Tier switch // Determine discount again for final calculation
+            { // Start switch
+                "Bronze" => 0.05m, // 5%
+                "Silver" => 0.10m, // 10%
+                "Gold" => 0.15m, // 15%
+                _ => 0m // 0%
+            }; // End switch
 
-            decimal discount = subtotal * discountPercent;
-            orders.TotalAmount = subtotal - discount;
+            decimal discount = subtotal * discountPercent; // Calculate discount
+            orders.TotalAmount = subtotal - discount; // Set final amount on the Order object
 
-            ModelState.Remove("subtotal");
+            ModelState.Remove("subtotal"); // Cleans up validation tracking
 
-            if (!orders.Collection && !orders.Delivery)
-            {
-                ModelState.AddModelError("Delivery", "Must choose Collection or Delivery");
+            if (!orders.Collection && !orders.Delivery) // Validation: User must pick a method
+            { // Start if
+                ModelState.AddModelError("Delivery", "Must choose Collection or Delivery"); // Adds error
 
-            }
+            } // End if
 
-            if (orders.Delivery)
-            {
-                ModelState.Remove("DeliveryType");
+            if (orders.Delivery) // Logic for delivery choice
+            { // Start if Delivery
+                ModelState.Remove("DeliveryType"); // Cleans up validation
 
-                if (orders.CollectionDate == null)
-                {
-                    ModelState.AddModelError("CollectionDate", "Collection date is Required");
+                if (orders.CollectionDate == null) // Validation: needs a date
+                { // Start if
+                    ModelState.AddModelError("CollectionDate", "Collection date is Required"); // Adds error
 
-                }
+                } // End if
 
-                else
-                {
-                    var earliestDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2));
+                else // Date range validation
+                { // Start else
+                    var earliestDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2)); // Sets limit to 2 days from now
 
-                    if (orders.CollectionDate.Value < earliestDate)
-                    {
-                        ModelState.AddModelError("CollectionDate", "Collection must be at least 2 days from now");
-                    }
-                }
-            }
+                    if (orders.CollectionDate.Value < earliestDate) // Check if date is too soon
+                    { // Start if
+                        ModelState.AddModelError("CollectionDate", "Collection must be at least 2 days from now"); // Adds error
+                    } // End if
+                } // End else
+            } // End if Delivery
 
-            if (orders.Delivery)
-            {
-                ModelState.Remove("CollectionDate");
+            if (orders.Delivery) // Additional delivery validation
+            { // Start if
+                ModelState.Remove("CollectionDate"); // Cleans up validation
 
-                if (string.IsNullOrWhiteSpace(orders.DeliveryType))
-                {
-                    ModelState.AddModelError("DeliveryType", "Delivery type is required");
-                }
-            }
+                if (string.IsNullOrWhiteSpace(orders.DeliveryType)) // Check if type (e.g. Standard/Express) is empty
+                { // Start if
+                    ModelState.AddModelError("DeliveryType", "Delivery type is required"); // Adds error
+                } // End if
+            } // End if
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.BasketId = basketId;
-                return View(orders);
-            }
+            if (!ModelState.IsValid) // Final check for all errors
+            { // Start if
+                ViewBag.BasketId = basketId; // Retain ID
+                return View(orders); // Return view with errors
+            } // End if
 
-            _context.Orders.Add(orders);
-            await _context.SaveChangesAsync();
+            _context.Orders.Add(orders); // Adds the Order header to DB tracker
+            await _context.SaveChangesAsync(); // Saves Order to get the OrdersId
 
-            foreach (var basketProduct in  basketProducts)
-            {
-                if (basketProduct.Products.StockQuantity < basketProduct.ProductQuantity)
-                {
-                    ModelState.AddModelError("", $"Not enough stock for {basketProduct.Products.ProductName}");
-                    ViewBag.BasketId = basketId;
-                    return View(orders);
-                }
+            foreach (var basketProduct in basketProducts) // Loop to move items from basket to order
+            { // Start foreach
+                if (basketProduct.Products.StockQuantity < basketProduct.ProductQuantity) // Inventory check
+                { // Start if
+                    ModelState.AddModelError("", $"Not enough stock for {basketProduct.Products.ProductName}"); // Adds error
+                    ViewBag.BasketId = basketId; // Retain ID
+                    return View(orders); // Return view
+                } // End if
 
-                var orderProduct = new OrderProducts
-                {
-                    OrdersId = orders.OrdersId,
-                    ProductsId = basketProduct.ProductsId,
-                    ProductsQuantity = basketProduct.ProductQuantity,
-                };
+                var orderProduct = new OrderProducts // Create new OrderItem record
+                { // Start assignment
+                    OrdersId = orders.OrdersId, // Links to the newly created Order ID
+                    ProductsId = basketProduct.ProductsId, // Copies product ID
+                    ProductsQuantity = basketProduct.ProductQuantity, // Copies quantity
+                }; // End assignment
 
-                _context.OrderProducts.Add(orderProduct);
+                _context.OrderProducts.Add(orderProduct); // Adds link to DB tracker
 
-                basketProduct.Products.StockQuantity -= basketProduct.ProductQuantity;
-            }
+                basketProduct.Products.StockQuantity -= basketProduct.ProductQuantity; // Reduces actual store stock
+            } // End foreach
 
-            basket.Status = false;
-            await _context.SaveChangesAsync();
+            basket.Status = false; // "Closes" the basket so it can't be reused
+            await _context.SaveChangesAsync(); // Commits items and stock changes
 
             // Award loyalty points — 10 points per £1 spent (based on subtotal before discount)
-            if (loyaltyAccount != null)
-            {
-                int pointsEarned = (int)(subtotal * 10);
-                loyaltyAccount.Points += pointsEarned;
+            if (loyaltyAccount != null) // Only award if they have an account
+            { // Start if
+                int pointsEarned = (int)(subtotal * 10); // Calculates points
+                loyaltyAccount.Points += pointsEarned; // Adds to account balance
 
                 // Update tier based on new total points
-                loyaltyAccount.Tier = loyaltyAccount.Points switch
-                {
-                    >= 1000 => "Gold",
-                    >= 600 => "Silver",
-                    >= 300 => "Bronze",
-                    _ => loyaltyAccount.Tier  // keep existing tier if below threshold
-                };
+                loyaltyAccount.Tier = loyaltyAccount.Points switch // Checks for tier upgrades
+                { // Start switch
+                    >= 1000 => "Gold", // 1000+ points
+                    >= 600 => "Silver", // 600-999 points
+                    >= 300 => "Bronze", // 300-599 points
+                    _ => loyaltyAccount.Tier  // No change if below 300
+                }; // End switch
 
-                var transaction = new LoyaltyTransactions
-                {
-                    LoyaltyAccountId = loyaltyAccount.LoyaltyAccountId,
-                    OrdersId = orders.OrdersId,
-                    PointsChange = pointsEarned,
-                    Reason = $"Order #{orders.OrdersId} — £{subtotal:F2} spent",
-                    CreatedAt = DateTime.UtcNow
-                };
+                var transaction = new LoyaltyTransactions // Log the point gain
+                { // Start assignment
+                    LoyaltyAccountId = loyaltyAccount.LoyaltyAccountId, // Link to account
+                    OrdersId = orders.OrdersId, // Link to this order
+                    PointsChange = pointsEarned, // Amount gained
+                    Reason = $"Order #{orders.OrdersId} — £{subtotal:F2} spent", // Description
+                    CreatedAt = DateTime.UtcNow // Timestamp
+                }; // End assignment
 
-                _context.LoyaltyTransactions.Add(transaction);
-                await _context.SaveChangesAsync();
-            }
+                _context.LoyaltyTransactions.Add(transaction); // Adds log to DB tracker
+                await _context.SaveChangesAsync(); // Final save for loyalty data
+            } // End if
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); // Redirects to homepage on success
 
-        }
+        } // End of Create POST
 
         // GET: Orders/Edit/5
-        [Authorize(Roles = "Farmer")]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        [Authorize(Roles = "Farmer")] // Only Farmers can edit (likely to change tracking status)
+        public async Task<IActionResult> Edit(int? id) // Method to load edit form
+        { // Start of Edit GET
+            if (id == null) // Check ID
+            { // Start if
+                return NotFound(); // 404
+            } // End if
 
-            var orders = await _context.Orders.FindAsync(id);
-            if (orders == null)
-            {
-                return NotFound();
-            }
-            return View(orders);
-        }
+            var orders = await _context.Orders.FindAsync(id); // Find order header
+            if (orders == null) // Check existence
+            { // Start if
+                return NotFound(); // 404
+            } // End if
+            return View(orders); // Return edit view
+        } // End of Edit GET
 
         // POST: Orders/Edit/5
-        [Authorize(Roles = "Farmer")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders)
-        {
-            if (id != orders.OrdersId)
-            {
-                return NotFound();
-            }
+        [Authorize(Roles = "Farmer")] // Restrict to Farmers
+        [HttpPost] // Submit handler
+        [ValidateAntiForgeryToken] // Security
+        public async Task<IActionResult> Edit(int id, [Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders) // Logic to save edits
+        { // Start of Edit POST
+            if (id != orders.OrdersId) // ID verification
+            { // Start if
+                return NotFound(); // 404
+            } // End if
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(orders);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrdersExists(orders.OrdersId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(orders);
-        }
+            if (ModelState.IsValid) // Check data validity
+            { // Start if
+                try // Attempt update
+                { // Start try
+                    _context.Update(orders); // Mark as modified
+                    await _context.SaveChangesAsync(); // Save to DB
+                } // End try
+                catch (DbUpdateConcurrencyException) // Handle multi-user collision
+                { // Start catch
+                    if (!OrdersExists(orders.OrdersId)) // Check if deleted
+                    { // Start if
+                        return NotFound(); // 404
+                    } // End if
+                    else // Rethrow unknown error
+                    { // Start else
+                        throw; // Crash/Log
+                    } // End else
+                } // End catch
+                return RedirectToAction(nameof(Index)); // Back to list on success
+            } // End if
+            return View(orders); // Return form with errors
+        } // End of Edit POST
 
         // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        public async Task<IActionResult> Delete(int? id) // Method to load delete confirmation
+        { // Start of Delete GET
+            if (id == null) // Check ID
+            { // Start if
+                return NotFound(); // 404
+            } // End if
 
-            var orders = await _context.Orders
-                .FirstOrDefaultAsync(m => m.OrdersId == id);
-            if (orders == null)
-            {
-                return NotFound();
-            }
+            var orders = await _context.Orders // Find order
+                .FirstOrDefaultAsync(m => m.OrdersId == id); // Execute
+            if (orders == null) // Check existence
+            { // Start if
+                return NotFound(); // 404
+            } // End if
 
-            return View(orders);
-        }
+            return View(orders); // Return confirmation view
+        } // End of Delete GET
 
         // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var orders = await _context.Orders.FindAsync(id);
-            if (orders != null)
-            {
-                _context.Orders.Remove(orders);
-            }
+        [HttpPost, ActionName("Delete")] // Handler for final delete click
+        [ValidateAntiForgeryToken] // Security
+        public async Task<IActionResult> DeleteConfirmed(int id) // Logic to remove order
+        { // Start of DeleteConfirmed
+            var orders = await _context.Orders.FindAsync(id); // Find record
+            if (orders != null) // Check existence
+            { // Start if
+                _context.Orders.Remove(orders); // Mark for removal
+            } // End if
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            await _context.SaveChangesAsync(); // Commit removal
+            return RedirectToAction(nameof(Index)); // Back to list
+        } // End of DeleteConfirmed
 
-        private bool OrdersExists(int id)
-        {
-            return _context.Orders.Any(e => e.OrdersId == id);
-        }
-    }
-}
+        private bool OrdersExists(int id) // Helper for DB checks
+        { // Start helper
+            return _context.Orders.Any(e => e.OrdersId == id); // Returns true if ID found
+        } // End helper
+    } // End of class
+} // End of namespace
