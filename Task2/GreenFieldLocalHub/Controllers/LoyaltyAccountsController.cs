@@ -99,7 +99,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Edit method
 
         // POST: LoyaltyAccounts/Edit/5
-        [Authorize(Roles = "Admin,Developer")]
         [HttpPost] // POST: Identifies this as a submission of updated data
         [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> Edit(int id, [Bind("LoyaltyAccountId,UserId,Points,Tier,CreatedAt")] LoyaltyAccount loyaltyAccount) // Method to save changes
@@ -153,7 +152,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Delete method
 
         // POST: LoyaltyAccounts/Delete/5
-        [Authorize(Roles = "Admin,Developer")]
+
         [HttpPost, ActionName("Delete")] // POST: Mapped to the Delete action for final removal
         [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> DeleteConfirmed(int id) // Method to physically remove the record

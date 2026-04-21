@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for dropdown lists
 using Microsoft.EntityFrameworkCore; // Imports the database engine
 using GreenFieldLocalHub.Data; // Imports your database context
 using GreenFieldLocalHub.Models; // Imports your data models
-using System.Security.Claims; // Imports tools to identify the logged-in user
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization; // Imports tools to identify the logged-in user
 
 namespace GreenFieldLocalHub.Controllers // The container for this controller
 { // Start of namespace
@@ -76,6 +77,7 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         } // End of Details
 
         // GET: Products/Create
+        [Authorize(Roles = "Developer")]
         public IActionResult Create() // Method to load the "Add New Product" form
         { // Start of Create GET
             ViewData["FarmersId"] = new SelectList(_context.Farmers, "FarmersId", "FarmersId"); // Setup dropdown for farmers
@@ -85,6 +87,7 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost] // Handle form submission
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> Create([Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable")] Products products, IFormFile? ImageFile) // Logic to save product and image
@@ -202,6 +205,8 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
 
             return View(products); // Reload form with errors
         } // End of Edit POST
+
+        [Authorize(Roles = "Developer")]
 
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id) // Show delete confirmation

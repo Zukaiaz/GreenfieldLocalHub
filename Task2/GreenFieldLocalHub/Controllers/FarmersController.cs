@@ -1,12 +1,13 @@
-﻿using System; // Imports basic system functionality like types and dates
-using System.Collections.Generic; // Imports support for lists and collections
-using System.Linq; // Imports data querying tools (like .Any())
-using System.Threading.Tasks; // Imports support for asynchronous tasks (async/await)
+﻿using GreenFieldLocalHub.Data; // Imports your project's database context
+using GreenFieldLocalHub.Models; // Imports your data models (Farmers, etc.)
 using Microsoft.AspNetCore.Mvc; // Imports the Model-View-Controller framework classes
 using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for rendering HTML elements
 using Microsoft.EntityFrameworkCore; // Imports the database engine for C#
-using GreenFieldLocalHub.Data; // Imports your project's database context
-using GreenFieldLocalHub.Models; // Imports your data models (Farmers, etc.)
+using System; // Imports basic system functionality like types and dates
+using System.Collections.Generic; // Imports support for lists and collections
+using System.Linq; // Imports data querying tools (like .Any())
+using System.Security.Claims;
+using System.Threading.Tasks; // Imports support for asynchronous tasks (async/await)
 
 namespace GreenFieldLocalHub.Controllers // Defines the container for this controller
 { // Start of namespace
@@ -49,72 +50,55 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             return View(); // Returns the blank form view
         } // End of Create
 
-        // POST: Farmers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost] // Defines this as a POST request (submitting data)
-        [ValidateAntiForgeryToken] // Security check to prevent CSRF attacks
-        public async Task<IActionResult> Create([Bind("FarmersId,UserId,FarmerName,FarmerEmail,FarmingMethod,FarmerInfo")] Farmers farmers) // Logic to save a new farmer
-        { // Start of Create POST
-            if (ModelState.IsValid) // Checks if the submitted data follows the model rules
-            { // Start if
-                _context.Add(farmers); // Prepares the new farmer for the database
-                await _context.SaveChangesAsync(); // Saves the new record
-                return RedirectToAction(nameof(Index)); // Sends user back to the list
-            } // End if
-            return View(farmers); // If data was bad, returns the form with the current entries
-        } // End of Create POST
-
         // GET: Farmers/Edit/5
-        public async Task<IActionResult> Edit(int? id) // Method to load the edit form for a farmer
-        { // Start of Edit
-            if (id == null) // Checks if ID is missing
-            { // Start if
-                return NotFound(); // Returns 404
-            } // End if
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+                return NotFound();
 
-            var farmers = await _context.Farmers.FindAsync(id); // Directly looks for the farmer by ID
-            if (farmers == null) // If farmer record doesn't exist
-            { // Start if
-                return NotFound(); // Returns 404
-            } // End if
-            return View(farmers); // Returns the edit form with the farmer's data
-        } // End of Edit
+            var farmers = await _context.Farmers.FindAsync(id);
+            if (farmers == null)
+                return NotFound();
+
+            // ADDED - check the logged-in user owns this record
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (farmers.UserId != userId)
+                return Forbid(); // blocks anyone editing someone else's profile
+
+            return View(farmers);
+        }
 
         // POST: Farmers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost] // POST request to update data
-        [ValidateAntiForgeryToken] // Security check
-        public async Task<IActionResult> Edit(int id, [Bind("FarmersId,UserId,FarmerName,FarmerEmail,FarmingMethod,FarmerInfo")] Farmers farmers) // Logic to save changes
-        { // Start of Edit POST
-            if (id != farmers.FarmersId) // Security check: Does URL ID match the Form ID?
-            { // Start if
-                return NotFound(); // Returns 404 if mismatch
-            } // End if
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("FarmersId,UserId,FarmerName,FarmerEmail,FarmingMethod,FarmerInfo")] Farmers farmers)
+        {
+            if (id != farmers.FarmersId)
+                return NotFound();
 
-            if (ModelState.IsValid) // Checks if edited data is valid
-            { // Start if
-                try // Tries to update
-                { // Start try
-                    _context.Update(farmers); // Marks the record as modified
-                    await _context.SaveChangesAsync(); // Saves the update to the DB
-                } // End try
-                catch (DbUpdateConcurrencyException) // Handles errors if record was changed elsewhere
-                { // Start catch
-                    if (!FarmersExists(farmers.FarmersId)) // Checks if the farmer was deleted during the edit
-                    { // Start if
-                        return NotFound(); // Returns 404
-                    } // End if
-                    else // If a different error occurred
-                    { // Start else
-                        throw; // Rethrows the error
-                    } // End else
-                } // End catch
-                return RedirectToAction(nameof(Index)); // Goes back to the list on success
-            } // End if
-            return View(farmers); // If data was invalid, stays on form with error messages
-        } // End of Edit POST
+            // ADDED - check the logged-in user owns this record
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (farmers.UserId != userId)
+                return Forbid(); // blocks a crafted POST from another user
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(farmers);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!FarmersExists(farmers.FarmersId))
+                        return NotFound();
+                    else
+                        throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(farmers);
+        }
 
         // GET: Farmers/Delete/5
         public async Task<IActionResult> Delete(int? id) // Method to load delete confirmation page

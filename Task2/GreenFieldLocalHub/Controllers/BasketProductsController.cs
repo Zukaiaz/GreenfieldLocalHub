@@ -60,7 +60,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(); // Show the form to the user
         } // End of Create
 
-        [Authorize(Roles = "Developer")]
         //POST:BasketProducts/Create
         [HttpPost] // Defines this as a POST request (sending data to the server)
         [ValidateAntiForgeryToken] // Prevents hackers from submitting forms from other sites
@@ -143,8 +142,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(basketProducts); // Show the Edit form
         } // End of Edit
 
-
-        [Authorize(Roles = "Developer")]
         // POST: BasketProducts/Edit/5
         [HttpPost] // POST request to save edits
         [ValidateAntiForgeryToken] // Security check
@@ -203,7 +200,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(basketProducts); // Show the confirmation view
         } // End of Delete
 
-        [Authorize(Roles = "Developer")]
         [HttpPost, ActionName("Delete")] // POST request to actually delete (renamed "Delete" for routing)
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> DeleteConfirmed(int id) // Method to perform the final deletion
@@ -223,7 +219,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return _context.BasketProducts.Any(e => e.BasketProductsId == id); // Returns true if it finds any item with that ID
         } // End method
 
-        [Authorize(Roles = "Developer")]
         [HttpPost] // POST request for a background deletion
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> DeleteAjax(int id) // Method to delete via JavaScript without page refresh

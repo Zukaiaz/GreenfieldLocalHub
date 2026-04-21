@@ -564,3 +564,42 @@ hr {
         padding: 1.5rem 1rem;
     }
 }
+
+/* DROPDOWN NAV */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(107, 116, 80, 0.2);
+    border: 1px solid var(--card-border);
+    min-width: 150px;
+    padding: 0.4rem 0;
+    list-style: none;
+    z-index: 1001;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    display: block;
+}
+
+.nav-dropdown-menu li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--text-dark) !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 0;
+    background: none !important;
+}
+
+    .nav-dropdown-menu li a:hover {
+        background: var(--bg) !important;
+        color: var(--green-dark) !important;
+    }

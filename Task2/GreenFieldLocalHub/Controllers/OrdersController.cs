@@ -74,6 +74,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
                 return View(userOrders); // Sends the user's personal order history to the view — no email lookup needed as customers only see their own orders
             } // End else
         } // End of Index
+
         [Authorize]
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id) // Method to display the full details of a specific order
@@ -110,9 +111,10 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Passes the tier name to the view, or "None" if they have no loyalty account
             return View(orders); // Sends the list of order products to the Details view
         } // End of Details
-        [Authorize]
+
+
         // GET: Orders/Create
-        [Authorize] // Restricts access to logged-in users
+        [Authorize(Roles = "Developer")]
         public async Task<IActionResult> Create(int basketId) // Method to load the checkout/order creation page
         { // Start of Create GET
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets current user ID
@@ -159,10 +161,10 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
 
             return View(); // Returns the checkout page view
         } // End of Create GET
-        [Authorize]
+
         // POST: Orders/Create
         [HttpPost] // Marks this as a form submission handler
-        [Authorize] // Requires login
+
         [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> Create([Bind("OrdersId,Delivery,Collection,DeliveryType,CollectionDate")] Orders orders, int basketId) // Saves the order
         { // Start of Create POST
@@ -328,7 +330,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             return RedirectToAction("Index", "Home"); // Redirects to homepage on success
 
         } // End of Create POST
-        [Authorize]
+
         // GET: Orders/Edit/5
         [Authorize(Roles = "Farmer")] // Only Farmers can edit (likely to change tracking status)
         public async Task<IActionResult> Edit(int? id) // Method to load edit form
@@ -345,9 +347,9 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             } // End if
             return View(orders); // Return edit view
         } // End of Edit GET
-        [Authorize]
+
+
         // POST: Orders/Edit/5
-        [Authorize(Roles = "Farmer")] // Restrict to Farmers
         [HttpPost] // Submit handler
         [ValidateAntiForgeryToken] // Security
         public async Task<IActionResult> Edit(int id, [Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders) // Logic to save edits

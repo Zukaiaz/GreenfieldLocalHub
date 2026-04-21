@@ -6,13 +6,6 @@
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 <input type="hidden" id="requestToken" value="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
 
-<h1>Index</h1>
-@if (User.Identity.IsAuthenticated)
-{
-    <a asp-controller="LoyaltyAccounts" asp-action="MyAccount" class="btn btn-warning">
-        My Loyalty Account 🌟
-    </a>
-}
 @if (User.IsInRole("Farmer"))
 {
     <p>

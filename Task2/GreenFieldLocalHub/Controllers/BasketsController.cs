@@ -136,7 +136,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Create POST
 
         [Authorize(Roles = "Developer")]
-
         // GET: Baskets/Edit/5
         public async Task<IActionResult> Edit(int? id) // Method to load the edit form for a basket
         { // Start of Edit
@@ -207,7 +206,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             return View(basket); // Shows the confirmation view
         } // End of Delete
 
-        [Authorize(Roles = "Developer")]
         // POST: Baskets/Delete/5
         [HttpPost, ActionName("Delete")] // POST request mapped to the "Delete" action
         [ValidateAntiForgeryToken] // Security check
