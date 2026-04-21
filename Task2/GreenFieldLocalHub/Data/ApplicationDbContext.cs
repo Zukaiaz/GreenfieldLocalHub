@@ -13,7 +13,6 @@ namespace GreenFieldLocalHub.Data
         public DbSet<GreenFieldLocalHub.Models.Basket> Basket { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.BasketProducts> BasketProducts { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.Farmers> Farmers { get; set; } = default!;
-        public DbSet<GreenFieldLocalHub.Models.Favourites> Favourites { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.LoyaltyAccount> LoyaltyAccount { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.LoyaltyTransactions> LoyaltyTransactions { get; set; } = default!;
         public DbSet<GreenFieldLocalHub.Models.OrderProducts> OrderProducts { get; set; } = default!;

@@ -3,64 +3,142 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GreenFieldLocalHub</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - GreenField Local Hub</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hedvig+Letters+Serif:opsz@12..24&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GreenFieldLocalHub.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GreenFieldLocalHub</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+    <!-- NAVBAR -->
+    <nav class="site-navbar">
+        <a class="navbar-logo" asp-controller="Home" asp-action="Index">
+            <div class="navbar-logo-icon">🌿</div>
+            <div class="navbar-logo-text">
+                GreenField
+                <span>Local Hub</span>
+            </div>
+        </a>
+
+        <ul class="navbar-links">
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-controller="Products" asp-action="Index">Shop</a></li>
+            @if (User.IsInRole("Farmer"))
+            {
+                <li><a asp-controller="FarmerDashboard" asp-action="Index">Dashboard</a></li>
+            }
+            @if (User.IsInRole("Admin") || User.IsInRole("Developer"))
+            {
+                <li><a asp-controller="LoyaltyAccounts" asp-action="Index">Loyalty Admin</a></li>
+            }
+            @if (!User.IsInRole("Farmer"))
+            {
+                <li><a asp-controller="Orders" asp-action="Index">Orders</a></li>
+                <li><a asp-controller="Baskets" asp-action="Index">Basket</a></li>
+            }
+        </ul>
+
+        <div class="navbar-right">
+            <div class="navbar-search">
+                <form asp-controller="Products" asp-action="Search" method="get" style="display:flex; align-items:center;">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
+                    <input type="text" name="query" placeholder="Search products..." />
+                </form>
+            </div>
+
+            <div style="position:relative;">
+                <button class="navbar-account" onclick="toggleAccountMenu()" id="accountBtn">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Baskets" asp-action="Index">Basket</a>
-                        </li>
-                        @if (User.IsInRole("Farmer"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="FarmerDashboard" asp-action="Index">Dashboard</a>
-                            </li>
-                        }
-                    </ul>
-                    <partial name="_LoginPartial" />
+                <div class="account-dropdown" id="accountDropdown">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="user-email">@User.Identity.Name</div>
+                        <div class="dropdown-divider"></div>
+                        <a asp-controller="LoyaltyAccounts" asp-action="MyAccount">🌟 Loyalty Account</a>
+                        <div class="dropdown-divider"></div>
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+                            <button type="submit">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    }
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </div>
+    </nav>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - GreenFieldLocalHub - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- MAIN CONTENT -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand-name">GreenField Local Hub</div>
+                <p class="footer-brand-desc">Connecting local farmers with their community. Fresh, seasonal produce delivered straight to your door.</p>
+                <p class="footer-copy">© 2026 GreenField Local Hub</p>
+            </div>
+
+            <div>
+                <div class="footer-heading">Quick Links</div>
+                <ul class="footer-links">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Products" asp-action="Index">Shop</a></li>
+                    <li><a asp-controller="Orders" asp-action="Index">Orders</a></li>
+                    <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                    <li><a asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="footer-heading">Follow Us</div>
+                <div class="footer-social">
+                    <a href="#" class="social-btn">f</a>
+                    <a href="#" class="social-btn">▶</a>
+                    <a href="#" class="social-btn">in</a>
+                </div>
+                <div class="footer-heading" style="margin-top:0.75rem;">Contact Us</div>
+                <p class="footer-contact-item">📧 Local-GreenFieldLocalHub@gmail.com</p>
+                <p class="footer-contact-item">📞 0800 123 456</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            Fresh from the field — GreenField Local Hub 2026
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        function toggleAccountMenu() {
+            document.getElementById('accountDropdown').classList.toggle('open');
+        }
+        document.addEventListener('click', function (e) {
+            const btn = document.getElementById('accountBtn');
+            if (btn && !btn.contains(e.target)) {
+                document.getElementById('accountDropdown').classList.remove('open');
+            }
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

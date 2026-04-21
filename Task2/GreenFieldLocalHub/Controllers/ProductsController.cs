@@ -301,5 +301,31 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         { // Start helper
             return _context.Products.Any(e => e.ProductsId == id); // True if found
         } // End helper
+
+        // This handles the search request
+        [HttpGet]
+        public async Task<IActionResult> Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return RedirectToAction("Index"); // If search is empty, just show the shop
+            }
+
+            // Look for a product where the name contains the search text
+            // .FirstOrDefaultAsync() gets the very first match it finds
+            var product = await _context.Products
+                .FirstOrDefaultAsync(p => p.ProductName.Contains(query));
+
+            if (product != null)
+            {
+                // If a product is found, take them directly to the Details page of that product
+                return RedirectToAction("Details", new { id = product.ProductsId });
+            }
+
+            // If nothing is found, send them to the Shop Index (maybe show a "Not Found" message)
+            TempData["Message"] = "No product found matching: " + query;
+            return RedirectToAction("Index");
+        }
+
     } // End of class
 } // End of namespace

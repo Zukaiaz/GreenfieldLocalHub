@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for HTML dropdowns (S
 using Microsoft.EntityFrameworkCore; // Imports the database ORM (Entity Framework)
 using GreenFieldLocalHub.Data; // Imports your project's specific data folder
 using GreenFieldLocalHub.Models; // Imports your data models (Basket, Product, etc.)
-using System.Security.Claims; // Imports tools to identify the logged-in user
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization; // Imports tools to identify the logged-in user
 
 namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where this code lives
 { // Start of the namespace
@@ -21,7 +22,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
         } // End of constructor
 
         [HttpGet] // Defines this as a GET request (loading a page)
-
+        [Authorize(Roles = "Developer")]
         //GET: BasketProducts
         public async Task<IActionResult> Index() // Method to show the list of all items in baskets
         { // Start of Index
@@ -29,6 +30,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(await applicationDbContext.ToListAsync()); // Executes the query and sends the list to the View
         } // End of Index
 
+        [Authorize(Roles = "Developer")]
         public async Task<IActionResult> Details(int? id) // Method to show details for one specific item
         { // Start of Details
             if (id == null) // Check if the user didn't provide an ID
@@ -49,7 +51,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(basketProducts); // Send the found item data to the Details View
         } // End of Details
 
-
+        [Authorize(Roles = "Developer")]
         //Get:BasketProducts/Create
         public IActionResult Create() // Method to load the "Create" page
         { // Start of Create
@@ -58,7 +60,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(); // Show the form to the user
         } // End of Create
 
-
+        [Authorize(Roles = "Developer")]
         //POST:BasketProducts/Create
         [HttpPost] // Defines this as a POST request (sending data to the server)
         [ValidateAntiForgeryToken] // Prevents hackers from submitting forms from other sites
@@ -122,6 +124,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
 
         } // End of Create logic
 
+        [Authorize(Roles = "Developer")]
         // GET: BasketProducts/Edit/5
         public async Task<IActionResult> Edit(int? id) // Method to load the Edit page for an item
         { // Start of Edit
@@ -141,7 +144,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
         } // End of Edit
 
 
-
+        [Authorize(Roles = "Developer")]
         // POST: BasketProducts/Edit/5
         [HttpPost] // POST request to save edits
         [ValidateAntiForgeryToken] // Security check
@@ -178,6 +181,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
         } // End of Edit save
 
 
+        [Authorize(Roles = "Developer")]
         // GET: BasketProducts/Delete/5
         public async Task<IActionResult> Delete(int? id) // Method to show the "Are you sure you want to delete?" page
         { // Start of Delete
@@ -199,6 +203,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return View(basketProducts); // Show the confirmation view
         } // End of Delete
 
+        [Authorize(Roles = "Developer")]
         [HttpPost, ActionName("Delete")] // POST request to actually delete (renamed "Delete" for routing)
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> DeleteConfirmed(int id) // Method to perform the final deletion
@@ -218,6 +223,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the organized "box" where th
             return _context.BasketProducts.Any(e => e.BasketProductsId == id); // Returns true if it finds any item with that ID
         } // End method
 
+        [Authorize(Roles = "Developer")]
         [HttpPost] // POST request for a background deletion
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> DeleteAjax(int id) // Method to delete via JavaScript without page refresh

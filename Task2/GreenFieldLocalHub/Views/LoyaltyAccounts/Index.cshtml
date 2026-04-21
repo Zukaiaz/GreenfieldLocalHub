@@ -12,9 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
+            <th>Email</th>
             <th>
                 @Html.DisplayNameFor(model => model.Points)
             </th>
@@ -30,9 +28,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
+                <td>
+                    @(((Dictionary<string, string>)ViewBag.UserEmails).TryGetValue(item.UserId, out var email) ? email : "Unknown")
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Points)
             </td>

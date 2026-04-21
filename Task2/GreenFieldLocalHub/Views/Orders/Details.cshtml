@@ -7,10 +7,46 @@
 @if (firstItem != null)
 {
     <div>
-        <p><strong>Order ID:</strong> @firstItem.Orders.OrdersId</p>
         <p><strong>Order Date:</strong> @firstItem.Orders.OrderDate</p>
-        <p><strong>Status:</strong> @firstItem.Orders.OrderTrackingStatus</p>
-        <p><strong>Total Amount:</strong> £@firstItem.Orders.TotalAmount.ToString("0.00")</p>
+        <p>
+            <strong>Status:</strong>
+            @if (User.IsInRole("Farmer")) @* Check if the logged-in user is a "Farmer". If not, the rest of this code is ignored. *@
+            {
+                <form asp-controller="Orders" asp-action="UpdateStatus" method="post" style="display:inline;"> @* Create a form that tells the server: "Go to the Orders controller and run the UpdateStatus logic." *@
+                    @Html.AntiForgeryToken() @* A security feature that proves this request is coming from your actual website and not a hacker. *@
+                    <input type="hidden" name="id" value="@firstItem.Orders.OrdersId" /> @* A 'invisible' field that stores the Order ID, so the server knows exactly which order to update. *@
+                    @* The dropdown menu. 'onchange="this.form.submit()"' means it saves automatically the moment you click a choice. *@
+                    <select name="status" class="form-select" style="display:inline; width:auto;" onchange="this.form.submit()">
+                        @* Option for 'Pending'. The 'selected' part makes sure it's pre-highlighted if the order is currently Pending. *@
+                        <option value="Pending" selected="@(firstItem.Orders.OrderTrackingStatus == "Pending")">Pending</option>
+                        @* Option for 'Confirmed'. Checks if this is the current status to show it as selected. *@
+                        <option value="Confirmed" selected="@(firstItem.Orders.OrderTrackingStatus == "Confirmed")">Confirmed</option>
+                        @* Option for 'Preparing'. Checks if this is the current status to show it as selected. *@
+                        <option value="Preparing" selected="@(firstItem.Orders.OrderTrackingStatus == "Preparing")">Preparing</option>
+                        @* Option for 'Out for Delivery'. Checks if this is the current status to show it as selected. *@
+                        <option value="Out for Delivery" selected="@(firstItem.Orders.OrderTrackingStatus == "Out for Delivery")">Out for Delivery</option>
+                        @* Option for 'Delivered'. Checks if this is the current status to show it as selected. *@
+                        <option value="Delivered" selected="@(firstItem.Orders.OrderTrackingStatus == "Delivered")">Delivered</option>
+                        @* Option for 'Ready for Collection'. Checks if this is the current status to show it as selected. *@
+                        <option value="Ready for Collection" selected="@(firstItem.Orders.OrderTrackingStatus == "Ready for Collection")">Ready for Collection</option>
+                        @*  Option for 'Collected'. Checks if this is the current status to show it as selected. *@
+                        <option value="Collected" selected="@(firstItem.Orders.OrderTrackingStatus == "Collected")">Collected</option>
+                        @* Closing tag for the dropdown menu. *@
+                    </select> @* Closing tag for the form. *@
+                </form> @* Closing bracket for the "Farmer" check. *@
+            }
+            else
+            {
+                @firstItem.Orders.OrderTrackingStatus 
+            }
+        </p>
+        <p>
+            <strong>Total Amount:</strong> £@firstItem.Orders.TotalAmount.ToString("0.00")
+            @if ((decimal)ViewBag.DiscountAmount > 0)
+            {
+                <span style="color:green;">(Loyalty Discount @ViewBag.Tier: -£@(((decimal)ViewBag.DiscountAmount).ToString("0.00")))</span>
+            }
+        </p>
         @if (firstItem.Orders.Delivery)
         {
             <p><strong>Order Method:</strong> Delivery</p>
@@ -21,7 +57,7 @@
             <p><strong>Order Method:</strong> Collection</p>
             <p><strong>Collection Date:</strong> @firstItem.Orders.CollectionDate</p>
         }
-    </div>
+    </div> 
     <hr />
     <h2>Products Ordered</h2>
     <table>
@@ -47,9 +83,5 @@
     </table>
 }
 <div style="margin-top:20px;">
-    @if (User.IsInRole("Farmer"))
-    {
-        <a asp-action="Edit" asp-route-id="@firstItem?.Orders.OrdersId">Edit Order</a>
-    }
     <a asp-action="Index">Back to List</a>
 </div>

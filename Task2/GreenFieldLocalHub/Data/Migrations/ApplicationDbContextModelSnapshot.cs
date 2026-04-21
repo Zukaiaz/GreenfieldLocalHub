@@ -104,28 +104,6 @@ namespace GreenFieldLocalHub.Data.Migrations
                     b.ToTable("Farmers");
                 });
 
-            modelBuilder.Entity("GreenFieldLocalHub.Models.Favourites", b =>
-                {
-                    b.Property<int>("FavouritesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavouritesId"));
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("FavouritesId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("Favourites");
-                });
-
             modelBuilder.Entity("GreenFieldLocalHub.Models.LoyaltyAccount", b =>
                 {
                     b.Property<int>("LoyaltyAccountId")
@@ -510,17 +488,6 @@ namespace GreenFieldLocalHub.Data.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("GreenFieldLocalHub.Models.Favourites", b =>
-                {
-                    b.HasOne("GreenFieldLocalHub.Models.Products", "Products")
-                        .WithMany("Favourites")
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("GreenFieldLocalHub.Models.LoyaltyTransactions", b =>
                 {
                     b.HasOne("GreenFieldLocalHub.Models.LoyaltyAccount", "LoyaltyAccount")
@@ -646,8 +613,6 @@ namespace GreenFieldLocalHub.Data.Migrations
             modelBuilder.Entity("GreenFieldLocalHub.Models.Products", b =>
                 {
                     b.Navigation("BasketProducts");
-
-                    b.Navigation("Favourites");
 
                     b.Navigation("OrderProducts");
                 });

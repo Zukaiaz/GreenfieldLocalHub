@@ -61,22 +61,33 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Products Ordered</th>
                 <th>Order Date</th>
                 <th>Status</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var order in
-           ((List<GreenFieldLocalHub.Models.Orders>)ViewBag.RecentOrders).Take(5))
+            @foreach (var order in ((List<GreenFieldLocalHub.Models.Orders>)ViewBag.RecentOrders).Take(5))
             {
                 <tr>
-                    <td>@order.OrdersId</td>
+                    <td>
+                        @{
+                            var emailDict = (Dictionary<string, string>)ViewBag.UserEmails;
+                            var userEmail = emailDict != null && emailDict.ContainsKey(order.UserId) ? emailDict[order.UserId] : "Unknown";
+                        }
+                        @userEmail
+                    </td>
+                    <td>
+                        @foreach (var op in order.OrderProducts)
+                        {
+                            <div>@op.Products.ProductName x @op.ProductsQuantity</div>
+                        }
+                    </td>
                     <td>@order.OrderDate</td>
                     <td>@order.OrderTrackingStatus</td>
-                    <td>@order.TotalAmount.ToString("0.00")</td>
+                    <td>£@order.TotalAmount.ToString("0.00")</td>
                 </tr>
             }
         </tbody>

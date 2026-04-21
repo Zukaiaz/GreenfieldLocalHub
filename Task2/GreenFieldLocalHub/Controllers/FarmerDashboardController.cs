@@ -1,5 +1,6 @@
 ﻿using GreenFieldLocalHub.Data; // Imports the database context namespace
 using Microsoft.AspNetCore.Authorization; // Imports tools to restrict access to pages
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc; // Imports the standard Model-View-Controller classes
 using Microsoft.EntityFrameworkCore; // Imports the database engine for queries (Include, FirstOrDefault)
 using System.Security.Claims; // Imports the ability to read user login information (User ID)
@@ -12,10 +13,14 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this speci
 
         public readonly ApplicationDbContext _context; // Declares a private variable for the database connection
 
-        public FarmerDashboardController(ApplicationDbContext context) // Constructor: Runs when the controller is created
+        private readonly UserManager<IdentityUser> _userManager; // Declares a variable for user management
+
+        public FarmerDashboardController(ApplicationDbContext context, UserManager<IdentityUser> userManager) // Updated constructor
         { // Start of constructor
-            _context = context; // Stores the database connection into the local variable
+            _context = context; // Stores the database connection
+            _userManager = userManager; // Stores the user manager for email lookups
         } // End of constructor
+
 
         [HttpGet] // GET: Identifies this as an action that only retrieves and displays data
         public async Task<IActionResult> Index() // Method to load the main Farmer Dashboard page
@@ -44,6 +49,10 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this speci
             ViewBag.TotalProducts = products.Count; // Stores the count of all the farmer's products in ViewBag
             ViewBag.LowStockCount = products.Count(x => x.StockQuantity <= 5); // Counts how many products have 5 or less in stock
             ViewBag.RecentOrders = orders; // Stores the list of filtered orders in ViewBag for the display
+
+            var users = await _userManager.Users.ToListAsync(); // Gets all registered users from the identity table
+            ViewBag.UserEmails = users.ToDictionary(u => u.Id, u => u.Email); // Builds a userId to email lookup dictionary
+            ViewBag.TotalStock = products.Sum(x => x.StockQuantity); // Counts total stock units across all products
 
             return View(products); // Sends the list of products to the Dashboard View
         } // End of Index method

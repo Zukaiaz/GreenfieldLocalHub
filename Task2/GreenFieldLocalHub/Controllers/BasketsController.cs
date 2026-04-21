@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for SelectLists and d
 using Microsoft.EntityFrameworkCore; // Imports the database engine (EF Core)
 using GreenFieldLocalHub.Data; // Imports your data context
 using GreenFieldLocalHub.Models; // Imports your Basket and Product models
-using System.Security.Claims; // Imports tools to check user identity
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization; // Imports tools to check user identity
 
 namespace GreenFieldLocalHub.Controllers // Defines the container for this controller
 { // Start of namespace
@@ -21,6 +22,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of constructor
 
         // GET: Baskets
+        [Authorize(Roles = "Standard,Admin,Developer")]
         public async Task<IActionResult> Index() // Main method to display the user's shopping basket
         { // Start of Index
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the ID of the logged-in user
@@ -93,6 +95,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Index
 
         // GET: Baskets/Details/5
+        [Authorize(Roles = "Developer")]
         public async Task<IActionResult> Details(int? id) // Method to show details for one specific basket
         { // Start of Details
             if (id == null) // Checks if ID is missing from URL
@@ -111,9 +114,10 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Details
 
         // GET: Baskets/Create
+        [Authorize(Roles = "Developer")]
         public IActionResult Create() // Method to load the "Create Basket" form
         { // Start of Create
-            return View(); // Returns the blank view
+            return RedirectToAction(nameof(Index)); // Returns the blank view
         } // End of Create
 
         // POST: Baskets/Create
@@ -131,6 +135,8 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             return View(basket); // If invalid, returns the form with the current data
         } // End of Create POST
 
+        [Authorize(Roles = "Developer")]
+
         // GET: Baskets/Edit/5
         public async Task<IActionResult> Edit(int? id) // Method to load the edit form for a basket
         { // Start of Edit
@@ -146,6 +152,8 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             } // End if
             return View(basket); // Shows the edit form
         } // End of Edit
+
+        [Authorize(Roles = "Developer")]
 
         // POST: Baskets/Edit/5
         [HttpPost] // Marks this as a POST request
@@ -180,6 +188,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             return View(basket); // Returns form if data is invalid
         } // End of Edit POST
 
+        [Authorize(Roles = "Developer")]
         // GET: Baskets/Delete/5
         public async Task<IActionResult> Delete(int? id) // Method to show delete confirmation page
         { // Start of Delete
@@ -198,6 +207,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             return View(basket); // Shows the confirmation view
         } // End of Delete
 
+        [Authorize(Roles = "Developer")]
         // POST: Baskets/Delete/5
         [HttpPost, ActionName("Delete")] // POST request mapped to the "Delete" action
         [ValidateAntiForgeryToken] // Security check

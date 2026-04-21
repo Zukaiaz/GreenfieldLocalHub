@@ -25,13 +25,20 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of constructor scope
 
         // GET: LoyaltyAccounts
+        [Authorize(Roles = "Admin,Developer")]
         [HttpGet] // GET: Identifies this as a request to retrieve the full list of accounts
         public async Task<IActionResult> Index() // Method to show all loyalty accounts in the system
-        { // Start of Index method
-            return View(await _context.LoyaltyAccount.ToListAsync()); // Fetches all accounts and sends them to the Index View
-        } // End of Index method
+        { // Start of index method
+            var accounts = await _context.LoyaltyAccount.ToListAsync();
+
+            var users = await _userManager.Users.ToListAsync(); // Gets all users from the identity table
+            ViewBag.UserEmails = users.ToDictionary(u => u.Id, u => u.Email); // Creates a lookup dictionary of userId -> email
+
+            return View(accounts);
+        }
 
         // GET: LoyaltyAccounts/Details/5
+        [Authorize(Roles = "Admin,Developer")]
         [HttpGet] // GET: Identifies this as a request for specific account details
         public async Task<IActionResult> Details(int? id) // Method to show details for one specific loyalty account
         { // Start of Details method
@@ -51,6 +58,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Details method
 
         // GET: LoyaltyAccounts/Create
+        [Authorize(Roles = "Admin,Developer")]
         [HttpGet] // GET: Identifies this as a request for a blank creation form
         public IActionResult Create() // Method to display the initial account creation form
         { // Start of Create method
@@ -58,6 +66,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Create method
 
         // POST: LoyaltyAccounts/Create
+        [Authorize(Roles = "Admin,Developer")]
         [HttpPost] // POST: Identifies this as a submission of new data
         [ValidateAntiForgeryToken] // Security layer to prevent CSRF attacks
         public async Task<IActionResult> Create([Bind("LoyaltyAccountId,UserId,Points,Tier,CreatedAt")] LoyaltyAccount loyaltyAccount) // Method to save a new account
@@ -72,6 +81,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Create POST method
 
         // GET: LoyaltyAccounts/Edit/5
+        [Authorize(Roles = "Admin,Developer")]
         [HttpGet] // GET: Identifies this as a request to load existing data for editing
         public async Task<IActionResult> Edit(int? id) // Method to load the edit form
         { // Start of Edit method
@@ -89,6 +99,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Edit method
 
         // POST: LoyaltyAccounts/Edit/5
+        [Authorize(Roles = "Admin,Developer")]
         [HttpPost] // POST: Identifies this as a submission of updated data
         [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> Edit(int id, [Bind("LoyaltyAccountId,UserId,Points,Tier,CreatedAt")] LoyaltyAccount loyaltyAccount) // Method to save changes
@@ -122,6 +133,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Edit POST method
 
         // GET: LoyaltyAccounts/Delete/5
+        [Authorize(Roles = "Admin,Developer")]
         [HttpGet] // GET: Identifies this as a request for the delete confirmation page
         public async Task<IActionResult> Delete(int? id) // Method to load the delete page
         { // Start of Delete method
@@ -141,6 +153,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Delete method
 
         // POST: LoyaltyAccounts/Delete/5
+        [Authorize(Roles = "Admin,Developer")]
         [HttpPost, ActionName("Delete")] // POST: Mapped to the Delete action for final removal
         [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> DeleteConfirmed(int id) // Method to physically remove the record

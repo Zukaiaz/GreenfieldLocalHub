@@ -8,36 +8,40 @@ using Microsoft.EntityFrameworkCore; // Imports Entity Framework for database op
 using GreenFieldLocalHub.Data; // Imports your ApplicationDbContext
 using GreenFieldLocalHub.Models; // Imports your data models
 using System.Security.Claims; // Imports tools to retrieve the logged-in user's ID
-using Microsoft.AspNetCore.Authorization; // Imports security attributes like [Authorize]
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity; // Imports security attributes like [Authorize]
 
 namespace GreenFieldLocalHub.Controllers // Defines the namespace for this controller
 { // Start of namespace
     public class OrdersController : Controller // Defines the OrdersController class inheriting from Controller
     { // Start of class
         private readonly ApplicationDbContext _context; // Private variable for database access
+        private readonly UserManager<IdentityUser> _userManager; // Private variable for database
 
-        public OrdersController(ApplicationDbContext context) // Constructor to inject the database context
+        public OrdersController(ApplicationDbContext context, UserManager<IdentityUser> userManager) // Constructor to inject the database context
         { // Start of constructor
             _context = context; // Assigns the injected context to the private variable
+            _userManager = userManager;
         } // End of constructor
 
-
         // GET: Orders
+        [Authorize]
         public async Task<IActionResult> Index() // Method to list orders based on user role
         { // Start of Index
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the unique ID of the current user
-
             if (userId == null) // Checks if the user is not logged in
             { // Start if
                 return Unauthorized(); // Returns a 401 Unauthorized status
             } // End if
-
             if (User.IsInRole("Admin")) // Logic for Administrator users
             { // Start if Admin
                 var allOrders = await _context.Orders // Queries all orders in the system
                     .Include(o => o.OrderProducts) // Includes the link to products
                     .ThenInclude(op => op.Products) // Includes the actual product details
                     .ToListAsync(); // Executes the query and returns the list
+
+                var adminUsers = await _userManager.Users.ToListAsync(); // Gets all registered users from the identity table
+                ViewBag.UserEmails = adminUsers.ToDictionary(u => u.Id, u => u.Email); // Builds a userId to email lookup dictionary for the view
 
                 return View(allOrders); // Sends all orders to the view
             } // End if Admin
@@ -47,12 +51,16 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
                     .Where(p => p.Farmers.UserId == userId) // Filters for products belonging to this farmer
                     .Select(p => p.ProductsId) // Only grabs the IDs of those products
                     .ToListAsync(); // Executes query to find supplier products first
-
                 var supplierOrders = await _context.OrderProducts // Queries the linking table
                     .Where(op => supplierProducts.Contains(op.ProductsId)) // Finds rows where the product belongs to this farmer
                     .Include(op => op.Orders) // Joins the parent Order info
+                        .ThenInclude(o => o.OrderProducts) // For each order, also loads all its linked OrderProducts rows
+                            .ThenInclude(op => op.Products) // For each of those OrderProducts, loads the full product details
                     .Include(op => op.Products) // Joins the Product info
                     .ToListAsync(); // Executes query to find relevant orders
+
+                var farmerUsers = await _userManager.Users.ToListAsync(); // Gets all registered users from the identity table
+                ViewBag.UserEmails = farmerUsers.ToDictionary(u => u.Id, u => u.Email); // Builds a userId to email lookup dictionary so the farmer can see whose order it is
 
                 return View(supplierOrders.Select(op => op.Orders).Distinct().ToList()); // Returns a unique list of orders containing the farmer's products
             } // End if Farmer
@@ -63,35 +71,46 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
                     .Include(o => o.OrderProducts) // Includes the products in those orders
                     .ThenInclude(op => op.Products) // Includes full product details
                     .ToListAsync(); // Executes query
-
-                return View(userOrders); // Sends the user's personal order history to the view
+                return View(userOrders); // Sends the user's personal order history to the view — no email lookup needed as customers only see their own orders
             } // End else
-
         } // End of Index
-
-
+        [Authorize]
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id) // Method to show specific items within one order
+        public async Task<IActionResult> Details(int? id) // Method to display the full details of a specific order
         { // Start of Details
-            if (id == null) // Checks if ID is missing
-            { // Start if
-                return NotFound(); // Returns 404
-            } // End if
+            if (id == null) // Checks if no ID was provided in the URL
+                return NotFound(); // Returns a 404 error if ID is missing
 
-            var orders = await _context.OrderProducts // Queries the table linking orders and products
-                .Where(op => op.OrdersId == id) // Filters for the specific Order ID
-                .Include(op => op.Orders) // Joins order header info
-                .Include(op => op.Products) // Joins product details
-                .ToListAsync(); // Executes query
+            var orders = await _context.OrderProducts // Queries the OrderProducts linking table
+                .Where(op => op.OrdersId == id) // Filters for rows that belong to this specific order ID
+                .Include(op => op.Orders) // Joins the parent Order record so we can access order details
+                .Include(op => op.Products) // Joins the Product record so we can access product name and price
+                .ToListAsync(); // Executes the query and returns the results as a list
 
-            if (orders == null) // Checks if no record was found
-            { // Start if
-                return NotFound(); // Returns 404
-            } // End if
+            if (orders == null || !orders.Any()) // Checks if no order products were found
+                return NotFound(); // Returns a 404 error if the order doesn't exist
 
-            return View(orders); // Sends the list of order items to the Details view
+            var userId = orders.First().Orders.UserId; // Gets the ID of the user who placed this order from the first row
+
+            var loyaltyAccount = await _context.LoyaltyAccount // Queries the LoyaltyAccount table
+                .FirstOrDefaultAsync(x => x.UserId == userId); // Finds the loyalty record belonging to this order's user
+
+            decimal discountPercent = loyaltyAccount?.Tier switch // Uses a switch to pick the discount based on their tier
+            {
+                "Bronze" => 0.05m, // Bronze members get 5% off
+                "Silver" => 0.10m, // Silver members get 10% off
+                "Gold" => 0.15m, // Gold members get 15% off
+                _ => 0m     // Anyone else gets no discount
+            };
+
+            decimal total = orders.First().Orders.TotalAmount; // Gets the final total that was saved when the order was placed
+            decimal subtotal = discountPercent > 0 ? total / (1 - discountPercent) : total; // Reverses the discount maths to work out what the original subtotal was before the discount was applied. If no discount, subtotal equals total.
+            decimal discountAmount = subtotal - total; // Calculates the actual cash amount that was discounted by subtracting the total from the subtotal
+            ViewBag.DiscountAmount = discountAmount; // Passes the discount amount to the view so it can be displayed
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Passes the tier name to the view, or "None" if they have no loyalty account
+            return View(orders); // Sends the list of order products to the Details view
         } // End of Details
-
+        [Authorize]
         // GET: Orders/Create
         [Authorize] // Restricts access to logged-in users
         public async Task<IActionResult> Create(int basketId) // Method to load the checkout/order creation page
@@ -140,7 +159,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
 
             return View(); // Returns the checkout page view
         } // End of Create GET
-
+        [Authorize]
         // POST: Orders/Create
         [HttpPost] // Marks this as a form submission handler
         [Authorize] // Requires login
@@ -309,7 +328,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             return RedirectToAction("Index", "Home"); // Redirects to homepage on success
 
         } // End of Create POST
-
+        [Authorize]
         // GET: Orders/Edit/5
         [Authorize(Roles = "Farmer")] // Only Farmers can edit (likely to change tracking status)
         public async Task<IActionResult> Edit(int? id) // Method to load edit form
@@ -326,7 +345,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             } // End if
             return View(orders); // Return edit view
         } // End of Edit GET
-
+        [Authorize]
         // POST: Orders/Edit/5
         [Authorize(Roles = "Farmer")] // Restrict to Farmers
         [HttpPost] // Submit handler
@@ -360,7 +379,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             } // End if
             return View(orders); // Return form with errors
         } // End of Edit POST
-
+        [Authorize]
         // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id) // Method to load delete confirmation
         { // Start of Delete GET
@@ -378,7 +397,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
 
             return View(orders); // Return confirmation view
         } // End of Delete GET
-
+        [Authorize]
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")] // Handler for final delete click
         [ValidateAntiForgeryToken] // Security
@@ -398,5 +417,24 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
         { // Start helper
             return _context.Orders.Any(e => e.OrdersId == id); // Returns true if ID found
         } // End helper
+
+
+        [HttpPost] // Tells the server this code only runs when a form is submitted
+        [Authorize(Roles = "Farmer")] // Only allows users with the "Farmer" role to access this logic
+        [ValidateAntiForgeryToken] // Security check to make sure the request came from your actual site
+        public async Task<IActionResult> UpdateStatus(int id, string status) // The function that receives the Order ID and new Status
+        { // Start of the update process
+
+            var order = await _context.Orders.FindAsync(id); // Looks in the database to find the specific order using its ID number
+
+            if (order == null) // If the order doesn't exist
+                return NotFound(); // Stop and show an error page
+
+            order.OrderTrackingStatus = status; // Overwrites the old status in the database with the new one from the dropdown
+
+            await _context.SaveChangesAsync(); // Saves the change permanently to the database
+
+            return RedirectToAction("Details", new { id = id }); // Sends the user back to the "Details" page for that order to see the change
+        } // End of the update process
     } // End of class
 } // End of namespace

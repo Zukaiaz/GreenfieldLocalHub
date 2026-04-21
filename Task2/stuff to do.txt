@@ -1,25 +1,3 @@
-Basket
-	Index
-		Show image of product in basket
-		when press remove from basket, no page just have it delete
-		After pressing delete, it takes me to basketproducts index, we want it to take us back to Basket
-		Baskets/Create should not be an accessible page and should result in an errpr
-		
-
-Orders
-	Index
-		No userId shown
-		Should show items of the order
-		Create New button should disappear for everyone
-		Edit and delete button should disappear for user
-	Details
-		Order ID should be gone
-		should mention the discount from being a loyalty member
-		Edit order button should be gone
-	Delete
-		UserId shouldn't appear, but user email should instead
-		Orders shouldn't be accessed or deleted
-	Edit
-		only order tracking status should appear, nothing else should be able to change/be edited
-		Email instead of UserId
-		
+Farmer dashboard
+Instead of orderID it says the products
+Also shows the user email
