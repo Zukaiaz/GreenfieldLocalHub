@@ -71,35 +71,83 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         // POST: Farmers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FarmersId,UserId,FarmerName,FarmerEmail,FarmingMethod,FarmerInfo")] Farmers farmers)
+        public async Task<IActionResult> Edit(
+            int id,
+            Farmers farmers,
+            IFormFile? ImageFile)
         {
             if (id != farmers.FarmersId)
                 return NotFound();
 
-            // ADDED - check the logged-in user owns this record
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (farmers.UserId != userId)
-                return Forbid(); // blocks a crafted POST from another user
+            // GET EXISTING FARMER
+            var existingFarmer = await _context.Farmers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(f => f.FarmersId == id);
+
+            if (existingFarmer == null)
+                return NotFound();
+
+            var userId =
+                User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (existingFarmer.UserId != userId)
+                return Forbid();
+
+            // IMAGE UPLOAD
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                var allowedExtensions =
+                    new[] { ".jpg", ".jpeg", ".png", ".webp" };
+
+                var extension =
+                    Path.GetExtension(ImageFile.FileName)
+                        .ToLower();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ViewData["ImageError"] =
+                        "Only .jpg, .png, and .webp files are allowed.";
+
+                    return View(farmers);
+                }
+
+                var fileName =
+                    Guid.NewGuid() + extension;
+
+                var savePath =
+                    Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot/images/farmers",
+                        fileName);
+
+                Directory.CreateDirectory(
+                    Path.GetDirectoryName(savePath)!);
+
+                using var stream =
+                    new FileStream(savePath, FileMode.Create);
+
+                await ImageFile.CopyToAsync(stream);
+
+                farmers.ImagePath =
+                    "/images/farmers/" + fileName;
+            }
+            else
+            {
+                // KEEP EXISTING IMAGE
+                farmers.ImagePath =
+                    existingFarmer.ImagePath;
+            }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(farmers);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FarmersExists(farmers.FarmersId))
-                        return NotFound();
-                    else
-                        throw;
-                }
+                _context.Update(farmers);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(farmers);
         }
-
         // GET: Farmers/Delete/5
         public async Task<IActionResult> Delete(int? id) // Method to load delete confirmation page
         { // Start of Delete

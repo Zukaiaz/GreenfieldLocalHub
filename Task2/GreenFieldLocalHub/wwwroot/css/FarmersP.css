@@ -1,0 +1,169 @@
+﻿/* ─────────────────────────────
+   PAGE TITLE
+───────────────────────────── */
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    color: #2c2c1e;
+}
+
+/* ─────────────────────────────
+   GRID LAYOUT
+───────────────────────────── */
+.farmers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* ─────────────────────────────
+   CARD
+───────────────────────────── */
+.farmer-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border-radius: 18px;
+    padding: 1.2rem 1.3rem;
+    border: 1px solid rgba(140,151,104,0.2);
+    box-shadow: 0 6px 20px rgba(140,151,104,0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+    /* gradient hover overlay */
+    .farmer-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(221,161,94,0.08), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .farmer-card:hover::after {
+        opacity: 1;
+    }
+
+    /* lift effect */
+    .farmer-card:hover {
+        transform: translateY(-6px) scale(1.01);
+        box-shadow: 0 12px 30px rgba(140,151,104,0.18);
+    }
+
+/* ─────────────────────────────
+   CONTENT
+───────────────────────────── */
+.farmer-card-body {
+    position: relative;
+    z-index: 2;
+}
+
+.farmer-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #2c2c1e;
+    margin-bottom: 0.3rem;
+}
+
+.farmer-method {
+    font-family: 'Hedvig Letters Serif', serif;
+    font-size: 0.85rem;
+    color: #8C9768;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+
+.farmer-info {
+    font-family: 'Hedvig Letters Serif', serif;
+    font-size: 0.82rem;
+    color: #6e6e5a;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    /* clamp text */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.farmer-email {
+    font-size: 0.75rem;
+    color: #aaa;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ─────────────────────────────
+   ENTRY ANIMATION
+───────────────────────────── */
+.farmer-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+}
+
+    /* stagger effect */
+    .farmer-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .farmer-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .farmer-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .farmer-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    .farmer-card:nth-child(5) {
+        animation-delay: 0.5s;
+    }
+
+    .farmer-card:nth-child(6) {
+        animation-delay: 0.6s;
+    }
+
+/* animation keyframe */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─────────────────────────────
+   RESPONSIVE
+───────────────────────────── */
+@media (max-width: 900px) {
+    .farmers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .farmers-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.farmer-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover; /* keeps it nice and cropped */
+    border-radius: 12px;
+    margin-bottom: 0.6rem;
+}

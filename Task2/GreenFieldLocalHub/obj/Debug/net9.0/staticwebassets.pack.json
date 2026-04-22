@@ -5,6 +5,18 @@
       "PackagePath": "staticwebassets\\GreenFieldLocalHub.3bkjg789ya.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\FarmersP.css",
+      "PackagePath": "staticwebassets\\css\\FarmersP.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\HomeP.css",
+      "PackagePath": "staticwebassets\\css\\HomeP.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\ProductsP.css",
+      "PackagePath": "staticwebassets\\css\\ProductsP.css"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -25,6 +37,18 @@
       "PackagePath": "staticwebassets\\images\\default.png"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\engin-akyurt-Y5n8mCpvlZU-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\engin-akyurt-Y5n8mCpvlZU-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg",
+      "PackagePath": "staticwebassets\\images\\farmers\\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\gregory-hayes-QFmNQXLPbZc-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\gregory-hayes-QFmNQXLPbZc-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\jackmac34-basket-strawberries-2208356.jpg",
       "PackagePath": "staticwebassets\\images\\jackmac34-basket-strawberries-2208356.jpg"
     },
@@ -33,12 +57,20 @@
       "PackagePath": "staticwebassets\\images\\jackmac34-carrots-673184_1920.jpg"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\land-o-lakes-inc-JUivXruBs2U-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\land-o-lakes-inc-JUivXruBs2U-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\70d769c0-b262-4f16-b63a-9cf7c5036d30.jpg",
       "PackagePath": "staticwebassets\\images\\products\\70d769c0-b262-4f16-b63a-9cf7c5036d30.jpg"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg",
       "PackagePath": "staticwebassets\\images\\products\\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\randy-fath-dDc0vuVH_LU-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\randy-fath-dDc0vuVH_LU-unsplash.jpg"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\js\\site.js",

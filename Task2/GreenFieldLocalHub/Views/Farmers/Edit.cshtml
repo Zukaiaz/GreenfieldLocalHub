@@ -10,33 +10,73 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Edit" enctype="multipart/form-data">
+
             <input type="hidden" asp-for="FarmersId" />
+            <input type="hidden" asp-for="UserId" />
 
             <div class="form-group">
-                <label asp-for="FarmerName" class="control-label"></label>
+                <label asp-for="FarmerName"></label>
                 <input asp-for="FarmerName" class="form-control" />
                 <span asp-validation-for="FarmerName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="FarmerEmail" class="control-label"></label>
+                <label asp-for="FarmerEmail"></label>
                 <input asp-for="FarmerEmail" class="form-control" />
                 <span asp-validation-for="FarmerEmail" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="FarmingMethod" class="control-label"></label>
+                <label asp-for="FarmingMethod"></label>
                 <input asp-for="FarmingMethod" class="form-control" />
                 <span asp-validation-for="FarmingMethod" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="FarmerInfo" class="control-label"></label>
+                <label asp-for="FarmerInfo"></label>
                 <input asp-for="FarmerInfo" class="form-control" />
                 <span asp-validation-for="FarmerInfo" class="text-danger"></span>
             </div>
+
+            <!-- IMAGE UPLOAD -->
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label>Profile Image</label>
+                <input type="file"
+                       name="ImageFile"
+                       class="form-control"
+                       accept="image/*"
+                       id="imageUpload" />
+
+                <span class="text-danger">
+                    @ViewData["ImageError"]
+                </span>
             </div>
+
+            <!-- PREVIEW -->
+            <div class="form-group mt-2"
+                 id="previewContainer"
+                 style="display:none;">
+
+                <label>Preview:</label><br />
+
+                <img id="imagePreview"
+                     src="#"
+                     alt="Image Preview"
+                     style="width:150px;
+                    height:150px;
+                    object-fit:cover;
+                    border-radius:8px;
+                    border:1px solid #ccc;" />
+            </div>
+
+            <!-- SAVE BUTTON -->
+            <div class="form-group mt-3">
+                <input type="submit"
+                       value="Save"
+                       class="btn btn-primary" />
+            </div>
+
         </form>
     </div>
 </div>
@@ -46,5 +86,35 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById('imageUpload')
+            .addEventListener('change', function (e) {
+
+            const file = e.target.files[0];
+            const preview =
+                document.getElementById('imagePreview');
+
+            const container =
+                document.getElementById('previewContainer');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    container.style.display = 'block';
+                }
+
+                reader.readAsDataURL(file);
+            }
+            else {
+                preview.src = '#';
+                container.style.display = 'none';
+            }
+        });
+    </script>
 }

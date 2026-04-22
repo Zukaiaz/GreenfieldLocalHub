@@ -1,150 +1,236 @@
 ﻿@model IEnumerable<GreenFieldLocalHub.Models.Products>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shop";
+
 }
+
+<link rel="stylesheet" href="~/css/ProductsP.css" />
 
 @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
-<input type="hidden" id="requestToken" value="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+<input type="hidden"
+       id="requestToken"
+       value="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
 
-@if (User.IsInRole("Farmer"))
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-}
+<button onclick="toggleBasket()"
+        id="basketToggleBtn"
+        class="basket-toggle">
+    ‹
+</button>
 
-<button onclick="toggleBasket()" id="basketToggleBtn" style="position:fixed; right:0; top:50%; z-index:1000;" class="btn btn-success">‹</button>
+<div class="shop-layout">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.ProductName)</th>
-            <th>@Html.DisplayNameFor(model => model.ProductDescription)</th>
-            <th>@Html.DisplayNameFor(model => model.StockQuantity)</th>
-            <th>@Html.DisplayNameFor(model => model.IsAvailable)</th>
-            <th>@Html.DisplayNameFor(model => model.ProductPrice)</th>
-            <th>@Html.DisplayNameFor(model => model.ImagePath)</th>
-            <th>@Html.DisplayNameFor(model => model.Farmers)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProductDescription)</td>
-                <td>@Html.DisplayFor(modelItem => item.StockQuantity)</td>
-                <td>@Html.DisplayFor(modelItem => item.IsAvailable)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
-                <td>
-                    <img src="@item.ImagePath" alt="@item.ProductName" style="width:80px; height:80px; object-fit:cover;" />
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Farmers.FarmerName)</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.ProductsId">Details</a>
+    <!-- LEFT SIDE -->
 
-                    @if (User.IsInRole("Farmer"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.ProductsId">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.ProductsId">Delete</a>
-                    }
+    <div class="shop-main">
 
-                    @if (item.StockQuantity > 0)
-                    {
-                        <button class="btn btn-primary w-100 add-to-basket-btn" data-product-id="@item.ProductsId">
-                            Add to Basket
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btn btn-secondary w-100" disabled>
-                            Out of Stock
-                        </button>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <!-- FILTER BAR -->
 
-<div id="basketSidebar" style="position:fixed; top:0; right:-400px; width:400px; height:100%; background:white; box-shadow:-2px 0 8px rgba(0,0,0,0.2); z-index:999; transition:right 0.3s ease; overflow-y:auto; padding:20px;">
-    <h4>Your Basket 🛒</h4>
-    <div id="basketContent">Loading...</div>
+            <div class="right-filters">
+
+                <a asp-action="Index"
+                   asp-route-sort="priceAsc"
+                   class="sort-btn">
+                    Price ascending
+                </a>
+
+                <a asp-action="Index"
+                   asp-route-sort="priceDesc"
+                   class="sort-btn">
+                    Price descending
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCT GRID -->
+
+        <div class="product-grid">
+
+            @foreach (var item in Model)
+            {
+                <div class="product-card">
+
+                    <img src="@item.ImagePath"
+                         class="product-image"
+                         alt="@item.ProductName" />
+
+                    <div class="product-info">
+
+                        <h6>
+                            @item.ProductName
+                        </h6>
+
+                        <p class="price">
+                            £@item.ProductPrice
+                        </p>
+
+                        @if (item.StockQuantity > 0)
+                        {
+                            <button class="btn btn-success add-to-basket-btn"
+                                    data-product-id="@item.ProductsId">
+                                Add to Basket
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary" disabled>
+                                Out of Stock
+                            </button>
+                        }
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+        <!-- PAGINATION -->
+
+        <div class="pagination-bar">
+            <button class="page-btn">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- BASKET SIDEBAR -->
+
+<div id="basketSidebar">
+
+    <h4>Your Basket</h4>
+
+    <div id="basketContent">
+        Loading...
+    </div>
+
 </div>
 
 <script>
+
     let basketOpen = false;
 
     async function toggleBasket() {
-        const sidebar = document.getElementById('basketSidebar');
-        const btn = document.getElementById('basketToggleBtn');
+
+        const sidebar =
+            document.getElementById('basketSidebar');
+
+        const btn =
+            document.getElementById('basketToggleBtn');
+
         basketOpen = !basketOpen;
 
         if (basketOpen) {
+
             sidebar.style.right = '0';
-            btn.style.right = '400px';
+
+            btn.style.right = '350px';
+
             btn.innerHTML = '›';
+
             await loadBasket();
-        } else {
-            sidebar.style.right = '-400px';
-            btn.style.right = '0';
-            btn.innerHTML = '‹';
+
         }
+        else {
+
+            sidebar.style.right = '-350px';
+
+            btn.style.right = '0';
+
+            btn.innerHTML = '‹';
+
+        }
+
     }
 
     async function loadBasket() {
-        const response = await fetch('/Products/SidebarPartial');
-        const html = await response.text();
-        document.getElementById('basketContent').innerHTML = html;
+
+        const response =
+            await fetch('/Products/SidebarPartial');
+
+        const html =
+            await response.text();
+
+        document.getElementById('basketContent')
+            .innerHTML = html;
+
     }
 
-    document.addEventListener('click', async function (e) {
-        const btn = e.target.closest('.add-to-basket-btn');
+    document.addEventListener('click',
+    async function (e) {
+
+        const btn =
+            e.target.closest('.add-to-basket-btn');
+
         if (!btn) return;
 
-        const productId = btn.dataset.productId;
-        const token = document.getElementById('requestToken').value;
+        const productId =
+            btn.dataset.productId;
+
+        const token =
+            document.getElementById('requestToken').value;
 
         btn.disabled = true;
+
         btn.textContent = 'Adding...';
 
-        const response = await fetch('/BasketProducts/Create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: `ProductsId=${productId}&__RequestVerificationToken=${encodeURIComponent(token)}`
-        });
+        const response =
+            await fetch('/BasketProducts/Create', {
+
+                method: 'POST',
+
+                headers: {
+
+                    'Content-Type':
+                    'application/x-www-form-urlencoded',
+
+                    'X-Requested-With':
+                    'XMLHttpRequest'
+
+                },
+
+                body:
+                `ProductsId=${productId}&__RequestVerificationToken=${encodeURIComponent(token)}`
+
+            });
 
         if (response.ok) {
-            btn.textContent = 'Added ✓';
-            btn.classList.replace('btn-primary', 'btn-success');
 
-            // Open sidebar if not already open
+            btn.textContent = 'Added ✓';
+
+            btn.classList.replace(
+                'btn-success',
+                'btn-primary'
+            );
+
             if (!basketOpen) {
+
                 basketOpen = true;
-                document.getElementById('basketSidebar').style.right = '0';
-                document.getElementById('basketToggleBtn').style.right = '400px';
-                document.getElementById('basketToggleBtn').innerHTML = '›';
+
+                document
+                    .getElementById('basketSidebar')
+                    .style.right = '0';
+
             }
 
             await loadBasket();
 
             setTimeout(() => {
+
                 btn.disabled = false;
-                btn.textContent = 'Add to Basket';
-                btn.classList.replace('btn-success', 'btn-primary');
+
+                btn.textContent =
+                    'Add to Basket';
+
             }, 1500);
-        } else {
-            btn.textContent = 'Error ✗';
-            btn.classList.replace('btn-primary', 'btn-danger');
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.textContent = 'Add to Basket';
-                btn.classList.replace('btn-danger', 'btn-primary');
-            }, 1500);
+
         }
+
     });
+
 </script>

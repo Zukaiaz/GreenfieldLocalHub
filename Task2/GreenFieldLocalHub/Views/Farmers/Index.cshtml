@@ -1,48 +1,31 @@
 ﻿@model IEnumerable<GreenFieldLocalHub.Models.Farmers>
 
+<link rel="stylesheet" href="~/css/FarmersP.css" />
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Farmers";
 }
 
-<h1>Index</h1>
+<h1 class="section-title">Our Farmers</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmerEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmingMethod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FarmerInfo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmerEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmingMethod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FarmerInfo)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.FarmersId">Details</a> |
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="farmers-grid">
+    @foreach (var item in Model)
+    {
+        <a asp-action="Details" asp-route-id="@item.FarmersId" class="farmer-card">
+
+            <img src="@item.ImagePath" class="farmer-img" />
+
+            <div class="farmer-card-body">
+                <div class="farmer-name">@item.FarmerName</div>
+                <div class="farmer-method">@item.FarmingMethod</div>
+
+                <div class="farmer-info">
+                    @item.FarmerInfo
+                </div>
+
+                <div class="farmer-email">@item.FarmerEmail</div>
+            </div>
+
+        </a>
+    }
+</div>

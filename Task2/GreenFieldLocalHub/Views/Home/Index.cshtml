@@ -1,8 +1,106 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<GreenFieldLocalHub.Models.Products>
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link rel="stylesheet" href="~/css/HomeP.css" asp-append-version="true" />
+}
+
+<!-- HERO -->
+<section class="hero-section">
+    <div class="hero-shape">
+        <div class="hero-text">
+            <h1>Fresh & Organic produce</h1>
+            <p>Shop now and get your first item for free!</p>
+            <a asp-controller="Products" asp-action="Index" class="hero-btn">
+                → Shop Now
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-image-container">
+        <img src="/images/engin-akyurt-Y5n8mCpvlZU-unsplash.jpg" alt="Fresh produce" />
+    </div>
+</section>
+
+<!-- PERKS -->
+<section class="perks-bar">
+    <div class="perk-item">
+        <div class="perk-icon-placeholder">🚚</div>
+        <span>Free delivery</span>
+    </div>
+    <div class="perk-item">
+        <div class="perk-icon-placeholder">🌱</div>
+        <span>100% Organic</span>
+    </div>
+    <div class="perk-item">
+        <div class="perk-icon-placeholder">👨‍🌾</div>
+        <span>Farm Grown</span>
+    </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<h2 class="section-title">Featured Products</h2>
+<div class="featured-grid">
+    @foreach (var product in Model)
+    {
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductsId" class="featured-card">
+            @if (!string.IsNullOrEmpty(product.ImagePath))
+            {
+                <img src="@product.ImagePath" alt="@product.ProductName" class="featured-card-img" />
+            }
+            else
+            {
+                <div class="featured-card-img-placeholder">No image</div>
+            }
+            <div class="featured-card-body">
+                <div class="featured-card-name">@product.ProductName</div>
+                <div class="featured-card-price">£@product.ProductPrice.ToString("0.00")</div>
+            </div>
+        </a>
+    }
 </div>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+    <h2 class="section-title">Reviews</h2>
+    <div class="reviews-grid">
+        <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">Amazing quality!</div>
+            <div class="review-body">The vegetables were so fresh, you could taste the difference immediately.</div>
+            <div class="review-author">
+                <div class="review-avatar">SJ</div>
+                <div class="review-author-info">
+                    <div class="review-author-name">Sarah J.</div>
+                    <div class="review-author-date">March 2026</div>
+                </div>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-title">Love supporting local</div>
+            <div class="review-body">Great to know exactly where my food comes from. Will order again!</div>
+            <div class="review-author">
+                <div class="review-avatar">TM</div>
+                <div class="review-author-info">
+                    <div class="review-author-name">Tom M.</div>
+                    <div class="review-author-date">February 2026</div>
+                </div>
+            </div>
+        </div>
+        <div class="review-card">
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-title">Fast delivery</div>
+            <div class="review-body">Arrived quickly and everything was well packaged. Highly recommend.</div>
+            <div class="review-author">
+                <div class="review-avatar">PK</div>
+                <div class="review-author-info">
+                    <div class="review-author-name">Priya K.</div>
+                    <div class="review-author-date">April 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

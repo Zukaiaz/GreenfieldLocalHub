@@ -856,7 +856,6 @@ C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalH
 C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\xnvlvmipkp-3bkjg789ya.gz
 C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\lowgr9tqq9-3bkjg789ya.gz
-C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\zidsoxm4bk-5zqfqsccx4.gz
 C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\bin\Debug\net9.0\appsettings.json
 C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\bin\Debug\net9.0\GreenFieldLocalHub.staticwebassets.runtime.json
@@ -1300,3 +1299,7 @@ C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\
 C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\GreenFieldLocalHub.genruntimeconfig.cache
 C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\ref\GreenFieldLocalHub.dll
 C:\Users\zuzan\Documents\Github\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\zidsoxm4bk-dlbnv82c49.gz
+C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\zidsoxm4bk-dlbnv82c49.gz
+C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\j03t3v1idh-fjnzoxozuz.gz
+C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\lzri7vmpf0-obou8x6rol.gz
+C:\Users\Digi-T-Y2-12\Documents\GitHub\GreenfieldLocalHub\Task2\GreenFieldLocalHub\obj\Debug\net9.0\compressed\nlrnqssyek-uuzuka29z8.gz

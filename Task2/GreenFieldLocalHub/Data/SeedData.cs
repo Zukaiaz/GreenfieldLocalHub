@@ -151,6 +151,7 @@ namespace GreenFieldLocalHub.Data // Defines the namespace for data-related clas
                     FarmerEmail = "contact@VienneLG.co.uk", // Sets business email
                     FarmerInfo = "Born and raised in GreenField, wanting to promote eco-friendly produce for everyone to eat!", // Bio
                     FarmingMethod = "CropField", // Category
+                    ImagePath = "/images/land-o-lakes-inc-JUivXruBs2U-unsplash.jpg", // Local image file path
                     UserId = farmerUser1.Id // Links to the first identity user
                 }, // End object
                 new Farmers // Second farmer profile
@@ -159,6 +160,7 @@ namespace GreenFieldLocalHub.Data // Defines the namespace for data-related clas
                     FarmerEmail = "contact@HendersonsHarvest.co.uk", // Email
                     FarmerInfo = "Third generation farmer bringing fresh seasonal produce straight from our fields to your table!", // Bio
                     FarmingMethod = "Free Range", // Category
+                    ImagePath = "/images/randy-fath-dDc0vuVH_LU-unsplash.jpg", // Local image file path
                     UserId = farmerUser2.Id // Links to the second identity user
                 }, // End object
                 new Farmers // Third farmer profile
@@ -167,6 +169,7 @@ namespace GreenFieldLocalHub.Data // Defines the namespace for data-related clas
                     FarmerEmail = "contact@GreenAcresFarm.co.uk", // Email
                     FarmerInfo = "Passionate about sustainable farming and delivering the finest organic produce in GreenField!", // Bio
                     FarmingMethod = "Organic", // Category
+                    ImagePath = "/images/gregory-hayes-QFmNQXLPbZc-unsplash.jpg", // Local image file path
                     UserId = farmerUser3.Id // Links to the third identity user
                 } // End object
             }; // End list
