@@ -1,0 +1,310 @@
+﻿/* ─────────────────────────────
+    LAYOUT & CONTAINER
+───────────────────────────── */
+.basket-page-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.basket-title {
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: #2c2c1e;
+    margin-bottom: 30px;
+}
+
+.basket-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .basket-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─────────────────────────────
+    BASKET CARDS (Items)
+───────────────────────────── */
+.basket-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease;
+}
+
+.basket-card-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.basket-item-img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f9f9f9;
+}
+
+.basket-item-details {
+    flex-grow: 1;
+}
+
+.item-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+    color: #2c2c1e;
+}
+
+.item-unit-price {
+    font-size: 0.9rem;
+    color: #888;
+    margin: 0;
+}
+
+.item-qty-row {
+    margin-top: 10px;
+    font-size: 0.95rem;
+}
+
+.qty-label {
+    color: #aaa;
+    margin-right: 5px;
+}
+
+.qty-value {
+    font-weight: 700;
+    color: #6c7a4d;
+}
+
+.basket-item-pricing {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90px;
+}
+
+.item-total-price {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #2c2c1e;
+}
+
+.remove-item-link {
+    background: none;
+    border: none;
+    color: #e63946;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+    .remove-item-link:hover {
+        opacity: 1;
+    }
+
+/* ─────────────────────────────
+    ORDER SUMMARY CARD
+───────────────────────────── */
+.summary-card {
+    background: #fbfbf8;
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid #ecece4;
+    position: sticky;
+    top: 20px;
+}
+
+.summary-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    color: #2c2c1e;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #555;
+}
+
+    .summary-line.discount {
+        color: #6c7a4d;
+        font-weight: 600;
+    }
+
+.summary-divider {
+    border: 0;
+    border-top: 1px solid #ecece4;
+    margin: 20px 0;
+}
+
+.summary-line.total {
+    font-size: 1.4rem;
+    color: #2c2c1e;
+}
+
+/* ─────────────────────────────
+    BUTTONS
+───────────────────────────── */
+.btn-checkout {
+    display: block;
+    background: #6c7a4d;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 25px;
+    transition: background 0.3s ease;
+}
+
+    .btn-checkout:hover {
+        background: #5a6641;
+        color: #fff;
+    }
+
+.btn-continue {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+    .btn-continue:hover {
+        color: #6c7a4d;
+    }
+
+/* ─────────────────────────────
+    EMPTY STATE
+───────────────────────────── */
+.empty-basket-state {
+    text-align: center;
+    padding: 80px 0;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.btn-primary-organic {
+    display: inline-block;
+    background: #6c7a4d;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+/* ─────────────────────────────
+    QUANTITY SELECTOR
+───────────────────────────── */
+.item-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    background: #f8f9f5; /* Light organic background */
+    padding: 6px 12px;
+    border-radius: 50px;
+    width: fit-content;
+    border: 1px solid #ecece4;
+}
+
+.qty-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8c9768;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.qty-form {
+    display: inline-block;
+    margin: 0;
+}
+
+.qty-btn {
+    background: #ffffff;
+    border: 1px solid #dce0d0;
+    color: #6c7a4d;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+    .qty-btn:hover {
+        background: #6c7a4d;
+        color: white;
+        border-color: #6c7a4d;
+        transform: scale(1.1);
+    }
+
+    .qty-btn:active {
+        transform: scale(0.95);
+    }
+
+.qty-value {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #2c2c1e;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Specific styling for decrease/increase if you want color coding */
+.qty-decrease {
+    color: #a3a3a3; /* Subtle gray for minus */
+}
+
+.qty-increase {
+    color: #6c7a4d; /* Brand green for plus */
+}
+
+/* ─────────────────────────────
+    BASKET CARD POLISH
+───────────────────────────── */
+/* Ensure the pricing and remove button look balanced with the new buttons */
+.basket-item-pricing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    min-width: 100px;
+}
+
+.remove-item-btn {
+    margin-top: 8px;
+    transition: color 0.2s ease;
+}

@@ -1,0 +1,110 @@
+﻿/* Container for centering and spacing */
+.details-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header styling */
+.details-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .details-header h1 {
+        color: #2d5a27; /* Earthy Green */
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+.subtitle {
+    color: #666;
+    font-style: italic;
+}
+
+/* The Profile Card */
+.details-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-top: 5px solid #2d5a27;
+}
+
+    .details-card h4 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+/* Label styling */
+.label-text {
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+
+/* Value styling */
+.value-text {
+    color: #222;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+/* Custom badge for Farming Method */
+.badge-method {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Styling for the long bio text */
+.bio-box {
+    line-height: 1.6;
+    background: #fdfdfd;
+    padding: 10px;
+    border-left: 3px solid #ddd;
+}
+
+/* Button Grouping */
+.action-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Edit Button */
+.btn-edit {
+    background-color: #2d5a27;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+    .btn-edit:hover {
+        background-color: #1e3d1a;
+        color: white;
+    }
+
+/* Back Button */
+.btn-back {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+    .btn-back:hover {
+        opacity: 0.8;
+        color: white;
+    }

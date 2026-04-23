@@ -3,109 +3,182 @@
     ViewData["Title"] = "Your Basket";
 }
 
-<h1>Your Basket</h1>
+<link rel="stylesheet" href="~/css/basketP.css" />
 
-@if (!Model.Any())
-{
-    <div>
-        <h3>Your basket is empty</h3>
-        <p>Looks like you haven't added any products yet.</p>
+<div class="basket-page-container">
+    <h1 class="basket-title">Your Shopping Basket</h1>
 
-    </div>
-}
-else
-{
-    <div>
-        <div>
-            @foreach (var item in Model)
-            {
-                <div data-item style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+    @if (!Model.Any())
+    {
+        <div class="empty-basket-state">
+            <div class="empty-icon">🛒</div>
+            <h3>Your basket is empty</h3>
+            <p>Looks like you haven't added any fresh produce yet.</p>
+            <a asp-controller="Products" asp-action="Index" class="btn-primary-organic">Start Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="basket-layout">
+            <div class="basket-items-list">
+                @foreach (var item in Model)
+                {
+                    <div data-item class="basket-card">
+                        <div class="basket-card-main">
+                            <img src="@item.Products.ImagePath" alt="@item.Products.ProductName" class="basket-item-img" />
 
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="@item.Products.ImagePath" alt="@item.Products.ProductName"
-                             style="width:70px; height:70px; object-fit:cover; border-radius:6px;" />
-                        <div>
-                            <h4>@item.Products.ProductName</h4>
-                            <p>Price: £@item.Products.ProductPrice.ToString("0.00")</p>
+                            <div class="basket-item-details">
+                                <h4 class="item-name">@item.Products.ProductName</h4>
+                                <p class="item-unit-price">£@item.Products.ProductPrice.ToString("0.00") per unit</p>
+
+                                <div class="item-qty-row">
+                                    <span class="qty-label">Quantity:</span>
+
+                                    <form class="qty-form" asp-controller="BasketProducts" asp-action="UpdateQuantity" method="post">
+                                        <input type="hidden" name="id" value="@item.BasketProductsId" />
+                                        <input type="hidden" name="direction" value="decrease" />
+                                        <button type="submit" class="qty-btn qty-decrease">−</button>
+                                    </form>
+
+                                    <span class="qty-value" data-qty-id="@item.BasketProductsId">@item.ProductQuantity</span>
+
+                                    <form class="qty-form" asp-controller="BasketProducts" asp-action="UpdateQuantity" method="post">
+                                        <input type="hidden" name="id" value="@item.BasketProductsId" />
+                                        <input type="hidden" name="direction" value="increase" />
+                                        <button type="submit" class="qty-btn qty-increase">+</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="basket-item-pricing">
+                                <span class="item-total-price" data-price="@item.Products.ProductPrice" data-qty-ref="@item.BasketProductsId">
+                                    £@((item.Products.ProductPrice * item.ProductQuantity).ToString("0.00"))
+                                </span>
+                                <form asp-controller="BasketProducts" asp-action="DeleteAjax" method="post">
+                                    <input type="hidden" name="id" value="@item.BasketProductsId" />
+                                    <button type="submit" class="remove-item-link remove-item-btn">Remove</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
+                }
+            </div>
 
-                    <div>
-                        <p>Qty: @item.ProductQuantity</p>
+            <div class="basket-summary-wrapper">
+                <div class="summary-card">
+                    <h3 class="summary-title">Order Summary</h3>
+
+                    <div class="summary-line">
+                        <span>Subtotal</span>
+                        <span id="subtotal">£@(((decimal)ViewBag.Subtotal).ToString("0.00"))</span>
                     </div>
 
-                    <div>
-                        <p>
-                            Total: £@((item.Products.ProductPrice * item.ProductQuantity).ToString("0.00"))
-                        </p>
+                    <div class="summary-line discount">
+                        <span>Loyalty Discount (@ViewBag.Tier)</span>
+                        <span id="discount">-£@(((decimal)ViewBag.DiscountAmount).ToString("0.00"))</span>
                     </div>
 
-                    <form asp-controller="BasketProducts" asp-action="DeleteAjax" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.BasketProductsId" />
-                        <button type="submit" class="btn btn-danger btn-sm remove-item-btn">Remove</button>
-                    </form>
+                    <hr class="summary-divider" />
 
+                    <div class="summary-line total">
+                        <strong>Total</strong>
+                        <strong id="total">£@(((decimal)ViewBag.Total).ToString("0.00"))</strong>
+                    </div>
+
+                    <div class="summary-actions">
+                        <a asp-controller="Orders"
+                           asp-action="Create"
+                           asp-route-basketId="@ViewBag.BasketId"
+                           class="btn-checkout">
+                            Proceed to Checkout
+                        </a>
+                        <a asp-controller="Products" asp-action="Index" class="btn-continue">
+                            ← Continue Shopping
+                        </a>
+                    </div>
                 </div>
-            }
+            </div>
         </div>
-    </div>
-
-        <div style="border:1px solid #000; padding:15px; margin-top:20px;">
-            <h3>Order Summary</h3>
-            <div style="display:flex; justify-content:space-between;">
-                <span>Subtotal:</span>
-                <span id="subtotal">£@(((decimal)ViewBag.Subtotal).ToString("0.00"))</span>
-            </div>
-            <div style="display:flex; justify-content:space-between;">
-                <span>Loyalty Discount (@ViewBag.Tier):</span>
-                <span id="discount">-£@(((decimal)ViewBag.DiscountAmount).ToString("0.00"))</span>
-            </div>
-            <hr />
-            <div style="display:flex; justify-content:space-between;">
-                <strong>Total:</strong>
-                <strong id="total">£@(((decimal)ViewBag.Total).ToString("0.00"))</strong>
-            </div>
-            <a asp-controller="Products" asp-action="Index">
-                Continue Shopping
-            </a>
-            <a asp-controller="Orders"
-               asp-action="Create"
-               asp-route-basketId="@ViewBag.BasketId"
-               class="btn btn-primary w-100 mb-2">
-                Proceed to Checkout
-            </a>
-        </div>
-
-
-
-}
+    }
+</div>
 
 @section Scripts {
     <script>
+        // Handle both Remove and quantity +/- buttons via AJAX
         document.addEventListener('click', async function (e) {
-            const btn = e.target.closest('.remove-item-btn');
-            if (!btn) return;
 
-            e.preventDefault();
-            const form = btn.closest('form');
-            const id = form.querySelector('input[name="id"]').value;
-            const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+            // --- Remove button ---
+            const removeBtn = e.target.closest('.remove-item-btn');
+            if (removeBtn) {
+                e.preventDefault();
+                const form = removeBtn.closest('form');
+                const id = form.querySelector('input[name="id"]').value;
+                const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
 
-            const response = await fetch('/BasketProducts/DeleteAjax', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: `id=${id}&__RequestVerificationToken=${encodeURIComponent(token)}`
-            });
+                const response = await fetch('/BasketProducts/DeleteAjax', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `id=${id}&__RequestVerificationToken=${encodeURIComponent(token)}`
+                });
 
-            if (response.ok) {
-                btn.closest('[data-item]').remove();
-                await refreshTotals();
+                if (response.ok) {
+                    removeBtn.closest('[data-item]').remove(); // Remove the whole card from the page
+                    await refreshTotals();
+                }
+                return;
+            }
+
+            // --- Quantity +/- buttons ---
+            const qtyBtn = e.target.closest('.qty-btn');
+            if (qtyBtn) {
+                e.preventDefault();
+                const form = qtyBtn.closest('form');
+                const id = form.querySelector('input[name="id"]').value;
+                const direction = form.querySelector('input[name="direction"]').value;
+                const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                const response = await fetch('/BasketProducts/UpdateQuantity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `id=${id}&direction=${direction}&__RequestVerificationToken=${encodeURIComponent(token)}`
+                });
+
+                if (response.ok) {
+                    const qtyDisplay = document.querySelector(`[data-qty-id="${id}"]`); // Find the quantity number on screen
+                    let currentQty = parseInt(qtyDisplay.textContent);
+
+                    if (direction === 'increase') {
+                        qtyDisplay.textContent = currentQty + 1; // Update display immediately
+                        updateItemTotal(id, currentQty + 1);
+                    } else {
+                        currentQty--;
+                        if (currentQty <= 0) {
+                            qtyBtn.closest('[data-item]').remove(); // Remove the card if it hits zero
+                        } else {
+                            qtyDisplay.textContent = currentQty;
+                            updateItemTotal(id, currentQty);
+                        }
+                    }
+
+                    await refreshTotals();
+                }
             }
         });
 
+        // Updates the per-item total price displayed on the right side of each card
+        function updateItemTotal(id, newQty) {
+            const priceEl = document.querySelector(`[data-qty-ref="${id}"]`);
+            const unitPrice = parseFloat(priceEl.getAttribute('data-price'));
+            priceEl.textContent = '£' + (unitPrice * newQty).toFixed(2);
+        }
+
+        // Refreshes the Order Summary totals via the existing endpoint
         async function refreshTotals() {
             const response = await fetch('/Baskets/GetTotals');
             const data = await response.json();

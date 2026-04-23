@@ -1,0 +1,171 @@
+﻿.orders-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.orders-header {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+    .orders-header h1 {
+        font-weight: 800;
+        color: #2c2c1e;
+        margin: 0;
+    }
+
+.subtitle {
+    color: #888;
+    margin-top: 5px;
+}
+
+/* ─────────────────────────────
+    ORDER CARD
+───────────────────────────── */
+.order-card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+    .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+.order-card-header {
+    background: #fdfdfb;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.id-group .label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+.id-group .value {
+    font-weight: 700;
+    color: #2c2c1e;
+}
+
+/* ─────────────────────────────
+    STATUS BADGES
+───────────────────────────── */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+    /* Logic for different statuses (Assumes your status strings) */
+    .status-badge.pending {
+        background: #fff4e5;
+        color: #d9a15a;
+    }
+
+    .status-badge.shipped, .status-badge.delivered {
+        background: #eef7ed;
+        color: #6c7a4d;
+    }
+
+    .status-badge.processing {
+        background: #e5f1ff;
+        color: #007bff;
+    }
+
+    .status-badge.cancelled {
+        background: #ffe5e5;
+        color: #e63946;
+    }
+
+/* ─────────────────────────────
+    CARD BODY
+───────────────────────────── */
+.order-card-body {
+    padding: 25px;
+}
+
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: #444;
+}
+
+    .info-value.price {
+        color: #6c7a4d;
+        font-size: 1.1rem;
+    }
+
+.order-items-preview {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.items-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.item-tag {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* ─────────────────────────────
+    CARD FOOTER
+───────────────────────────── */
+.order-card-footer {
+    padding: 15px 25px;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    text-align: right;
+}
+
+.btn-details {
+    color: #6c7a4d;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+    .btn-details:hover {
+        color: #2c2c1e;
+        text-decoration: underline;
+    }

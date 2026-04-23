@@ -4,98 +4,132 @@
     ViewData["Title"] = "Farmer Dashboard";
 }
 
-<h1>Farmer Dashboard</h1>
+<link rel="stylesheet" href="~/css/farmerdashboard.css" />
 
-<p>
-    <strong>Total Products:</strong> @ViewBag.TotalProducts
-</p>
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <h1>Farmer Dashboard</h1>
+        <p class="subtitle">Overview of your farm's performance and inventory.</p>
+    </div>
 
-<p>
-    <strong>Low Stock Products:</strong> @ViewBag.LowStockCount
-</p>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-icon">📦</span>
+            <div class="stat-info">
+                <span class="stat-label">Total Products</span>
+                <span class="stat-value">@ViewBag.TotalProducts</span>
+            </div>
+        </div>
 
-<p>
-    <strong>Total Stock Units:</strong> @ViewBag.TotalStock
-</p>
+        <div class="stat-card warning">
+            <span class="stat-icon">⚠️</span>
+            <div class="stat-info">
+                <span class="stat-label">Low Stock</span>
+                <span class="stat-value">@ViewBag.LowStockCount</span>
+            </div>
+        </div>
 
-@if (!Model.Any())
-{
-    <p>You do not have any products yet.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Take(5))
+        <div class="stat-card success">
+            <span class="stat-icon">🚜</span>
+            <div class="stat-info">
+                <span class="stat-label">Total Stock Units</span>
+                <span class="stat-value">@ViewBag.TotalStock</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-main-grid">
+        <div class="dashboard-section card">
+            <div class="section-header">
+                <h2>Product Inventory</h2>
+                <a asp-controller="Products" asp-action="Index" class="btn-view-all">View All</a>
+            </div>
+
+            @if (!Model.Any())
             {
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.ProductPrice.ToString("0.00")</td>
-                    <td>@item.StockQuantity</td>
-                </tr>
+                <div class="empty-state">You do not have any products yet.</div>
             }
-        </tbody>
-    </table>
-    <p>
-        <a asp-controller="Products" asp-action="Index">View All Your Products</a>
-    </p>
-}
-
-<h2>Recent Orders</h2>
-
-@if (ViewBag.RecentOrders == null ||
-   ((List<GreenFieldLocalHub.Models.Orders>)ViewBag.RecentOrders).Count == 0)
-{
-    <p>No recent orders found.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Customer</th>
-                <th>Products Ordered</th>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in ((List<GreenFieldLocalHub.Models.Orders>)ViewBag.RecentOrders).Take(5))
+            else
             {
-                <tr>
-                    <td>
-                        @{
-                            var emailDict = (Dictionary<string, string>)ViewBag.UserEmails;
-                            var userEmail = emailDict != null && emailDict.ContainsKey(order.UserId) ? emailDict[order.UserId] : "Unknown";
-                        }
-                        @userEmail
-                    </td>
-                    <td>
-                        @foreach (var op in order.OrderProducts)
-                        {
-                            <div>@op.Products.ProductName x @op.ProductsQuantity</div>
-                        }
-                    </td>
-                    <td>@order.OrderDate</td>
-                    <td>@order.OrderTrackingStatus</td>
-                    <td>£@order.TotalAmount.ToString("0.00")</td>
-                </tr>
+                <div class="table-responsive">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Take(5))
+                            {
+                                <tr>
+                                    <td class="font-bold">@item.ProductName</td>
+                                    <td>£@item.ProductPrice.ToString("F2")</td>
+                                    <td>
+                                        <span class="stock-indicator @(item.StockQuantity < 5 ? "low" : "")">
+                                            @item.StockQuantity
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
-        </tbody>
-    </table>
-    <p>
-        <a asp-controller="Orders" asp-action="Index">View All Your Orders</a>
-    </p>
+        </div>
 
+        <div class="dashboard-section card">
+            <div class="section-header">
+                <h2>Recent Orders</h2>
+                <a asp-controller="Orders" asp-action="Index" class="btn-view-all">View All</a>
+            </div>
 
-}
-
+            @if (ViewBag.RecentOrders == null || ((List<GreenFieldLocalHub.Models.Orders>)ViewBag.RecentOrders).Count == 0)
+            {
+                <div class="empty-state">No recent orders found.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Order</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in ((List<GreenFieldLocalHub.Models.Orders>)ViewBag.RecentOrders).Take(5))
+                            {
+                                <tr>
+                                    <td class="email-cell">
+                                        @{
+                                            var emailDict = (Dictionary<string, string>)ViewBag.UserEmails;
+                                            var userEmail = emailDict != null && emailDict.ContainsKey(order.UserId) ? emailDict[order.UserId] : "Unknown";
+                                        }
+                                        @userEmail
+                                    </td>
+                                    <td class="items-cell">
+                                        @foreach (var op in order.OrderProducts)
+                                        {
+                                            <span>@op.Products.ProductName (@op.ProductsQuantity)</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="status-pill @order.OrderTrackingStatus.ToString().ToLower()">
+                                            @order.OrderTrackingStatus
+                                        </span>
+                                    </td>
+                                    <td class="font-bold">£@order.TotalAmount.ToString("F2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

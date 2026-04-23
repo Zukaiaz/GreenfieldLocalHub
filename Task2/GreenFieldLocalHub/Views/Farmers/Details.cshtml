@@ -1,48 +1,68 @@
 ﻿@model GreenFieldLocalHub.Models.Farmers
+@using System.Security.Claims @* Import for checking User ID claims *@
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Farmer Details";
 }
 
-<h1>Details</h1>
+@* Link to the custom CSS file provided below *@
+<link rel="stylesheet" href="~/css/farmersD.css" />
 
-<div>
-    <h4>Farmers</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FarmerName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FarmerName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FarmerEmail)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FarmerEmail)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FarmingMethod)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FarmingMethod)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FarmerInfo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FarmerInfo)
-        </dd>
-    </dl>
-</div>
+<div class="details-container">
+    <div class="details-header">
+        <h1>Farmer Profile</h1>
+        <p class="subtitle">Detailed information about our local producer</p>
+    </div>
 
-    @using System.Security.Claims
+    <div class="details-card">
+        <h4>@Html.DisplayFor(model => model.FarmerName)</h4>
+        <hr />
 
-    <div>
+        <dl class="row">
+            @* Farmer Name Label and Value *@
+            <dt class="col-sm-3 label-text">
+                @Html.DisplayNameFor(model => model.FarmerName)
+            </dt>
+            <dd class="col-sm-9 value-text">
+                @Html.DisplayFor(model => model.FarmerName)
+            </dd>
+
+            @* Farmer Email Label and Value *@
+            <dt class="col-sm-3 label-text">
+                @Html.DisplayNameFor(model => model.FarmerEmail)
+            </dt>
+            <dd class="col-sm-9 value-text">
+                @Html.DisplayFor(model => model.FarmerEmail)
+            </dd>
+
+            @* Farming Method Label and Value *@
+            <dt class="col-sm-3 label-text">
+                @Html.DisplayNameFor(model => model.FarmingMethod)
+            </dt>
+            <dd class="col-sm-9 value-text">
+                <span class="badge-method">@Html.DisplayFor(model => model.FarmingMethod)</span>
+            </dd>
+
+            @* Farmer Info/Biography Label and Value *@
+            <dt class="col-sm-3 label-text">
+                @Html.DisplayNameFor(model => model.FarmerInfo)
+            </dt>
+            <dd class="col-sm-9 value-text bio-box">
+                @Html.DisplayFor(model => model.FarmerInfo)
+            </dd>
+        </dl>
+    </div>
+
+    <div class="action-buttons">
+        @* AUTHORIZATION CHECK:
+           Compares the logged-in User's ID with the Farmer's UserId.
+           The 'Edit' button only renders if they match.
+        *@
         @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model?.UserId)
         {
-        <a asp-action="Edit" asp-route-id="@Model?.FarmersId">Edit</a>
-                }
-        <a asp-action="Index">Back to List</a>
+            <a asp-action="Edit" asp-route-id="@Model?.FarmersId" class="btn-edit">Edit Profile</a>
+        }
+
+        <a asp-action="Index" class="btn-back">Back to List</a>
     </div>
+</div>

@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<GreenFieldLocalHub.Models.BasketProducts>
 
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var token = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+}
+
 @if (!Model.Any())
 {
     <p>Your basket is empty.</p>
@@ -9,39 +14,52 @@ else
     <ul class="list-unstyled">
         @foreach (var item in Model)
         {
-            <div class="d-flex align-items-center mb-3 border-bottom pb-2">
+            <div class="sidebar-item d-flex align-items-center mb-3 border-bottom pb-2" data-sidebar-item="@item.BasketProductsId">
                 <img src="@item.Products.ImagePath" alt="@item.Products.ProductName"
                      style="width:50px; height:50px; object-fit:cover; border-radius:6px;" class="me-2" />
                 <div class="flex-grow-1">
                     <strong>@item.Products.ProductName</strong><br />
-                    <small>Qty: @item.ProductQuantity</small>
+                    <div class="d-flex align-items-center gap-2 mt-1">
+                        <button class="sidebar-qty-btn sidebar-decrease"
+                                data-id="@item.BasketProductsId"
+                                data-token="@token"
+                                style="width:24px;height:24px;border-radius:50%;border:1px solid #ccc;background:#fff;cursor:pointer;font-size:14px;line-height:1;">
+                            −
+                        </button>
+                        <span class="sidebar-qty-value" data-id="@item.BasketProductsId">@item.ProductQuantity</span>
+                        <button class="sidebar-qty-btn sidebar-increase"
+                                data-id="@item.BasketProductsId"
+                                data-token="@token"
+                                style="width:24px;height:24px;border-radius:50%;border:1px solid #ccc;background:#fff;cursor:pointer;font-size:14px;line-height:1;">
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div class="text-end">
-                    £@((item.Products.ProductPrice * item.ProductQuantity).ToString("F2"))
+                    <span class="sidebar-item-total"
+                          data-id="@item.BasketProductsId"
+                          data-price="@item.Products.ProductPrice">
+                        £@((item.Products.ProductPrice * item.ProductQuantity).ToString("F2"))
+                    </span>
                 </div>
             </div>
         }
     </ul>
-
     <hr />
-
     <div class="d-flex justify-content-between">
         <span>Subtotal:</span>
-        <span>£@ViewBag.Subtotal.ToString("F2")</span>
+        <span id="sidebar-subtotal">£@ViewBag.Subtotal.ToString("F2")</span>
     </div>
-
     @if (ViewBag.Tier != "None")
     {
         <div class="d-flex justify-content-between text-success">
             <span>@ViewBag.Tier discount:</span>
-            <span>-£@ViewBag.DiscountAmount.ToString("F2")</span>
+            <span id="sidebar-discount">-£@ViewBag.DiscountAmount.ToString("F2")</span>
         </div>
     }
-
     <div class="d-flex justify-content-between fw-bold mt-1">
         <span>Total:</span>
-        <span>£@ViewBag.Total.ToString("F2")</span>
+        <span id="sidebar-total">£@ViewBag.Total.ToString("F2")</span>
     </div>
-
     <a href="/Baskets" class="btn btn-success w-100 mt-3">Go to Basket</a>
 }

@@ -4,108 +4,116 @@
     ViewData["Title"] = "Checkout";
 }
 
-<h1>Checkout</h1>
+<link rel="stylesheet" href="~/css/ordersC.css" />
 
-<p>Choose how you would like to recieve your order.</p>
+<div class="checkout-container">
+    <div class="checkout-card">
+        <h1 class="checkout-title">Checkout</h1>
+        <p class="checkout-subtitle">How would you like to receive your fresh produce?</p>
 
-<form asp-action="Create" method="post">
+        <form asp-action="Create" method="post" class="checkout-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="basketId" value="@ViewBag.BasketId" />
 
-    <div asp-validation-summary="ModelOnly" style="color:red;"></div>
+            <div class="method-grid">
+                <label class="method-tile" id="deliveryTile">
+                    <input asp-for="Delivery" type="checkbox" id="deliveryCheck" />
+                    <div class="tile-content">
+                        <span class="tile-icon">🚚</span>
+                        <span class="tile-text">Delivery</span>
+                    </div>
+                </label>
 
-    <input type="hidden" name="basketId" value="@ViewBag.BasketId" />
+                <label class="method-tile" id="collectionTile">
+                    <input asp-for="Collection" type="checkbox" id="collectionCheck" />
+                    <div class="tile-content">
+                        <span class="tile-icon">🧺</span>
+                        <span class="tile-text">Collection</span>
+                    </div>
+                </label>
+            </div>
 
-    <div style="margin-bottom:20px;">
-        <label style="font-weight:bold; display:block; margin-bottom:10px;">Order Method</label>
+            <div class="conditional-fields">
+                <div id="deliveryTypeGroup" class="form-group slide-in">
+                    <label asp-for="DeliveryType" class="field-label">Delivery Speed</label>
+                    <select asp-for="DeliveryType" class="styled-select">
+                        <option value="">Select a speed...</option>
+                        <option value="Next Day">Next Day (Fastest)</option>
+                        <option value="First Class">First Class</option>
+                        <option value="Standard">Standard</option>
+                    </select>
+                    <span asp-validation-for="DeliveryType" class="text-danger"></span>
+                </div>
 
-        <div>
-            <input asp-for="Delivery" id="deliveryCheck" />
-            <label asp-for="Delivery">Delivery</label>
-        </div>
+                <div id="collectionDateGroup" class="form-group slide-in">
+                    <label asp-for="CollectionDate" class="field-label">Choose Collection Date</label>
+                    <input asp-for="CollectionDate" type="date" id="CollectionDate" class="styled-input" />
+                    <small class="hint-text">Note: Minimum 2 days prep time required.</small>
+                    <span asp-validation-for="CollectionDate" class="text-danger"></span>
+                </div>
+            </div>
 
-        <div>
-            <input asp-for="Collection" id="collectionCheck" />
-            <label asp-for="Collection">Collection</label>
-        </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-place-order">Place Order</button>
+                <a asp-controller="Baskets" asp-action="Index" class="link-back">
+                    ← Back to Basket
+                </a>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div id="deliveryTypeGroup" style="display:none; margin-bottom:15px;">
-        <label asp-for="DeliveryType"></label>
-        <select asp-for="DeliveryType">
-            <option value="">Select Delivery Type</option>
-            <option value="Next Day">Next Day</option>
-            <option value="First Class">First Class</option>
-            <option value="Standard">Standard</option>
-        </select>
-        <br />
-        <span asp-validation-for="DeliveryType" style="color:red;"></span>
-    </div>
-
-    <div id="collectionDateGroup" style="display:none; margin-bottom:20px;">
-        <label asp-for="CollectionDate"></label>
-        <input asp-for="CollectionDate" type="date" id="CollectionDate" />
-        <div>Earliest collection date is 2 days from today.</div>
-        <span asp-validation-for="CollectionDate" style="color:red;"></span>
-    </div>
-
-    <div>
-        <button type="submit">Place Order</button>
-    </div>
-
-    <div style="margin-top:10px;">
-        <a asp-controller="Baskets" asp-action="Index">
-            Back to Basket
-        </a>
-    </div>
-
-</form>
-
+@* Script remains functional but updated to handle Tile styling *@
 <script>
-    const collectionDateInput = document.getElementById("CollectionDate");
-
-    const today = new Date();
-    today.setDate(today.getDate() + 2);
-    const minDate = today.toISOString().split("T")[0];
-
-    if (collectionDateInput) {
-        collectionDateInput.min = minDate;
-    }
-
     const deliveryCheck = document.getElementById("deliveryCheck");
     const collectionCheck = document.getElementById("collectionCheck");
-
     const deliveryTypeGroup = document.getElementById("deliveryTypeGroup");
     const collectionDateGroup = document.getElementById("collectionDateGroup");
+    const deliveryTile = document.getElementById("deliveryTile");
+    const collectionTile = document.getElementById("collectionTile");
 
-    function updateForm() {
+    // Set Min Date for Collection
+    const today = new Date();
+    today.setDate(today.getDate() + 2);
+    const collectionInput = document.getElementById("CollectionDate");
+    if (collectionInput) {
+        collectionInput.min = today.toISOString().split("T")[0];
+    }
 
-        deliveryTypeGroup.style.display = "none";
-        collectionDateGroup.style.display = "none";
-
-        deliveryCheck.disabled = false;
-        collectionCheck.disabled = false;
-
-        if (deliveryCheck.checked) {
-
-            deliveryTypeGroup.style.display = "block";
-            collectionCheck.disabled = true;
-
+    function updateForm(e) {
+        // If we clicked Delivery and it's now checked, uncheck Collection
+        if (e.target === deliveryCheck && deliveryCheck.checked) {
+            collectionCheck.checked = false;
         }
-        else if (collectionCheck.checked) {
+        // If we clicked Collection and it's now checked, uncheck Delivery
+        if (e.target === collectionCheck && collectionCheck.checked) {
+            deliveryCheck.checked = false;
+        }
 
+        // --- Visual & Display Logic ---
+
+        // Handle Delivery Group
+        if (deliveryCheck.checked) {
+            deliveryTypeGroup.style.display = "block";
+            deliveryTile.classList.add("active");
+        } else {
+            deliveryTypeGroup.style.display = "none";
+            deliveryTile.classList.remove("active");
+        }
+
+        // Handle Collection Group
+        if (collectionCheck.checked) {
             collectionDateGroup.style.display = "block";
-            deliveryCheck.disabled = true;
-
+            collectionTile.classList.add("active");
+        } else {
+            collectionDateGroup.style.display = "none";
+            collectionTile.classList.remove("active");
         }
     }
 
     deliveryCheck.addEventListener("change", updateForm);
     collectionCheck.addEventListener("change", updateForm);
 
-    updateForm();
+    // Run once on load to set initial state
+    updateForm({ target: null });
 </script>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

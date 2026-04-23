@@ -1,236 +1,239 @@
 ﻿@model IEnumerable<GreenFieldLocalHub.Models.Products>
-
 @{
     ViewData["Title"] = "Shop";
-
 }
 
 <link rel="stylesheet" href="~/css/ProductsP.css" />
 
-@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
-<input type="hidden"
-       id="requestToken"
-       value="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+@if (User.IsInRole("Farmer"))
+{
+    <div class="shop-container">
 
-<button onclick="toggleBasket()"
-        id="basketToggleBtn"
-        class="basket-toggle">
-    ‹
-</button>
-
-<div class="shop-layout">
-
-    <!-- LEFT SIDE -->
-
-    <div class="shop-main">
-
-        <!-- FILTER BAR -->
-
-            <div class="right-filters">
-
-                <a asp-action="Index"
-                   asp-route-sort="priceAsc"
-                   class="sort-btn">
-                    Price ascending
-                </a>
-
-                <a asp-action="Index"
-                   asp-route-sort="priceDesc"
-                   class="sort-btn">
-                    Price descending
-                </a>
-
+        <div class="shop-header">
+            <div class="header-text">
+                <h1>Fresh Market</h1>
+                <p>Seasonal produce delivered from our fields to your door.</p>
             </div>
-
+            <a asp-controller="Products" asp-action="Create" class="btn-add-product">
+                + Add New Product
+            </a>
         </div>
 
-        <!-- PRODUCT GRID -->
-
         <div class="product-grid">
-
             @foreach (var item in Model)
             {
                 <div class="product-card">
-
-                    <img src="@item.ImagePath"
-                         class="product-image"
-                         alt="@item.ProductName" />
-
-                    <div class="product-info">
-
-                        <h6>
-                            @item.ProductName
-                        </h6>
-
-                        <p class="price">
-                            £@item.ProductPrice
-                        </p>
-
-                        @if (item.StockQuantity > 0)
+                    <div class="product-img-wrapper">
+                        <img src="@item.ImagePath" class="product-image" alt="@item.ProductName" />
+                        @if (item.StockQuantity < 5 && item.StockQuantity > 0)
                         {
-                            <button class="btn btn-success add-to-basket-btn"
-                                    data-product-id="@item.ProductsId">
-                                Add to Basket
-                            </button>
+                            <span class="stock-badge warning">Only @item.StockQuantity left</span>
                         }
-                        else
-                        {
-                            <button class="btn btn-secondary" disabled>
-                                Out of Stock
-                            </button>
-                        }
-
                     </div>
-
+                    <div class="product-content">
+                        <h3 class="product-name">@item.ProductName</h3>
+                        <div class="product-meta">
+                            <span class="price">£@item.ProductPrice.ToString("F2")</span>
+                        </div>
+                        <div class="card-action">
+                            @if (item.Farmers.UserId == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value)
+                            {
+                                <a asp-controller="Products" asp-action="Edit" asp-route-id="@item.ProductsId" class="btn-edit-product">
+                                    ✏ Edit Product
+                                </a>
+                            }
+                        </div>
+                    </div>
                 </div>
             }
+        </div>
+    </div>
+}
+else
+{
+    @inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+    <input type="hidden" id="requestToken" value="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
 
+    <button onclick="toggleBasket()" id="basketToggleBtn" class="basket-toggle">‹</button>
+
+    <div class="shop-container">
+
+        <div class="shop-header">
+            <div class="header-text">
+                <h1>Fresh Market</h1>
+                <p>Seasonal produce delivered from our fields to your door.</p>
+            </div>
         </div>
 
-        <!-- PAGINATION -->
-
-        <div class="pagination-bar">
-            <button class="page-btn">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
+        <div class="product-grid">
+            @foreach (var item in Model)
+            {
+                <div class="product-card">
+                    <div class="product-img-wrapper">
+                        <img src="@item.ImagePath" class="product-image" alt="@item.ProductName" />
+                        @if (item.StockQuantity < 5 && item.StockQuantity > 0)
+                        {
+                            <span class="stock-badge warning">Only @item.StockQuantity left</span>
+                        }
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">@item.ProductName</h3>
+                        <div class="product-meta">
+                            <span class="price">£@item.ProductPrice.ToString("F2")</span>
+                        </div>
+                        <div class="card-action">
+                            @if (item.StockQuantity > 0)
+                            {
+                                <button class="add-to-basket-btn" data-product-id="@item.ProductsId">
+                                    Add to Basket
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="out-of-stock-btn" disabled>Out of Stock</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
 
     </div>
 
-</div>
-
-<!-- BASKET SIDEBAR -->
-
-<div id="basketSidebar">
-
-    <h4>Your Basket</h4>
-
-    <div id="basketContent">
-        Loading...
+    <div id="basketSidebar">
+        <h4>Your Basket</h4>
+        <div id="basketContent">Loading...</div>
     </div>
 
-</div>
 
-<script>
+    <script>
 
-    let basketOpen = false;
+        let basketOpen = false;
 
-    async function toggleBasket() {
+        async function toggleBasket() {
+            const sidebar = document.getElementById('basketSidebar');
+            const btn = document.getElementById('basketToggleBtn');
 
-        const sidebar =
-            document.getElementById('basketSidebar');
+            basketOpen = !basketOpen;
 
-        const btn =
-            document.getElementById('basketToggleBtn');
-
-        basketOpen = !basketOpen;
-
-        if (basketOpen) {
-
-            sidebar.style.right = '0';
-
-            btn.style.right = '350px';
-
-            btn.innerHTML = '›';
-
-            await loadBasket();
-
-        }
-        else {
-
-            sidebar.style.right = '-350px';
-
-            btn.style.right = '0';
-
-            btn.innerHTML = '‹';
-
+            if (basketOpen) {
+                sidebar.style.right = '0';
+                btn.style.right = '350px';
+                btn.innerHTML = '›';
+                await loadBasket();
+            } else {
+                sidebar.style.right = '-350px';
+                btn.style.right = '0';
+                btn.innerHTML = '‹';
+            }
         }
 
-    }
+        async function loadBasket() {
+            const response = await fetch('/Products/SidebarPartial');
+            const html = await response.text();
+            document.getElementById('basketContent').innerHTML = html;
+        }
 
-    async function loadBasket() {
+        // Add to basket
+        document.addEventListener('click', async function (e) {
+            const btn = e.target.closest('.add-to-basket-btn');
+            if (!btn) return;
 
-        const response =
-            await fetch('/Products/SidebarPartial');
+            const productId = btn.dataset.productId;
+            const token = document.getElementById('requestToken').value;
 
-        const html =
-            await response.text();
+            btn.disabled = true;
+            btn.textContent = 'Adding...';
 
-        document.getElementById('basketContent')
-            .innerHTML = html;
-
-    }
-
-    document.addEventListener('click',
-    async function (e) {
-
-        const btn =
-            e.target.closest('.add-to-basket-btn');
-
-        if (!btn) return;
-
-        const productId =
-            btn.dataset.productId;
-
-        const token =
-            document.getElementById('requestToken').value;
-
-        btn.disabled = true;
-
-        btn.textContent = 'Adding...';
-
-        const response =
-            await fetch('/BasketProducts/Create', {
-
+            const response = await fetch('/BasketProducts/Create', {
                 method: 'POST',
-
                 headers: {
-
-                    'Content-Type':
-                    'application/x-www-form-urlencoded',
-
-                    'X-Requested-With':
-                    'XMLHttpRequest'
-
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-
-                body:
-                `ProductsId=${productId}&__RequestVerificationToken=${encodeURIComponent(token)}`
-
+                body: `ProductsId=${productId}&__RequestVerificationToken=${encodeURIComponent(token)}`
             });
 
-        if (response.ok) {
+            if (response.ok) {
+                btn.textContent = 'Added ✓';
 
-            btn.textContent = 'Added ✓';
+                if (!basketOpen) {
+                    basketOpen = true;
+                    const sidebar = document.getElementById('basketSidebar');
+                    const toggleBtn = document.getElementById('basketToggleBtn');
+                    sidebar.style.right = '0';
+                    toggleBtn.style.right = '350px';
+                    toggleBtn.innerHTML = '›';
+                }
 
-            btn.classList.replace(
-                'btn-success',
-                'btn-primary'
-            );
+                await loadBasket();
 
-            if (!basketOpen) {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.textContent = 'Add to Basket';
+                }, 1500);
+            }
+        });
 
-                basketOpen = true;
+        // Sidebar +/- quantity buttons
+        document.addEventListener('click', async function (e) {
+            const btn = e.target.closest('.sidebar-qty-btn');
+            if (!btn) return;
 
-                document
-                    .getElementById('basketSidebar')
-                    .style.right = '0';
+            const id = btn.dataset.id;
+            const token = btn.dataset.token;
+            const direction = btn.classList.contains('sidebar-increase') ? 'increase' : 'decrease';
 
+            const response = await fetch('/BasketProducts/UpdateQuantity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: `id=${id}&direction=${direction}&__RequestVerificationToken=${encodeURIComponent(token)}`
+            });
+
+            if (!response.ok) return;
+
+            const qtyEl = document.querySelector(`.sidebar-qty-value[data-id="${id}"]`);
+            const totalEl = document.querySelector(`.sidebar-item-total[data-id="${id}"]`);
+            const card = document.querySelector(`[data-sidebar-item="${id}"]`);
+
+            let qty = parseInt(qtyEl.textContent);
+
+            if (direction === 'increase') {
+                qty++;
+                qtyEl.textContent = qty;
+            } else {
+                qty--;
+                if (qty <= 0) {
+                    card.remove();
+                    await refreshSidebarTotals();
+                    return;
+                }
+                qtyEl.textContent = qty;
             }
 
-            await loadBasket();
+            const unitPrice = parseFloat(totalEl.dataset.price);
+            totalEl.textContent = '£' + (unitPrice * qty).toFixed(2);
 
-            setTimeout(() => {
+            await refreshSidebarTotals();
+        });
 
-                btn.disabled = false;
+        async function refreshSidebarTotals() {
+            const response = await fetch('/Baskets/GetTotals');
+            const data = await response.json();
 
-                btn.textContent =
-                    'Add to Basket';
+            const subtotalEl = document.getElementById('sidebar-subtotal');
+            const discountEl = document.getElementById('sidebar-discount');
+            const totalEl = document.getElementById('sidebar-total');
 
-            }, 1500);
-
+            if (subtotalEl) subtotalEl.textContent = '£' + data.subtotal;
+            if (discountEl) discountEl.textContent = '-£' + data.discountAmount;
+            if (totalEl) totalEl.textContent = '£' + data.total;
         }
+    </script>
+}
 
-    });
 
-</script>
+        

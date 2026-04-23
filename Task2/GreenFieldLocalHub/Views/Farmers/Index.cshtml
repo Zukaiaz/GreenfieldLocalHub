@@ -6,26 +6,29 @@
     ViewData["Title"] = "Farmers";
 }
 
-<h1 class="section-title">Our Farmers</h1>
+<div class="hero-parallax">
+    <div class="hero-overlay">
+        <h1 class="hero-title">Meet Our Farmers</h1>
+        <p class="hero-subtitle">Connecting you to the roots of your food.</p>
+    </div>
+</div>
 
-<div class="farmers-grid">
-    @foreach (var item in Model)
-    {
-        <a asp-action="Details" asp-route-id="@item.FarmersId" class="farmer-card">
-
-            <img src="@item.ImagePath" class="farmer-img" />
-
-            <div class="farmer-card-body">
-                <div class="farmer-name">@item.FarmerName</div>
-                <div class="farmer-method">@item.FarmingMethod</div>
-
-                <div class="farmer-info">
-                    @item.FarmerInfo
+<div class="container mt-5">
+    <div class="farmers-grid">
+        @foreach (var item in Model)
+        {
+            <a asp-action="Details" asp-route-id="@item.FarmersId" class="farmer-card">
+                <div class="farmer-img-container">
+                    <img src="@item.ImagePath" class="farmer-img" alt="@item.FarmerName" />
                 </div>
 
-                <div class="farmer-email">@item.FarmerEmail</div>
-            </div>
-
-        </a>
-    }
+                <div class="farmer-card-body">
+                    <div class="farmer-method">@item.FarmingMethod</div>
+                    <div class="farmer-name">@item.FarmerName</div>
+                    <div class="farmer-info">@item.FarmerInfo</div>
+                    <div class="farmer-email">@item.FarmerEmail</div>
+                </div>
+            </a>
+        }
+    </div>
 </div>

@@ -1,0 +1,185 @@
+﻿.details-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.details-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+    padding: 40px;
+}
+
+/* ─────────────────────────────
+    HEADER & STATUS
+───────────────────────────── */
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #f8f9f5;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+    .details-header h1 {
+        font-weight: 800;
+        color: #2c2c1e;
+        margin: 0;
+    }
+
+.order-date {
+    color: #999;
+    margin-top: 5px;
+}
+
+.status-section .label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 8px;
+}
+
+.status-select {
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 2px solid #6c7a4d;
+    color: #6c7a4d;
+    font-weight: 700;
+    background: #fdfdfb;
+    cursor: pointer;
+}
+
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background: #eee;
+}
+
+    /* Status Colors (Match your specific logic) */
+    .status-badge.pending {
+        background: #fff4e5;
+        color: #d9a15a;
+    }
+
+    .status-badge.delivered, .status-badge.collected {
+        background: #eef7ed;
+        color: #6c7a4d;
+    }
+
+/* ─────────────────────────────
+    INFO GRID
+───────────────────────────── */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.info-block h3 {
+    font-size: 1rem;
+    color: #6c7a4d;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.price-big {
+    font-size: 1.4rem;
+    color: #2c2c1e;
+    font-weight: 800;
+}
+
+.discount-text {
+    margin-top: 10px;
+    color: #28a745;
+    font-weight: 600;
+}
+
+.badge-discount {
+    background: #eef7ed;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* ─────────────────────────────
+    TABLE STYLING
+───────────────────────────── */
+.products-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .details-table th {
+        text-align: left;
+        padding: 12px;
+        background: #fdfdfb;
+        color: #aaa;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    .details-table td {
+        padding: 15px 12px;
+        border-bottom: 1px solid #f8f8f8;
+    }
+
+.product-name {
+    font-weight: 700;
+    color: #2c2c1e;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* ─────────────────────────────
+    FOOTER
+───────────────────────────── */
+.details-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.btn-back {
+    text-decoration: none;
+    color: #999;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+    .btn-back:hover {
+        color: #6c7a4d;
+    }
+
+@media (max-width: 600px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .details-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+}

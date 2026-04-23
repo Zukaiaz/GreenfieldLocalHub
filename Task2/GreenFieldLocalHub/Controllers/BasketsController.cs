@@ -1,271 +1,280 @@
-﻿using System; // Imports base system types
-using System.Collections.Generic; // Imports support for lists and collections
-using System.Linq; // Imports data querying tools (Sum, Where, etc.)
-using System.Threading.Tasks; // Imports support for async/await
-using Microsoft.AspNetCore.Mvc; // Imports MVC controller functionality
-using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for SelectLists and dropdowns
-using Microsoft.EntityFrameworkCore; // Imports the database engine (EF Core)
-using GreenFieldLocalHub.Data; // Imports your data context
-using GreenFieldLocalHub.Models; // Imports your Basket and Product models
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization; // Imports tools to check user identity
+﻿using System; // Provides fundamental classes like DateTime and base types
+using System.Collections.Generic; // Enables the use of generic collections like List<T>
+using System.Linq; // Provides LINQ methods like Sum(), Where(), and FirstOrDefault()
+using System.Threading.Tasks; // Supports asynchronous programming with Task and await
+using Microsoft.AspNetCore.Mvc; // Provides base Controller classes and IActionResult results
+using Microsoft.AspNetCore.Mvc.Rendering; // Used for rendering HTML helpers like SelectLists
+using Microsoft.EntityFrameworkCore; // Provides the Entity Framework Core ORM for DB queries
+using GreenFieldLocalHub.Data; // Imports the ApplicationDbContext for database access
+using GreenFieldLocalHub.Models; // Imports the data models (Basket, Products, etc.)
+using System.Security.Claims; // Provides tools to access user identity claims
+using Microsoft.AspNetCore.Authorization; // Provides the [Authorize] attribute for security
 
-namespace GreenFieldLocalHub.Controllers // Defines the container for this controller
-{ // Start of namespace
-    public class BasketsController : Controller // Defines the Baskets Controller class
-    { // Start of class
-        private readonly ApplicationDbContext _context; // Declares the database context variable
+namespace GreenFieldLocalHub.Controllers // Defines the namespace for the Baskets controller
+{ // Opens the namespace scope
+    public class BasketsController : Controller // Defines the controller for managing shopping baskets
+    { // Opens the class scope
+        private readonly ApplicationDbContext _context; // Private field to hold the database context instance
 
-        public BasketsController(ApplicationDbContext context) // Constructor to inject the database context
-        { // Start of constructor
-            _context = context; // Stores the database connection in the private variable
-        } // End of constructor
+        public BasketsController(ApplicationDbContext context) // Constructor that accepts the DB context via Dependency Injection
+        { // Opens constructor scope
+            _context = context; // Assigns the injected context to the local private variable
+        } // Closes constructor scope
 
         // GET: Baskets
-        [Authorize(Roles = "Standard,Admin,Developer")]
-        public async Task<IActionResult> Index() // Main method to display the user's shopping basket
-        { // Start of Index
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the ID of the logged-in user
+        [HttpGet] // Explicitly marks this as a GET request
+        [Authorize(Roles = "Standard,Admin,Developer")] // Allows access only to logged-in users with these roles
+        public async Task<IActionResult> Index() // Main action to load the "My Basket" page
+        { // Opens Index method scope
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Retrieves the unique ID of the currently logged-in user
 
-            if (userId == null) // Checks if the user is not logged in
-            { // Start if
-                return Unauthorized(); // Stops and returns a 401 error if not logged in
-            } // End if
+            if (userId == null) // Checks if the user's identity cannot be found
+            { // Opens null check scope
+                return Unauthorized(); // Returns a 401 Unauthorized status if the user isn't identified
+            } // Closes null check scope
 
-            var basket = await _context.Basket // Searches for the user's current basket
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status); // Finds an active (Status=true) basket for this user
+            var basket = await _context.Basket // Accesses the Basket table in the database
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status); // Finds the first record where Status is active (true) for this user
 
-            if (basket == null) // If no active basket is found in the database
-            { // Start if
-                { // Start scope
-                    basket = new Basket // Create a new basket object
-                    { // Start object assignment
-                        Status = true, // Sets the new basket as the active one
-                        UserId = userId, // Links the basket to the current user
-                        BasketCreatedAt = DateTime.UtcNow // Sets the creation timestamp
-                    }; // End object assignment
+            if (basket == null) // Logical check if the user doesn't have an active basket yet
+            { // Opens create-basket scope
+                { // Opens inner scope
+                    basket = new Basket // Instantiates a new Basket object
+                    { // Opens object initializer
+                        Status = true, // Sets the status to active so it appears as their current cart
+                        UserId = userId, // Assigns the basket to the logged-in user's ID
+                        BasketCreatedAt = DateTime.UtcNow // Sets the creation timestamp to the current UTC time
+                    }; // Closes object initializer
 
-                    _context.Basket.Add(basket); // Adds the new basket to the DB tracking
-                    await _context.SaveChangesAsync(); // Saves changes to generate a BasketId
-                } // End scope
-            } // End if
+                    _context.Basket.Add(basket); // Commands the context to track this new basket for insertion
+                    await _context.SaveChangesAsync(); // Executes the SQL INSERT command and generates the BasketId
+                } // Closes inner scope
+            } // Closes create-basket scope
 
-            var basketProducts = await _context.BasketProducts // Gets all products linked to this basket
-                .Where(x => x.BasketId == basket.BasketId) // Filters by the current basket ID
-                .Include(x => x.Basket) // Joins the Basket table info
-                .Include(x => x.Products) // Joins the Products table info (price, name)
-                .ToListAsync(); // Converts the results into a list
+            var basketProducts = await _context.BasketProducts // Accesses the linking table between Baskets and Products
+                .Where(x => x.BasketId == basket.BasketId) // Filters for rows belonging to the user's current basket
+                .Include(x => x.Basket) // Performs a SQL JOIN to get the related Basket record
+                .Include(x => x.Products) // Performs a SQL JOIN to get the related Product details (Price/Name)
+                .ToListAsync(); // Executes the query and returns the results as a list
 
-            decimal subtotal = 0m; // Initializes the subtotal variable at zero
+            decimal subtotal = 0m; // Declares a decimal variable to store the pre-discount total
 
-            foreach (var basketProduct in basketProducts) // Loops through each item in the basket
-            { // Start loop
-                var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Multiplies price by quantity
-                subtotal += productTotal; // Adds this product's total to the running subtotal
-            } // End loop
+            foreach (var basketProduct in basketProducts) // Iterates through every line item in the basket list
+            { // Opens calculation loop
+                var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Calculates cost for this specific item (Price x Qty)
+                subtotal += productTotal; // Adds the line item total to the overall running subtotal
+            } // Closes calculation loop
 
             // Get the users loyalty account
-            var loyaltyAccount = await _context.LoyaltyAccount // Looks for the user's loyalty details
-                .FirstOrDefaultAsync(x => x.UserId == userId); // Finds record matching the user's ID
+            var loyaltyAccount = await _context.LoyaltyAccount // Accesses the LoyaltyAccount table
+                .FirstOrDefaultAsync(x => x.UserId == userId); // Finds the loyalty record associated with this user
 
             // Work out discount based on their tier
-            decimal discountPercent = 0m; // Initializes discount percentage at 0%
+            decimal discountPercent = 0m; // Declares a decimal to hold the percentage (e.g., 0.10 for 10%)
 
-            if (loyaltyAccount != null) // If the user has a loyalty record
-            { // Start if
-                discountPercent = loyaltyAccount.Tier switch // Uses a switch expression to choose discount
-                { // Start switch
-                    "Bronze" => 0.05m,  // 5% off
-                    "Silver" => 0.10m,  // 10% off
-                    "Gold" => 0.15m,  // 15% off
-                    _ => 0m      // No discount for standard users
-                }; // End switch
-            } // End if
+            if (loyaltyAccount != null) // Checks if a loyalty record exists for this user
+            { // Opens loyalty check
+                discountPercent = loyaltyAccount.Tier switch // Uses C# switch expression to determine the discount rate
+                { // Opens switch cases
+                    "Bronze" => 0.05m,  // Assigns 5% discount for Bronze members
+                    "Silver" => 0.10m,  // Assigns 10% discount for Silver members
+                    "Gold" => 0.15m,    // Assigns 15% discount for Gold members
+                    _ => 0m      // Assigns 0% for any other value or null tier
+                }; // Closes switch cases
+            } // Closes loyalty check
 
-            decimal discountAmount = subtotal * discountPercent; // Calculates how much money is taken off
-            decimal total = subtotal - discountAmount; // Subtracts discount from subtotal for the final price
+            decimal discountAmount = subtotal * discountPercent; // Multiplies the subtotal by the percentage to get the cash savings
+            decimal total = subtotal - discountAmount; // Subtracts the savings from the subtotal to get the final bill
 
             // Pass values to the view
-            ViewBag.Subtotal = subtotal; // Stores subtotal in ViewBag for the HTML page
-            ViewBag.DiscountAmount = discountAmount; // Stores discount in ViewBag for the HTML page
-            ViewBag.Total = total; // Stores final total in ViewBag for the HTML page
-            ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Stores tier name or "None" if null
+            ViewBag.Subtotal = subtotal; // Transports the subtotal value to the Razor view via ViewBag
+            ViewBag.DiscountAmount = discountAmount; // Transports the saved amount value to the Razor view
+            ViewBag.Total = total; // Transports the final total value to the Razor view
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Transports the tier name (or "None") to display to the user
 
-            return View(basketProducts); // Sends the list of items to the Index View
-        } // End of Index
+            return View(basketProducts); // Renders the Index view using the list of basket products as the model
+        } // Closes Index method scope
 
         // GET: Baskets/Details/5
-        [Authorize(Roles = "Developer")]
-        public async Task<IActionResult> Details(int? id) // Method to show details for one specific basket
-        { // Start of Details
-            if (id == null) // Checks if ID is missing from URL
-            { // Start if
-                return NotFound(); // Returns 404 error
-            } // End if
+        [HttpGet] // Marks this as a GET request
+        [Authorize(Roles = "Developer")] // Restricts this administrative view to Developer accounts
+        public async Task<IActionResult> Details(int? id) // Loads the details for a specific basket ID
+        { // Opens Details scope
+            if (id == null) // Checks if the ID parameter was omitted from the URL
+            { // Opens null check
+                return NotFound(); // Returns a 404 status code
+            } // Closes null check
 
-            var basket = await _context.Basket // Looks for the basket in the database
-                .FirstOrDefaultAsync(m => m.BasketId == id); // Finds the record matching the ID
-            if (basket == null) // If no basket was found
-            { // Start if
-                return NotFound(); // Returns 404 error
-            } // End if
+            var basket = await _context.Basket // Accesses the Basket table
+                .FirstOrDefaultAsync(m => m.BasketId == id); // Finds the specific basket matching the provided ID
 
-            return View(basket); // Sends basket data to the View
-        } // End of Details
+            if (basket == null) // Checks if no basket was found with that ID
+            { // Opens null check
+                return NotFound(); // Returns a 404 status code
+            } // Closes null check
+
+            return View(basket); // Renders the Details view with the single basket record
+        } // Closes Details scope
 
         // GET: Baskets/Create
-        [Authorize(Roles = "Developer")]
-        public IActionResult Create() // Method to load the "Create Basket" form
-        { // Start of Create
-            return RedirectToAction(nameof(Index)); // Returns the blank view
-        } // End of Create
+        [HttpGet] // Marks this as a GET request
+        [Authorize(Roles = "Developer")] // Restricts this to Developers
+        public IActionResult Create() // Action to load the create form
+        { // Opens method
+            return RedirectToAction(nameof(Index)); // Instantly redirects to Index as baskets are handled automatically
+        } // Closes method
 
         // POST: Baskets/Create
-        [HttpPost] // Marks this as a POST request
-        [ValidateAntiForgeryToken] // Security check to prevent CSRF attacks
-        public async Task<IActionResult> Create([Bind("BasketId,Status,BasketCreatedAt,UserId")] Basket basket) // Method to save a new basket
-        { // Start of Create POST
-            if (ModelState.IsValid) // Checks if the data submitted is valid
-            { // Start if
-                _context.Add(basket); // Prepares the basket for addition
-                await _context.SaveChangesAsync(); // Saves to the database
-                return RedirectToAction(nameof(Index)); // Redirects back to the list
-            } // End if
+        [HttpPost] // Marks this as a POST request for data submission
+        [ValidateAntiForgeryToken] // Verifies the request contains a valid security token to prevent CSRF
+        public async Task<IActionResult> Create([Bind("BasketId,Status,BasketCreatedAt,UserId")] Basket basket) // Receives form data
+        { // Opens method
+            if (ModelState.IsValid) // Validates the submitted model against its data annotations
+            { // Opens validation check
+                _context.Add(basket); // Adds the new basket object to the DB context
+                await _context.SaveChangesAsync(); // Saves the new record to the database
+                return RedirectToAction(nameof(Index)); // Redirects to the index page on success
+            } // Closes validation check
 
-            return View(basket); // If invalid, returns the form with the current data
-        } // End of Create POST
+            return View(basket); // If validation fails, returns the same view with error messages
+        } // Closes method
 
-        [Authorize(Roles = "Developer")]
         // GET: Baskets/Edit/5
-        public async Task<IActionResult> Edit(int? id) // Method to load the edit form for a basket
-        { // Start of Edit
+        [HttpGet] // Marks this as a GET request
+        [Authorize(Roles = "Developer")] // Security restriction for Developers only
+        public async Task<IActionResult> Edit(int? id) // Loads the edit form for a basket
+        { // Opens method
             if (id == null) // Checks if ID is missing
-            { // Start if
+            { // Opens check
                 return NotFound(); // Returns 404
-            } // End if
+            } // Closes check
 
-            var basket = await _context.Basket.FindAsync(id); // Finds the basket by primary key
-            if (basket == null) // If basket doesn't exist
-            { // Start if
+            var basket = await _context.Basket.FindAsync(id); // Searches the database for a basket with the matching primary key
+
+            if (basket == null) // Checks if record was found
+            { // Opens check
                 return NotFound(); // Returns 404
-            } // End if
-            return View(basket); // Shows the edit form
-        } // End of Edit
+            } // Closes check
 
-        [Authorize(Roles = "Developer")]
+            return View(basket); // Renders the Edit view with the basket data
+        } // Closes method
 
         // POST: Baskets/Edit/5
         [HttpPost] // Marks this as a POST request
-        [ValidateAntiForgeryToken] // Security check
-        public async Task<IActionResult> Edit(int id, [Bind("BasketId,Status,BasketCreatedAt,UserId")] Basket basket) // Method to save changes to a basket
-        { // Start of Edit POST
-            if (id != basket.BasketId) // Security check to ensure IDs match
-            { // Start if
-                return NotFound(); // Returns 404 if mismatch
-            } // End if
+        [ValidateAntiForgeryToken] // Security token validation
+        [Authorize(Roles = "Developer")] // Restricts saving edits to Developers
+        public async Task<IActionResult> Edit(int id, [Bind("BasketId,Status,BasketCreatedAt,UserId")] Basket basket) // Handles the edit form submission
+        { // Opens method
+            if (id != basket.BasketId) // Security check to ensure the ID in URL matches the ID in the submitted form
+            { // Opens mismatch check
+                return NotFound(); // Returns 404 if there is a data mismatch
+            } // Closes mismatch check
 
-            if (ModelState.IsValid) // Checks if edited data is valid
-            { // Start if
-                try // Tries to update the database
-                { // Start try
-                    _context.Update(basket); // Marks the basket as modified
-                    await _context.SaveChangesAsync(); // Commits changes to the DB
-                } // End try
-                catch (DbUpdateConcurrencyException) // Handles errors if record was changed elsewhere
-                { // Start catch
-                    if (!BasketExists(basket.BasketId)) // Checks if the basket was actually deleted
-                    { // Start if
+            if (ModelState.IsValid) // Validates the edited data
+            { // Opens validation check
+                try // Begins a try block to catch database concurrency errors
+                { // Opens try
+                    _context.Update(basket); // Marks the basket record as modified in the context
+                    await _context.SaveChangesAsync(); // Commits the updates to the database
+                } // Closes try
+                catch (DbUpdateConcurrencyException) // Triggered if the record was modified by another user simultaneously
+                { // Opens catch
+                    if (!BasketExists(basket.BasketId)) // Helper check to see if the record was actually deleted
+                    { // Opens check
                         return NotFound(); // Returns 404
-                    } // End if
-                    else // If a different error occurred
-                    { // Start else
-                        throw; // Rethrows the error
-                    } // End else
-                } // End catch
-                return RedirectToAction(nameof(Index)); // Returns to list after success
-            } // End if
-            return View(basket); // Returns form if data is invalid
-        } // End of Edit POST
+                    } // Closes check
+                    else // If the record exists but a different DB error occurred
+                    { // Opens else
+                        throw; // Rethrows the error to be handled by the global error handler
+                    } // Closes else
+                } // Closes catch
+                return RedirectToAction(nameof(Index)); // Redirects back to the index on success
+            } // Closes validation check
 
-        [Authorize(Roles = "Developer")]
+            return View(basket); // Returns the view with errors if validation failed
+        } // Closes method
+
         // GET: Baskets/Delete/5
-        public async Task<IActionResult> Delete(int? id) // Method to show delete confirmation page
-        { // Start of Delete
-            if (id == null) // If ID is missing
-            { // Start if
+        [HttpGet] // Marks as a GET request
+        [Authorize(Roles = "Developer")] // Security restriction
+        public async Task<IActionResult> Delete(int? id) // Loads the delete confirmation page
+        { // Opens method
+            if (id == null) // Checks for missing ID
+            { // Opens check
                 return NotFound(); // Returns 404
-            } // End if
+            } // Closes check
 
-            var basket = await _context.Basket // Looks for the basket
-                .FirstOrDefaultAsync(m => m.BasketId == id); // Finds match by ID
-            if (basket == null) // If not found
-            { // Start if
+            var basket = await _context.Basket // Accesses table
+                .FirstOrDefaultAsync(m => m.BasketId == id); // Finds the specific basket
+
+            if (basket == null) // Checks if not found
+            { // Opens check
                 return NotFound(); // Returns 404
-            } // End if
+            } // Closes check
 
-            return View(basket); // Shows the confirmation view
-        } // End of Delete
+            return View(basket); // Renders confirmation view
+        } // Closes method
 
         // POST: Baskets/Delete/5
-        [HttpPost, ActionName("Delete")] // POST request mapped to the "Delete" action
+        [HttpPost, ActionName("Delete")] // Marks as POST and maps the "Delete" action name to this method
         [ValidateAntiForgeryToken] // Security check
-        public async Task<IActionResult> DeleteConfirmed(int id) // Final method to remove the basket
-        { // Start of DeleteConfirmed
-            var basket = await _context.Basket.FindAsync(id); // Finds the record
-            if (basket != null) // If it exists
-            { // Start if
-                _context.Basket.Remove(basket); // Marks it for deletion
-            } // End if
+        public async Task<IActionResult> DeleteConfirmed(int id) // Final deletion process
+        { // Opens method
+            var basket = await _context.Basket.FindAsync(id); // Retrieves the record one last time
+            if (basket != null) // Checks if record exists
+            { // Opens check
+                _context.Basket.Remove(basket); // Marks record for removal
+            } // Closes check
 
-            await _context.SaveChangesAsync(); // Saves the removal to the database
-            return RedirectToAction(nameof(Index)); // Returns to the list
-        } // End of DeleteConfirmed
+            await _context.SaveChangesAsync(); // Deletes record from the DB
+            return RedirectToAction(nameof(Index)); // Returns to list
+        } // Closes method
 
-        private bool BasketExists(int id) // Private helper tool to verify if an ID exists
-        { // Start helper
-            return _context.Basket.Any(e => e.BasketId == id); // Returns true if ID is in DB
-        } // End helper
+        private bool BasketExists(int id) // Helper method to verify record existence
+        { // Opens helper
+            return _context.Basket.Any(e => e.BasketId == id); // Returns true if any basket matches the ID
+        } // Closes helper
 
-        [HttpGet] // Marks this as a GET request for retrieving data
-        public async Task<IActionResult> GetTotals() // Method for AJAX calls to update totals instantly
-        { // Start GetTotals
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the current user's ID
-            if (userId == null) return Unauthorized(); // Stops if user is logged out
+        // GET: Baskets/GetTotals
+        [HttpGet] // GET request usually used by JavaScript (Fetch/AJAX)
+        public async Task<IActionResult> GetTotals() // Calculates basket totals for dynamic UI updates
+        { // Opens method
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Identifies the current user
+            if (userId == null) return Unauthorized(); // Rejection if not logged in
 
-            var basket = await _context.Basket // Looks for active basket
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status); // Finds record
+            var basket = await _context.Basket // Finds active basket
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status); // Locates active cart
 
-            if (basket == null) // If no basket exists
-                return Json(new { subtotal = "0.00", discountAmount = "0.00", total = "0.00" }); // Return zeroes as JSON
+            if (basket == null) // Rejection if no cart exists
+                return Json(new { subtotal = "0.00", discountAmount = "0.00", total = "0.00" }); // Returns zeroes in JSON format
 
-            var basketProducts = await _context.BasketProducts // Gets the products in the basket
-                .Where(x => x.BasketId == basket.BasketId) // Filters by basket
-                .Include(x => x.Products) // Includes product data for prices
+            var basketProducts = await _context.BasketProducts // Gets cart items
+                .Where(x => x.BasketId == basket.BasketId) // Filters by ID
+                .Include(x => x.Products) // Joins pricing info
                 .ToListAsync(); // Converts to list
 
-            decimal subtotal = basketProducts.Sum(x => x.Products.ProductPrice * x.ProductQuantity); // Calculates sum of all items
+            decimal subtotal = basketProducts.Sum(x => x.Products.ProductPrice * x.ProductQuantity); // LINQ method to sum up all line item costs
 
-            var loyaltyAccount = await _context.LoyaltyAccount // Gets loyalty info for calculation
-                .FirstOrDefaultAsync(x => x.UserId == userId); // Finds by user ID
+            var loyaltyAccount = await _context.LoyaltyAccount // Checks loyalty
+                .FirstOrDefaultAsync(x => x.UserId == userId); // Finds record
 
-            decimal discountPercent = loyaltyAccount?.Tier switch // Calculates percentage based on tier
-            { // Start switch
+            decimal discountPercent = loyaltyAccount?.Tier switch // Determines discount rate
+            { // Opens switch
                 "Bronze" => 0.05m, // 5%
                 "Silver" => 0.10m, // 10%
                 "Gold" => 0.15m, // 15%
                 _ => 0m // 0%
-            }; // End switch
+            }; // Closes switch
 
-            decimal discountAmount = subtotal * discountPercent; // Calculates cash discount value
-            decimal total = subtotal - discountAmount; // Calculates final total
+            decimal discountAmount = subtotal * discountPercent; // Calculates cash value of discount
+            decimal total = subtotal - discountAmount; // Calculates final payable amount
 
-            return Json(new // Returns a JSON object for the front-end JavaScript to read
-            { // Start object
-                subtotal = subtotal.ToString("0.00"), // Formats subtotal as string with 2 decimals
+            return Json(new // Returns a JSON object to the client for instant UI update
+            { // Opens JSON object
+                subtotal = subtotal.ToString("0.00"), // Formats number with 2 decimal places
                 discountAmount = discountAmount.ToString("0.00"), // Formats discount as string
                 total = total.ToString("0.00") // Formats total as string
-            }); // End object
-        } // End GetTotals
-
-    } // End of class
-} // End of namespace
+            }); // Closes JSON object
+        } // Closes method
+    } // Closes class scope
+} // Closes namespace scope

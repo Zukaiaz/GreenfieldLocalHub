@@ -1,42 +1,105 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Hedvig+Letters+Serif:opsz@12..24&display=swap');
 
-/* ── HERO ── */
+/* ── GLOBAL ANIMATION DEFINITIONS ── */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── HERO SECTION ── */
 .hero-section {
-    background-color: #DDA15E;
-    border-radius: 0;
-    padding: 3.5rem calc(2rem + ((100vw - 1200px) / 2));
+    position: relative;
+    width: 100vw;
+    height: 60vh;
+    min-height: 320px;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: -2.5rem;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: stretch;
+    background: #DDA15E;
+    overflow: hidden;
+}
+
+.hero-shape {
+    width: 42%;
+    background: #DDA15E;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    margin-bottom: 3rem;
-    margin-left: calc(-2rem - ((100vw - 1200px) / 2));
-    margin-right: calc(-2rem - ((100vw - 1200px) / 2));
-    margin-top: -2.5rem;
-    position: relative;
-    overflow: hidden;
-    min-height: 260px;
-    width: 100vw;
-}
-.hero-text {
+    justify-content: flex-end;
+    padding: 2rem;
     z-index: 2;
-    max-width: 380px;
+}
+
+.hero-text {
+    max-width: 400px;
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
     .hero-text h1 {
         font-family: 'Poppins', sans-serif;
         font-weight: 800;
-        font-size: 2.4rem;
+        font-size: 2.8rem;
         color: white;
-        line-height: 1.2;
-        margin-bottom: 0.75rem;
+        line-height: 1.1;
+        margin-bottom: 0.8rem;
     }
 
     .hero-text p {
         font-family: 'Hedvig Letters Serif', serif;
         font-size: 1rem;
-        color: rgba(255,255,255,0.88);
+        color: rgba(255,255,255,0.9);
         margin-bottom: 1.5rem;
+    }
+
+/* IMAGE WITH INITIAL ZOOM */
+.hero-image-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    clip-path: ellipse(80% 130% at 100% 50%);
+    margin-left: -80px;
+    animation: slideInRight 1.2s ease-out forwards;
+}
+
+    .hero-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        animation: slowZoom 10s linear infinite alternate;
     }
 
 .hero-btn {
@@ -47,538 +110,448 @@
     color: #DDA15E;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 0.9rem;
-    padding: 0.65rem 1.5rem;
-    border-radius: 30px;
+    font-size: 0.95rem;
+    padding: 0.7rem 1.8rem;
+    border-radius: 50px;
     text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
     .hero-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        color: #c4893f;
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        background-color: #fcfcfc;
     }
 
-.hero-image {
-    flex-shrink: 0;
-    width: 320px;
-    height: 220px;
-    border-radius: 16px;
-    object-fit: cover;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-
-.hero-image-placeholder {
-    flex-shrink: 0;
-    width: 320px;
-    height: 220px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.2);
-    border: 2px dashed rgba(255,255,255,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255,255,255,0.7);
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.85rem;
-}
 
 /* ── PERKS BAR ── */
 .perks-bar {
     display: flex;
     justify-content: center;
-    gap: 3.5rem;
-    margin-bottom: 3rem;
-    padding: 1.5rem 0;
+    gap: 6rem;
+    margin-bottom: 1.5rem; /* Reduced from 5rem to bring the next section up */
+    padding: 1rem 0;
 }
 
 .perk-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    text-align: center;
+    gap: 1rem; /* Space between icon and text */
+    animation: fadeUp 0.8s ease-out both;
 }
 
-.perk-icon {
-    width: 64px;
-    height: 64px;
+/* THE CIRCLE CONTAINER */
+.perk-icon-placeholder {
+    width: 100px; /* Increased from 60px */
+    height: 100px; /* Increased from 60px */
+    background: #f4f1e6;
+    border-radius: 50%; /* Changed to a perfect circle for a cleaner look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* THE ACTUAL IMAGE */
+.perk-img {
+    width: 55px; /* Adjust this based on your image detail */
+    height: 55px;
     object-fit: contain;
 }
 
-.perk-icon-placeholder {
-    width: 64px;
-    height: 64px;
-    background: #e8e4d4;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
-}
-
+/* THE TEXT */
 .perk-item span {
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 0.85rem;
+    font-weight: 700; /* Made bolder */
+    font-size: 1.1rem; /* Increased from 0.85rem */
     color: #2c2c1e;
+}
+
+/* HOVER EFFECT */
+.perk-item:hover .perk-icon-placeholder {
+    transform: scale(1.1) translateY(-5px);
+    background: #DDA15E; /* Turns the circle gold on hover */
+    box-shadow: 0 10px 20px rgba(221, 161, 94, 0.2);
+}
+
+/* Change icon color/brightness on hover if needed */
+.perk-item:hover .perk-img {
+    filter: brightness(0) invert(1); /* This turns dark icons white on hover */
+}
+
+/* ── STAGGERED ANIMATION DELAYS ── */
+.perk-item:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.perk-item:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.perk-item:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .perks-bar {
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .perk-icon-placeholder {
+        width: 80px;
+        height: 80px;
+    }
+
+    .perk-img {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 /* ── FEATURED PRODUCTS ── */
+.featured-products-section {
+    padding: 1rem 2rem 4rem 2rem; /* Reduced top padding (first value) from 4rem to 1rem */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .section-title {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     color: #2c2c1e;
-    margin-bottom: 1.25rem;
+    margin-bottom: 3rem; /* Increased space below title */
+    position: relative;
+    display: block; /* Changed to block for easier centering */
+    text-align: center; /* Centers the text */
 }
 
+    /* Updated underline to center itself under the text */
+    .section-title::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: #DDA15E;
+        margin: 12px auto 0; /* 'auto' on left/right centers the line */
+        border-radius: 2px;
+    }
+
+/* THE GRID */
 .featured-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 3rem;
+    gap: 1.5rem;
 }
 
+/* THE CARD */
 .featured-card {
     background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(140, 151, 104, 0.2);
-    box-shadow: 0 4px 16px rgba(140, 151, 104, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-    .featured-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 28px rgba(140, 151, 104, 0.18);
-        color: inherit;
-        text-decoration: none;
-    }
-
-.featured-card-img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    background: #e8e4d4;
-    display: block;
-}
-
-.featured-card-img-placeholder {
-    width: 100%;
-    height: 160px;
-    background: #e8e4d4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #aaa;
-    font-size: 0.8rem;
-    font-family: 'Poppins', sans-serif;
-}
-
-.featured-card-body {
-    padding: 0.85rem 1rem;
-}
-
-.featured-card-name {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 0.92rem;
-    color: #2c2c1e;
-    margin-bottom: 0.25rem;
-}
-
-.featured-card-price {
-    font-family: 'Hedvig Letters Serif', serif;
-    font-size: 0.88rem;
-    color: #8C9768;
-    font-weight: 600;
-}
-
-/* ── REVIEWS ── */
-.reviews-section {
-    background: #DDA15E;
     border-radius: 20px;
-    padding: 2.5rem 2rem;
-    margin-bottom: 3rem;
-}
-
-    .reviews-section .section-title {
-        color: white;
-        text-align: center;
-        font-size: 1.6rem;
-        margin-bottom: 1.5rem;
-    }
-
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-.review-card {
-    background: white;
-    border-radius: 14px;
-    padding: 1.1rem 1.25rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-}
-
-.review-stars {
-    color: #DDA15E;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    letter-spacing: 2px;
-}
-
-.review-title {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #2c2c1e;
-    margin-bottom: 0.3rem;
-}
-
-.review-body {
-    font-family: 'Hedvig Letters Serif', serif;
-    font-size: 0.82rem;
-    color: #7a7a60;
-    margin-bottom: 0.75rem;
-    line-height: 1.5;
-}
-
-.review-author {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.review-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #8C9768;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 0.7rem;
-    flex-shrink: 0;
-}
-
-.review-author-info {
-    font-family: 'Poppins', sans-serif;
-}
-
-.review-author-name {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #2c2c1e;
-    line-height: 1.2;
-}
-
-.review-author-date {
-    font-size: 0.7rem;
-    color: #aaa;
-}
-
-@media (max-width: 900px) {
-    .featured-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .reviews-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-image, .hero-image-placeholder {
-        display: none;
-    }
-
-    .perks-bar {
-        gap: 1.5rem;
-        flex-wrap: wrap;
-    }
-}
-
-/* ─────────────────────────────
-   GLOBAL ANIMATIONS
-───────────────────────────── */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-/* smooth global transitions */
-* {
-    transition: all 0.25s ease;
-}
-
-/* ─────────────────────────────
-   HERO ENHANCEMENTS
-───────────────────────────── */
-.hero-section {
-    background: linear-gradient(135deg, #DDA15E, #e7b97a);
-}
-
-.hero-text {
-    animation: fadeUp 0.8s ease forwards;
-}
-
-.hero-image-placeholder {
-    animation: fadeIn 1s ease forwards;
-}
-
-/* floating effect */
-.hero-image,
-.hero-image-placeholder {
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-
-    100% {
-        transform: translateY(0px);
-    }
-}
-
-/* button polish */
-.hero-btn {
-    position: relative;
     overflow: hidden;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
 }
 
-    .hero-btn::after {
-        content: "";
-        position: absolute;
-        width: 0%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        background: rgba(0,0,0,0.05);
-        transition: width 0.3s ease;
-    }
-
-    .hero-btn:hover::after {
-        width: 100%;
-    }
-
-/* ─────────────────────────────
-   PERKS ANIMATION
-───────────────────────────── */
-.perk-item {
-    animation: fadeUp 0.8s ease forwards;
-}
-
-.perk-icon-placeholder {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.perk-item:hover .perk-icon-placeholder {
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-/* ─────────────────────────────
-   FEATURED PRODUCTS (BIG UPGRADE)
-───────────────────────────── */
-.featured-card {
-    position: relative;
-}
-
-    .featured-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 16px;
-        background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .featured-card:hover::after {
-        opacity: 1;
-    }
-
-    /* lift effect */
     .featured-card:hover {
-        transform: translateY(-6px) scale(1.01);
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(140, 151, 104, 0.2);
+        border-color: rgba(221, 161, 94, 0.3);
     }
 
-/* image zoom */
+/* IMAGE CONTAINER: Forces all images to the same aspect ratio */
+.featured-card-img-wrapper {
+    width: 100%;
+    height: 200px; /* Uniform height for all images */
+    overflow: hidden;
+    background: #f4f1e6;
+}
+
 .featured-card-img {
-    transition: transform 0.4s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills space without stretching */
+    transition: transform 0.6s ease;
 }
 
 .featured-card:hover .featured-card-img {
     transform: scale(1.08);
 }
 
-/* stagger animation */
-.featured-card {
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards;
+/* CARD BODY */
+.featured-card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
-    .featured-card:nth-child(1) {
-        animation-delay: 0.1s;
-    }
-
-    .featured-card:nth-child(2) {
-        animation-delay: 0.2s;
-    }
-
-    .featured-card:nth-child(3) {
-        animation-delay: 0.3s;
-    }
-
-    .featured-card:nth-child(4) {
-        animation-delay: 0.4s;
-    }
-
-/* ─────────────────────────────
-   REVIEWS (MODERN FEEL)
-───────────────────────────── */
-.review-card {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s ease forwards;
+.featured-card-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #2c2c1e;
+    transition: color 0.3s ease;
 }
 
-    .review-card:nth-child(1) {
-        animation-delay: 0.2s;
-    }
-
-    .review-card:nth-child(2) {
-        animation-delay: 0.4s;
-    }
-
-    .review-card:nth-child(3) {
-        animation-delay: 0.6s;
-    }
-
-    .review-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-    }
-
-/* stars glow */
-.review-stars {
-    text-shadow: 0 0 6px rgba(221,161,94,0.5);
+.featured-card:hover .featured-card-name {
+    color: #DDA15E;
 }
 
-/* ─────────────────────────────
-   SECTION TITLES POLISH
-───────────────────────────── */
-.section-title {
-    position: relative;
-    display: inline-block;
+.featured-card-price {
+    font-family: 'Hedvig Letters Serif', serif;
+    font-size: 1rem;
+    color: #8C9768; /* That nice sage green from your nav bar */
+    font-weight: 700;
 }
 
-    .section-title::after {
-        content: "";
-        display: block;
-        width: 40%;
-        height: 3px;
-        background: #DDA15E;
-        margin-top: 6px;
-        border-radius: 2px;
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-
-/* ─────────────────────────────
-   SMOOTH SCROLL FEEL
-───────────────────────────── */
-html {
-    scroll-behavior: smooth;
 }
 
-/* FULL WIDTH HERO FIX */
-.hero-section {
+@media (max-width: 600px) {
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── MISSION PARALLAX ── */
+.mission-parallax {
     position: relative;
     width: 100vw;
-    height: 340px;
-    /* 🔥 THIS is the fix */
+    height: 500px;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-    display: flex;
-    overflow: hidden;
+    /* Increased top margin to match the space below the hero */
+    margin-top: 5rem;
+    margin-bottom: 4rem;
+    background-image: url('/images/public-domain-vectors-sLqTNHnm0AY-unsplash.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-/* LEFT SIDE (CLEAN BACKGROUND) */
-.hero-shape {
-    width: 50%;
-    background: #DDA15E;
+/* Dark overlay so the white text pops */
+.parallax-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust 0.5 to make it darker or lighter */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem;
+    text-align: center;
+    padding: 2rem;
 }
 
-/* TEXT */
-.hero-text {
-    max-width: 420px;
+.mission-container {
+    max-width: 800px;
     color: white;
-    animation: fadeUp 0.8s ease forwards;
 }
 
-/* RIGHT SIDE IMAGE (THIS IS THE STAR NOW) */
-.hero-image-container {
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    /* 🔥 THE IMPORTANT PART */
-    clip-path: ellipse(100% 100% at 85% 50%);
+.mission-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
 }
 
-    /* IMAGE FULL BLEED */
-    .hero-image-container img {
+.mission-line {
+    width: 60px;
+    height: 4px;
+    background: #DDA15E; /* Matches your theme color */
+    margin: 0 auto 1.5rem;
+    border-radius: 2px;
+}
+
+.mission-text {
+    font-family: 'Hedvig Letters Serif', serif;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.mission-link {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 2px solid #DDA15E;
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+    .mission-link:hover {
+        color: #DDA15E;
+        border-color: white;
+        padding-left: 10px;
+    }
+
+.how-it-works {
+    padding: 6rem 2rem;
+    background-color: #fcfaf5;
+    text-align: center;
+    /* ── CURVED CORNERS LOGIC ── */
+    border-radius: 50px; /* Adjust this for more or less curve */
+    max-width: 1200px; /* Keeps the section from hitting the screen edges */
+    margin: 4rem auto; /* Centers the section and adds space top/bottom */
+    overflow: hidden; /* Ensures child elements don't 'leak' past the curve */
+}
+
+.steps-container {
+    /* Removed border-radius from here as it's now on the parent */
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.step-card {
+    flex: 1;
+    position: relative;
+    padding: 2rem;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease;
+}
+
+    .step-card:hover {
+        transform: translateY(-10px);
+    }
+
+.step-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(221, 161, 94, 0.1);
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.step-card h3 {
+    font-family: 'Poppins', sans-serif;
+    color: #2c2c1e;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.step-card p {
+    font-family: 'Hedvig Letters Serif', serif;
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* RESPONSIVE FIX */
+@media (max-width: 768px) {
+    .how-it-works {
+        margin: 2rem 1rem; /* Smaller margins on mobile */
+        border-radius: 30px;
+    }
+
+    .steps-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+.impact-bar {
+    background-color: #8C9768;
+    color: white;
+    padding: 3rem 0;
+    /* CURVED EDGES & SEPARATION */
+    max-width: 1200px;
+    margin: 4rem auto; /* Creates space between Mission, Bar, and Footer */
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.impact-container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.impact-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.impact-number {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.impact-label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+}
+
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+    .hero-section {
+        height: 50vh;
+    }
+
+    .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── RESPONSIVE HERO FIX ── */
+@media (max-width: 768px) {
+    /* This targets the container holding the image */
+    .hero-image-container {
+        display: none;
+    }
+
+    /* This makes the text side take up the full width now that the image is gone */
+    .hero-shape {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-        /* subtle premium motion */
-        transform: scale(1.05);
-        animation: slowZoom 12s ease-in-out infinite alternate;
+        justify-content: center; /* Centers the text container */
+        padding: 4rem 2rem;
+        text-align: center; /* Centers the actual text */
     }
 
-/* animation */
-@keyframes slowZoom {
-    from {
-        transform: scale(1.05);
+    .hero-text {
+        max-width: 100%;
+        margin: 0 auto;
     }
 
-    to {
-        transform: scale(1.12);
+    /* Optional: Adjust the height of the hero since the image is gone */
+    .hero-section {
+        height: auto;
+        min-height: 400px;
     }
 }

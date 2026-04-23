@@ -1,68 +1,100 @@
 ﻿@model GreenFieldLocalHub.Models.Products
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add New Product";
 }
 
-<h1>Create</h1>
+<link rel="stylesheet" href="~/css/productC.css" />
 
-<h4>Products</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+<div class="create-product-container">
+    <div class="create-card">
+        <div class="create-header">
+            <div class="header-icon">🌱</div>
+            <h1>List New Produce</h1>
+            <p>Fill in the details to add a new item to the Fresh Market.</p>
+        </div>
+
+        <form asp-action="Create" enctype="multipart/form-data" class="create-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
+
+            <div class="form-section">
+                <h3 class="section-title">General Information</h3>
+                <div class="form-group">
+                    <label asp-for="ProductName" class="field-label">Product Name</label>
+                    <input asp-for="ProductName" class="styled-input" placeholder="e.g., Heritage Tomatoes" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ProductDescription" class="field-label">Description</label>
+                    <textarea asp-for="ProductDescription" class="styled-input" rows="3" placeholder="Tell customers about your harvest..."></textarea>
+                    <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductDescription" class="control-label"></label>
-                <input asp-for="ProductDescription" class="form-control" />
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+
+            <div class="form-grid-split">
+                <div class="form-group">
+                    <label asp-for="ProductPrice" class="control-label"></label>
+                    @* type="number" blocks letters; step="0.01" allows cents; min="0" blocks negatives *@
+                    <input asp-for="ProductPrice"
+                           class="form-control"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           placeholder="0.00" />
+                    <span asp-validation-for="ProductPrice" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="StockQuantity" class="control-label"></label>
+                    @* min="0" ensures you can't have negative boxes of apples *@
+                    <input asp-for="StockQuantity"
+                           class="form-control"
+                           type="number"
+                           min="0"
+                           step="1"
+                           placeholder="0" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="StockQuantity" class="control-label"></label>
-                <input asp-for="StockQuantity" class="form-control" />
-                <span asp-validation-for="StockQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAvailable" /> @Html.DisplayNameFor(model => model.IsAvailable)
+
+            <div class="form-group toggle-group">
+                <label class="switch">
+                    <input asp-for="IsAvailable" checked />
+                    <span class="slider round"></span>
                 </label>
+                <span class="toggle-text">Make available for sale immediately</span>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductPrice" class="control-label"></label>
-                <input asp-for="ProductPrice" class="form-control" />
-                <span asp-validation-for="ProductPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Product Image</label>
-                <input type="file" name="ImageFile" class="form-control" accept="image/*" id="imageUpload" />
+
+            <div class="form-section">
+                <h3 class="section-title">Product Image</h3>
+                <div class="image-upload-zone">
+                    <input type="file" name="ImageFile" class="file-input" accept="image/*" id="imageUpload" />
+                    <label for="imageUpload" class="upload-label">
+                        <span class="upload-icon">➕</span>
+                        <span>Upload Photo</span>
+                    </label>
+
+                    <div id="previewContainer" class="preview-box" style="display:none;">
+                        <img id="imagePreview" src="#" alt="Preview" />
+                        <span class="preview-label">Preview</span>
+                    </div>
+                </div>
                 <span class="text-danger">@ViewData["ImageError"]</span>
             </div>
-            <div class="form-group mt-2" id="previewContainer" style="display:none;">
-                <label>Preview:</label><br />
-                <img id="imagePreview" src="#" alt="Image Preview"
-                     style="width:150px; height:150px; object-fit:cover; border-radius:8px; border:1px solid #ccc;" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="create-actions">
+                <button type="submit" class="btn-submit">Create Listing</button>
+                <a asp-action="Index" class="btn-back">Cancel and Return</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
     <script>
         document.getElementById('imageUpload').addEventListener('change', function (e) {
             const file = e.target.files[0];
@@ -76,9 +108,6 @@
                     container.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                container.style.display = 'none';
             }
         });
     </script>

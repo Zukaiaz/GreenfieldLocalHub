@@ -1,69 +1,110 @@
 ﻿@model GreenFieldLocalHub.Models.Products
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Product";
 }
 
-<h1>Edit</h1>
+<link rel="stylesheet" href="~/css/productsE.css" />
 
-<h4>Products</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="edit-product-container">
+    <div class="edit-card">
+        <div class="edit-header">
+            <h1>Edit Product</h1>
+            <p>Update your listing details for <strong>@Model.ProductName</strong></p>
+        </div>
+
+        <form asp-action="Edit" enctype="multipart/form-data" class="edit-form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductsId" />
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
+
+            <div class="form-grid">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="field-label"></label>
+                        <input asp-for="ProductName" class="styled-input" placeholder="e.g. Organic Carrots" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ProductDescription" class="field-label"></label>
+                        <textarea asp-for="ProductDescription" class="styled-input" rows="3" placeholder="Describe your produce..."></textarea>
+                        <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-section row-split">
+                    <div class="form-group">
+                        <label asp-for="ProductPrice" class="control-label"></label>
+                        @* type="number" blocks letters; step="0.01" allows cents; min="0" blocks negatives *@
+                        <input asp-for="ProductPrice"
+                               class="form-control"
+                               type="number"
+                               step="0.01"
+                               min="0"
+                               placeholder="0.00" />
+                        <span asp-validation-for="ProductPrice" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="StockQuantity" class="control-label"></label>
+                        @* min="0" ensures you can't have negative boxes of apples *@
+                        <input asp-for="StockQuantity"
+                               class="form-control"
+                               type="number"
+                               min="0"
+                               step="1"
+                               placeholder="0" />
+                        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label class="switch">
+                        <input asp-for="IsAvailable" />
+                        <span class="slider round"></span>
+                    </label>
+                    <label asp-for="IsAvailable" class="checkbox-text">List product for sale</label>
+                </div>
+
+                <div class="form-section image-section">
+                    <label class="field-label">Update Product Image</label>
+                    <div class="image-upload-wrapper">
+                        <input type="file" name="ImageFile" class="file-input" accept="image/*" id="imageUpload" />
+                        <label for="imageUpload" class="file-label">
+                            <span class="upload-icon">📸</span>
+                            <span>Choose new image...</span>
+                        </label>
+                    </div>
+
+                    <div class="image-previews">
+                        @if (!string.IsNullOrEmpty(Model.ImagePath))
+                        {
+                            <div class="preview-item">
+                                <span class="preview-tag">Current</span>
+                                <img src="@Model.ImagePath" class="mini-preview" />
+                            </div>
+                        }
+                        <div class="preview-item" id="previewContainer" style="display:none;">
+                            <span class="preview-tag new">New</span>
+                            <img id="imagePreview" src="#" class="mini-preview" />
+                        </div>
+                    </div>
+                    <span class="text-danger">@ViewData["ImageError"]</span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductDescription" class="control-label"></label>
-                <input asp-for="ProductDescription" class="form-control" />
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StockQuantity" class="control-label"></label>
-                <input asp-for="StockQuantity" class="form-control" />
-                <span asp-validation-for="StockQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsAvailable" /> @Html.DisplayNameFor(model => model.IsAvailable)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductPrice" class="control-label"></label>
-                <input asp-for="ProductPrice" class="form-control" />
-                <span asp-validation-for="ProductPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Product Image</label>
-                <input type="file" name="ImageFile" class="form-control" accept="image/*" id="imageUpload" />
-                <span class="text-danger">@ViewData["ImageError"]</span>
-            </div>
-            <div class="form-group mt-2" id="previewContainer" style="display:none;">
-                <label>Preview:</label><br />
-                <img id="imagePreview" src="#" alt="Image Preview"
-                     style="width:150px; height:150px; object-fit:cover; border-radius:8px; border:1px solid #ccc;" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="edit-actions">
+                <button type="submit" class="btn-save">Save Changes</button>
+                <a asp-action="Index" class="btn-cancel">Discard Changes</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
     <script>
         document.getElementById('imageUpload').addEventListener('change', function (e) {
             const file = e.target.files[0];
@@ -77,9 +118,6 @@
                     container.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                container.style.display = 'none';
             }
         });
     </script>

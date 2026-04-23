@@ -8,28 +8,29 @@ using Microsoft.EntityFrameworkCore; // Imports Entity Framework for database op
 using GreenFieldLocalHub.Data; // Imports your ApplicationDbContext
 using GreenFieldLocalHub.Models; // Imports your data models
 using System.Security.Claims; // Imports tools to retrieve the logged-in user's ID
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity; // Imports security attributes like [Authorize]
+using Microsoft.AspNetCore.Authorization; // Imports authorization attributes
+using Microsoft.AspNetCore.Identity; // Imports Identity management tools
 
 namespace GreenFieldLocalHub.Controllers // Defines the namespace for this controller
 { // Start of namespace
+    [Authorize] // Security: Ensures only logged-in users can access any part of this controller
     public class OrdersController : Controller // Defines the OrdersController class inheriting from Controller
     { // Start of class
         private readonly ApplicationDbContext _context; // Private variable for database access
-        private readonly UserManager<IdentityUser> _userManager; // Private variable for database
+        private readonly UserManager<IdentityUser> _userManager; // Private variable for managing user data
 
-        public OrdersController(ApplicationDbContext context, UserManager<IdentityUser> userManager) // Constructor to inject the database context
+        public OrdersController(ApplicationDbContext context, UserManager<IdentityUser> userManager) // Constructor to inject dependencies
         { // Start of constructor
             _context = context; // Assigns the injected context to the private variable
-            _userManager = userManager;
+            _userManager = userManager; // Assigns the injected user manager to the private variable
         } // End of constructor
 
         // GET: Orders
-        [Authorize]
+        [HttpGet] // Defines this as a GET request to view the order list
         public async Task<IActionResult> Index() // Method to list orders based on user role
         { // Start of Index
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets the unique ID of the current user
-            if (userId == null) // Checks if the user is not logged in
+            if (userId == null) // Checks if the user session is valid
             { // Start if
                 return Unauthorized(); // Returns a 401 Unauthorized status
             } // End if
@@ -71,12 +72,12 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
                     .Include(o => o.OrderProducts) // Includes the products in those orders
                     .ThenInclude(op => op.Products) // Includes full product details
                     .ToListAsync(); // Executes query
-                return View(userOrders); // Sends the user's personal order history to the view — no email lookup needed as customers only see their own orders
+                return View(userOrders); // Sends the user's personal order history to the view
             } // End else
         } // End of Index
 
-        [Authorize]
         // GET: Orders/Details/5
+        [HttpGet] // Defines this as a GET request for order details
         public async Task<IActionResult> Details(int? id) // Method to display the full details of a specific order
         { // Start of Details
             if (id == null) // Checks if no ID was provided in the URL
@@ -105,16 +106,15 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             };
 
             decimal total = orders.First().Orders.TotalAmount; // Gets the final total that was saved when the order was placed
-            decimal subtotal = discountPercent > 0 ? total / (1 - discountPercent) : total; // Reverses the discount maths to work out what the original subtotal was before the discount was applied. If no discount, subtotal equals total.
-            decimal discountAmount = subtotal - total; // Calculates the actual cash amount that was discounted by subtracting the total from the subtotal
-            ViewBag.DiscountAmount = discountAmount; // Passes the discount amount to the view so it can be displayed
-            ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Passes the tier name to the view, or "None" if they have no loyalty account
+            decimal subtotal = discountPercent > 0 ? total / (1 - discountPercent) : total; // Reverses the discount math
+            decimal discountAmount = subtotal - total; // Calculates the actual cash amount that was discounted
+            ViewBag.DiscountAmount = discountAmount; // Passes the discount amount to the view
+            ViewBag.Tier = loyaltyAccount?.Tier ?? "None"; // Passes the tier name to the view
             return View(orders); // Sends the list of order products to the Details view
         } // End of Details
 
-
         // GET: Orders/Create
-        [Authorize(Roles = "Developer")]
+        [HttpGet] // Defines this as a GET request for the checkout page
         public async Task<IActionResult> Create(int basketId) // Method to load the checkout/order creation page
         { // Start of Create GET
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets current user ID
@@ -135,7 +135,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             decimal subtotal = 0.00m; // Initializes subtotal variable
             foreach (var basketProduct in basketProducts) // Loops through each item in basket
             { // Start foreach
-                subtotal += basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Calculates price x quantity and adds to total
+                subtotal += basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Calculates line total and adds to subtotal
             } // End foreach
 
             var loyaltyAccount = await _context.LoyaltyAccount // Looks for the user's loyalty record
@@ -163,21 +163,20 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
         } // End of Create GET
 
         // POST: Orders/Create
-        [HttpPost] // Marks this as a form submission handler
-
-        [ValidateAntiForgeryToken] // Security layer
-        public async Task<IActionResult> Create([Bind("OrdersId,Delivery,Collection,DeliveryType,CollectionDate")] Orders orders, int basketId) // Saves the order
+        [HttpPost] // Marks this as a form submission handler for saving an order
+        [ValidateAntiForgeryToken] // Security layer to prevent CSRF attacks
+        public async Task<IActionResult> Create([Bind("OrdersId,Delivery,Collection,DeliveryType,CollectionDate")] Orders orders, int basketId) // Logic to process the checkout
         { // Start of Create POST
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Gets User ID
 
-            if (userId == null) // Check for session loss
+            if (userId == null) // Checks for session loss
             { // Start if
                 ViewBag.BasketId = basketId; // Keeps basket ID for reload
-                return View(orders); // Returns view with data
+                return View(orders); // Returns view with current data
             } // End if
 
             orders.UserId = userId; // Assigns the order to the current user
-            ModelState.Remove("UserId"); // Removes validation requirement for UserId since we set it manually
+            ModelState.Remove("UserId"); // Removes validation requirement for UserId
 
             orders.OrderDate = DateOnly.FromDateTime(DateTime.Today); // Sets order date to today
             ModelState.Remove("OrderDate"); // Removes validation requirement
@@ -186,12 +185,11 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             ModelState.Remove("OrderTrackingStatus"); // Removes validation requirement
 
             var basket = await _context.Basket // Finds the basket being checked out
-                .FirstOrDefaultAsync(x => x.BasketId == basketId && x.UserId == userId && x.Status); // Ensures it's theirs and still open
+                .FirstOrDefaultAsync(x => x.BasketId == basketId && x.UserId == userId && x.Status); // Ensures it's valid
 
             if (basket == null) // Error handling for missing basket
             { // Start if
                 return NotFound(); // Returns 404
-
             } // End if
 
             var basketProducts = await _context.BasketProducts // Gets items to convert to order items
@@ -201,30 +199,30 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
 
             if (!basketProducts.Any()) // Logic for empty basket checkout attempt
             { // Start if
-                @ModelState.AddModelError("", "Your basket is empty"); // Adds error message
+                ModelState.AddModelError("", "Your basket is empty"); // Adds error message
                 ViewBag.BasketId = basketId; // Keeps ID for reload
                 return View(orders); // Reloads the view
             } // End if
 
             decimal subtotal = 0.00m; // Subtotal calculation
-            foreach (var basketProduct in basketProducts) // Loop items
+            foreach (var basketProduct in basketProducts) // Loop through items
             { // Start foreach
                 var productTotal = basketProduct.Products.ProductPrice * basketProduct.ProductQuantity; // Calculate line total
                 subtotal = productTotal + subtotal; // Accumulate subtotal
             } // End foreach
 
             var loyaltyAccount = await _context.LoyaltyAccount // Get loyalty data
-            .FirstOrDefaultAsync(x => x.UserId == userId); // Filter by user
+                .FirstOrDefaultAsync(x => x.UserId == userId); // Filter by user
 
-            decimal discountPercent = loyaltyAccount?.Tier switch // Determine discount again for final calculation
+            decimal discountPercent = loyaltyAccount?.Tier switch // Determine final discount
             { // Start switch
-                "Bronze" => 0.05m, // 5%
-                "Silver" => 0.10m, // 10%
-                "Gold" => 0.15m, // 15%
-                _ => 0m // 0%
+                "Bronze" => 0.05m,
+                "Silver" => 0.10m,
+                "Gold" => 0.15m,
+                _ => 0m
             }; // End switch
 
-            decimal discount = subtotal * discountPercent; // Calculate discount
+            decimal discount = subtotal * discountPercent; // Calculate discount amount
             orders.TotalAmount = subtotal - discount; // Set final amount on the Order object
 
             ModelState.Remove("subtotal"); // Cleans up validation tracking
@@ -232,41 +230,35 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             if (!orders.Collection && !orders.Delivery) // Validation: User must pick a method
             { // Start if
                 ModelState.AddModelError("Delivery", "Must choose Collection or Delivery"); // Adds error
-
             } // End if
 
-            if (orders.Delivery) // Logic for delivery choice
-            { // Start if Delivery
-                ModelState.Remove("DeliveryType"); // Cleans up validation
-
+            if (orders.Collection) // Logic for collection choice
+            { // Start if Collection
+                ModelState.Remove("DeliveryType"); // Cleans up validation for non-delivery
                 if (orders.CollectionDate == null) // Validation: needs a date
                 { // Start if
                     ModelState.AddModelError("CollectionDate", "Collection date is Required"); // Adds error
-
                 } // End if
-
                 else // Date range validation
                 { // Start else
                     var earliestDate = DateOnly.FromDateTime(DateTime.Today.AddDays(2)); // Sets limit to 2 days from now
-
                     if (orders.CollectionDate.Value < earliestDate) // Check if date is too soon
                     { // Start if
                         ModelState.AddModelError("CollectionDate", "Collection must be at least 2 days from now"); // Adds error
                     } // End if
                 } // End else
-            } // End if Delivery
+            } // End if Collection
 
             if (orders.Delivery) // Additional delivery validation
-            { // Start if
-                ModelState.Remove("CollectionDate"); // Cleans up validation
-
-                if (string.IsNullOrWhiteSpace(orders.DeliveryType)) // Check if type (e.g. Standard/Express) is empty
+            { // Start if Delivery
+                ModelState.Remove("CollectionDate"); // Cleans up validation for non-collection
+                if (string.IsNullOrWhiteSpace(orders.DeliveryType)) // Check if type is empty
                 { // Start if
                     ModelState.AddModelError("DeliveryType", "Delivery type is required"); // Adds error
                 } // End if
-            } // End if
+            } // End if Delivery
 
-            if (!ModelState.IsValid) // Final check for all errors
+            if (!ModelState.IsValid) // Final check for all validation errors
             { // Start if
                 ViewBag.BasketId = basketId; // Retain ID
                 return View(orders); // Return view with errors
@@ -292,26 +284,23 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
                 }; // End assignment
 
                 _context.OrderProducts.Add(orderProduct); // Adds link to DB tracker
-
                 basketProduct.Products.StockQuantity -= basketProduct.ProductQuantity; // Reduces actual store stock
             } // End foreach
 
             basket.Status = false; // "Closes" the basket so it can't be reused
             await _context.SaveChangesAsync(); // Commits items and stock changes
 
-            // Award loyalty points — 10 points per £1 spent (based on subtotal before discount)
-            if (loyaltyAccount != null) // Only award if they have an account
+            if (loyaltyAccount != null) // Award loyalty points
             { // Start if
-                int pointsEarned = (int)(subtotal * 10); // Calculates points
+                int pointsEarned = (int)(subtotal * 10); // 10 points per £1 spent (pre-discount)
                 loyaltyAccount.Points += pointsEarned; // Adds to account balance
 
-                // Update tier based on new total points
                 loyaltyAccount.Tier = loyaltyAccount.Points switch // Checks for tier upgrades
                 { // Start switch
-                    >= 1000 => "Gold", // 1000+ points
-                    >= 600 => "Silver", // 600-999 points
-                    >= 300 => "Bronze", // 300-599 points
-                    _ => loyaltyAccount.Tier  // No change if below 300
+                    >= 1000 => "Gold",
+                    >= 600 => "Silver",
+                    >= 300 => "Bronze",
+                    _ => loyaltyAccount.Tier
                 }; // End switch
 
                 var transaction = new LoyaltyTransactions // Log the point gain
@@ -328,36 +317,31 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             } // End if
 
             return RedirectToAction("Index", "Home"); // Redirects to homepage on success
-
         } // End of Create POST
 
         // GET: Orders/Edit/5
-        [Authorize(Roles = "Farmer")] // Only Farmers can edit (likely to change tracking status)
+        [HttpGet] // Defines this as a GET request for the edit form
+        [Authorize(Roles = "Farmer, Admin")] // Restricts access to Farmers or Admins
         public async Task<IActionResult> Edit(int? id) // Method to load edit form
         { // Start of Edit GET
             if (id == null) // Check ID
-            { // Start if
-                return NotFound(); // 404
-            } // End if
+                return NotFound();
 
             var orders = await _context.Orders.FindAsync(id); // Find order header
             if (orders == null) // Check existence
-            { // Start if
-                return NotFound(); // 404
-            } // End if
+                return NotFound();
+
             return View(orders); // Return edit view
         } // End of Edit GET
 
-
         // POST: Orders/Edit/5
-        [HttpPost] // Submit handler
-        [ValidateAntiForgeryToken] // Security
+        [HttpPost] // Submit handler for saving edits
+        [Authorize(Roles = "Farmer, Admin")] // Restricts access
+        [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> Edit(int id, [Bind("OrdersId,UserId,TotalAmount,Delivery,Collection,DeliveryType,OrderTrackingStatus,CollectionDate,OrderDate")] Orders orders) // Logic to save edits
         { // Start of Edit POST
             if (id != orders.OrdersId) // ID verification
-            { // Start if
-                return NotFound(); // 404
-            } // End if
+                return NotFound();
 
             if (ModelState.IsValid) // Check data validity
             { // Start if
@@ -369,47 +353,39 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
                 catch (DbUpdateConcurrencyException) // Handle multi-user collision
                 { // Start catch
                     if (!OrdersExists(orders.OrdersId)) // Check if deleted
-                    { // Start if
-                        return NotFound(); // 404
-                    } // End if
-                    else // Rethrow unknown error
-                    { // Start else
-                        throw; // Crash/Log
-                    } // End else
+                        return NotFound();
+                    else
+                        throw;
                 } // End catch
                 return RedirectToAction(nameof(Index)); // Back to list on success
             } // End if
             return View(orders); // Return form with errors
         } // End of Edit POST
-        [Authorize]
+
         // GET: Orders/Delete/5
+        [HttpGet] // Defines this as a GET request for delete confirmation
+        [Authorize(Roles = "Admin")] // Restricts deletion to Admins
         public async Task<IActionResult> Delete(int? id) // Method to load delete confirmation
         { // Start of Delete GET
-            if (id == null) // Check ID
-            { // Start if
-                return NotFound(); // 404
-            } // End if
+            if (id == null)
+                return NotFound();
 
-            var orders = await _context.Orders // Find order
-                .FirstOrDefaultAsync(m => m.OrdersId == id); // Execute
-            if (orders == null) // Check existence
-            { // Start if
-                return NotFound(); // 404
-            } // End if
+            var orders = await _context.Orders.FirstOrDefaultAsync(m => m.OrdersId == id); // Find order
+            if (orders == null)
+                return NotFound();
 
             return View(orders); // Return confirmation view
         } // End of Delete GET
-        [Authorize]
+
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")] // Handler for final delete click
-        [ValidateAntiForgeryToken] // Security
+        [Authorize(Roles = "Admin")] // Restricts action to Admins
+        [ValidateAntiForgeryToken] // Security layer
         public async Task<IActionResult> DeleteConfirmed(int id) // Logic to remove order
         { // Start of DeleteConfirmed
             var orders = await _context.Orders.FindAsync(id); // Find record
-            if (orders != null) // Check existence
-            { // Start if
+            if (orders != null)
                 _context.Orders.Remove(orders); // Mark for removal
-            } // End if
 
             await _context.SaveChangesAsync(); // Commit removal
             return RedirectToAction(nameof(Index)); // Back to list
@@ -420,23 +396,18 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for this contr
             return _context.Orders.Any(e => e.OrdersId == id); // Returns true if ID found
         } // End helper
 
+        [HttpPost] // Submit handler for status updates
+        [Authorize(Roles = "Farmer, Admin")] // Only allows Farmers or Admins
+        [ValidateAntiForgeryToken] // Security check
+        public async Task<IActionResult> UpdateStatus(int id, string status) // Function to update tracking status
+        { // Start of UpdateStatus
+            var order = await _context.Orders.FindAsync(id); // Find order in DB
+            if (order == null)
+                return NotFound();
 
-        [HttpPost] // Tells the server this code only runs when a form is submitted
-        [Authorize(Roles = "Farmer")] // Only allows users with the "Farmer" role to access this logic
-        [ValidateAntiForgeryToken] // Security check to make sure the request came from your actual site
-        public async Task<IActionResult> UpdateStatus(int id, string status) // The function that receives the Order ID and new Status
-        { // Start of the update process
-
-            var order = await _context.Orders.FindAsync(id); // Looks in the database to find the specific order using its ID number
-
-            if (order == null) // If the order doesn't exist
-                return NotFound(); // Stop and show an error page
-
-            order.OrderTrackingStatus = status; // Overwrites the old status in the database with the new one from the dropdown
-
-            await _context.SaveChangesAsync(); // Saves the change permanently to the database
-
-            return RedirectToAction("Details", new { id = id }); // Sends the user back to the "Details" page for that order to see the change
-        } // End of the update process
+            order.OrderTrackingStatus = status; // Update the tracking status string
+            await _context.SaveChangesAsync(); // Save changes
+            return RedirectToAction("Details", new { id = id }); // Return to details page
+        } // End of UpdateStatus
     } // End of class
 } // End of namespace

@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for dropdown lists
 using Microsoft.EntityFrameworkCore; // Imports the database engine
 using GreenFieldLocalHub.Data; // Imports your database context
 using GreenFieldLocalHub.Models; // Imports your data models
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization; // Imports tools to identify the logged-in user
+using System.Security.Claims; // Imports tools to retrieve the logged-in user's ID
+using Microsoft.AspNetCore.Authorization; // Imports authorization attributes like [Authorize]
 
 namespace GreenFieldLocalHub.Controllers // The container for this controller
 { // Start of namespace
@@ -77,7 +77,7 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         } // End of Details
 
         // GET: Products/Create
-        [Authorize(Roles = "Developer")]
+        [Authorize(Roles = "Developer,Admin,Farmer")] // Only allows specific roles to access the "Add Product" page
         public IActionResult Create() // Method to load the "Add New Product" form
         { // Start of Create GET
             ViewData["FarmersId"] = new SelectList(_context.Farmers, "FarmersId", "FarmersId"); // Setup dropdown for farmers
@@ -85,11 +85,9 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         } // End of Create GET
 
         // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
         [HttpPost] // Handle form submission
-        [ValidateAntiForgeryToken] // Security check
+        [Authorize(Roles = "Developer,Admin,Farmer")] // Restricts saving new products to authorized roles
+        [ValidateAntiForgeryToken] // Security check to prevent cross-site request forgery
         public async Task<IActionResult> Create([Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable")] Products products, IFormFile? ImageFile) // Logic to save product and image
         { // Start of Create POST
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get user ID
@@ -139,6 +137,7 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         } // End of Create POST
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Developer,Admin,Farmer")] // Restricts loading the edit form
         public async Task<IActionResult> Edit(int? id) // Load the edit form
         { // Start of Edit GET
             if (id == null) // Check ID
@@ -156,10 +155,9 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
         } // End of Edit GET
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost] // Handle edit submission
-        [ValidateAntiForgeryToken] // Security
+        [Authorize(Roles = "Developer,Admin,Farmer")] // Restricts saving edits
+        [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> Edit(int id, [Bind("ProductsId,ProductName,ProductDescription,StockQuantity,ProductPrice,IsAvailable,ImagePath")] Products products, IFormFile? ImageFile) // Logic to update
         { // Start of Edit POST
 
@@ -194,7 +192,6 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
 
                 products.ImagePath = "/images/products/" + fileName; // Update DB path
             } // End if Image
-            // Note: If no new image, it keeps the existing ImagePath from the Bind attribute
 
             if (ModelState.IsValid) // Check validity
             { // Start if valid
@@ -206,9 +203,8 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
             return View(products); // Reload form with errors
         } // End of Edit POST
 
-        [Authorize(Roles = "Developer")]
-
         // GET: Products/Delete/5
+        [Authorize(Roles = "Developer,Admin")] // Restricts delete page viewing to high-level roles
         public async Task<IActionResult> Delete(int? id) // Show delete confirmation
         { // Start of Delete GET
             if (id == null) // Check ID
@@ -229,7 +225,8 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")] // Handler for delete button click
-        [ValidateAntiForgeryToken] // Security
+        [Authorize(Roles = "Developer,Admin")] // Restricts actual deletion to high-level roles
+        [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> DeleteConfirmed(int id) // Logic to remove product
         { // Start of DeleteConfirmed
             var products = await _context.Products.FindAsync(id); // Find the product
@@ -246,9 +243,6 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
                 return NotFound(); // 404
             } // End if
 
-            products.FarmersId = farmers.FarmersId; // Ensure context for removal
-            ModelState.Remove("FarmersId"); // Clean validation
-
             if (products != null) // If product found
             { // Start if
                 _context.Products.Remove(products); // Mark for removal
@@ -257,6 +251,7 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
             await _context.SaveChangesAsync(); // Commit to DB
             return RedirectToAction(nameof(Index)); // Back to list
         } // End of DeleteConfirmed
+
 
         public async Task<IActionResult> SidebarPartial() // Logic for the shopping basket sidebar
         { // Start of SidebarPartial
@@ -307,30 +302,28 @@ namespace GreenFieldLocalHub.Controllers // The container for this controller
             return _context.Products.Any(e => e.ProductsId == id); // True if found
         } // End helper
 
-        // This handles the search request
-        [HttpGet]
-        public async Task<IActionResult> Search(string query)
-        {
+        [HttpGet] // Handles the search request via GET
+        public async Task<IActionResult> Search(string query) // Logic to search products
+        { // Start of Search
             if (string.IsNullOrWhiteSpace(query))
             {
                 return RedirectToAction("Index"); // If search is empty, just show the shop
             }
 
             // Look for a product where the name contains the search text
-            // .FirstOrDefaultAsync() gets the very first match it finds
             var product = await _context.Products
                 .FirstOrDefaultAsync(p => p.ProductName.Contains(query));
 
             if (product != null)
             {
-                // If a product is found, take them directly to the Details page of that product
+                // If a product is found, take them directly to the Details page
                 return RedirectToAction("Details", new { id = product.ProductsId });
             }
 
-            // If nothing is found, send them to the Shop Index (maybe show a "Not Found" message)
+            // If nothing is found, send them to the Shop Index with a message
             TempData["Message"] = "No product found matching: " + query;
             return RedirectToAction("Index");
-        }
+        } // End of Search
 
     } // End of class
 } // End of namespace

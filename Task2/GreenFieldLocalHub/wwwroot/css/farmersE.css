@@ -1,0 +1,156 @@
+﻿/* Layout & Typography */
+.edit-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.edit-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+    .edit-header h1 {
+        color: #2d5a27;
+        font-weight: 700;
+    }
+
+/* Card Container */
+.edit-card {
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    border-left: 6px solid #2d5a27;
+}
+
+/* Input Styling */
+.input-group {
+    margin-bottom: 22px;
+}
+
+.field-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.field-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+    .field-input:focus {
+        border-color: #2d5a27;
+        outline: none;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+    }
+
+.textarea {
+    min-height: 100px;
+}
+
+/* Image Upload UI */
+.file-upload-wrapper {
+    position: relative;
+}
+
+.file-input-hidden {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-label-custom {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #f0f0f0;
+    border: 1px dashed #bbb;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .file-label-custom:hover {
+        background: #e8e8e8;
+        border-color: #2d5a27;
+    }
+
+/* Preview Box */
+.preview-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.preview-box img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+
+/* Buttons */
+.button-group {
+    margin-top: 35px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-save {
+    flex: 2;
+    background-color: #2d5a27;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-save:hover {
+        background-color: #1e3d1a;
+    }
+
+.btn-cancel {
+    flex: 1;
+    background-color: #f8f9fa;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+    .btn-cancel:hover {
+        background-color: #e2e6ea;
+    }
+
+/* Errors */
+.error-message {
+    color: #d9534f;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.error-summary {
+    color: #d9534f;
+    margin-bottom: 20px;
+    font-weight: bold;
+}

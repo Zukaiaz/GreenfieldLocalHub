@@ -1,13 +1,14 @@
-﻿using GreenFieldLocalHub.Data; // Imports your project's database context
-using GreenFieldLocalHub.Models; // Imports your data models (Farmers, etc.)
+﻿using GreenFieldLocalHub.Data; // Imports the database context namespace
+using GreenFieldLocalHub.Models; // Imports the data models (Farmers, etc.)
 using Microsoft.AspNetCore.Mvc; // Imports the Model-View-Controller framework classes
 using Microsoft.AspNetCore.Mvc.Rendering; // Imports tools for rendering HTML elements
 using Microsoft.EntityFrameworkCore; // Imports the database engine for C#
 using System; // Imports basic system functionality like types and dates
 using System.Collections.Generic; // Imports support for lists and collections
 using System.Linq; // Imports data querying tools (like .Any())
-using System.Security.Claims;
+using System.Security.Claims; // Imports tools to read User Claims (like User ID)
 using System.Threading.Tasks; // Imports support for asynchronous tasks (async/await)
+using Microsoft.AspNetCore.Authorization; // Imports security attributes
 
 namespace GreenFieldLocalHub.Controllers // Defines the container for this controller
 { // Start of namespace
@@ -21,12 +22,14 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of constructor
 
         // GET: Farmers
+        [HttpGet] // Retrieves the list of farmers
         public async Task<IActionResult> Index() // Method to show a list of all farmers
         { // Start of Index
             return View(await _context.Farmers.ToListAsync()); // Fetches all farmers from the DB and sends them to the Index page
         } // End of Index
 
         // GET: Farmers/Details/5
+        [HttpGet] // Retrieves details for one farmer
         public async Task<IActionResult> Details(int? id) // Method to show specific info for one farmer
         { // Start of Details
             if (id == null) // Checks if the ID was missing from the URL
@@ -45,41 +48,43 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Details
 
         // GET: Farmers/Create
+        [HttpGet] // Loads the form to add a new farmer
+        [Authorize(Roles = "Admin,Developer")] // Only high-level users can manually create farmer profiles
         public IActionResult Create() // Method to load the "Add Farmer" form
         { // Start of Create
             return View(); // Returns the blank form view
         } // End of Create
 
         // GET: Farmers/Edit/5
+        [HttpGet] // Loads the edit form
+        [Authorize(Roles = "Farmer,Admin,Developer")] // Farmers can edit themselves; Admins/Devs can edit anyone
         public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+        { // Start of Edit GET
+            if (id == null) // Check if ID is missing
                 return NotFound();
 
-            var farmers = await _context.Farmers.FindAsync(id);
+            var farmers = await _context.Farmers.FindAsync(id); // Find farmer by ID
             if (farmers == null)
                 return NotFound();
 
-            // ADDED - check the logged-in user owns this record
+            // SECURITY: Check the logged-in user owns this record
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (farmers.UserId != userId)
-                return Forbid(); // blocks anyone editing someone else's profile
+            // If the user isn't an Admin/Dev and doesn't own the profile, block access
+            if (farmers.UserId != userId && !User.IsInRole("Admin") && !User.IsInRole("Developer"))
+                return Forbid();
 
-            return View(farmers);
-        }
+            return View(farmers); // Show the edit page
+        } // End of Edit GET
 
         // POST: Farmers/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
-            int id,
-            Farmers farmers,
-            IFormFile? ImageFile)
-        {
-            if (id != farmers.FarmersId)
+        [HttpPost] // Handles the form submission for editing
+        [ValidateAntiForgeryToken] // Security check against cross-site attacks
+        public async Task<IActionResult> Edit(int id, Farmers farmers, IFormFile? ImageFile)
+        { // Start of Edit POST
+            if (id != farmers.FarmersId) // Ensure the ID in the URL matches the form data
                 return NotFound();
 
-            // GET EXISTING FARMER
+            // GET EXISTING FARMER: Use AsNoTracking so we can compare without DB conflicts
             var existingFarmer = await _context.Farmers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(f => f.FarmersId == id);
@@ -87,68 +92,55 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
             if (existingFarmer == null)
                 return NotFound();
 
-            var userId =
-                User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // SECURITY: Get current user ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (existingFarmer.UserId != userId)
+            // Logic check: Must own the profile or be an Admin/Developer to save changes
+            if (existingFarmer.UserId != userId && !User.IsInRole("Admin") && !User.IsInRole("Developer"))
                 return Forbid();
 
-            // IMAGE UPLOAD
-            if (ImageFile != null && ImageFile.Length > 0)
-            {
-                var allowedExtensions =
-                    new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            // IMAGE UPLOAD LOGIC
+            if (ImageFile != null && ImageFile.Length > 0) // Check if a new file was uploaded
+            { // Start image logic
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" }; // List of safe file types
+                var extension = Path.GetExtension(ImageFile.FileName).ToLower(); // Get file extension
 
-                var extension =
-                    Path.GetExtension(ImageFile.FileName)
-                        .ToLower();
-
-                if (!allowedExtensions.Contains(extension))
-                {
-                    ViewData["ImageError"] =
-                        "Only .jpg, .png, and .webp files are allowed.";
-
+                if (!allowedExtensions.Contains(extension)) // Validate file type
+                { // Start error check
+                    ViewData["ImageError"] = "Only .jpg, .png, and .webp files are allowed.";
                     return View(farmers);
+                } // End error check
+
+                var fileName = Guid.NewGuid() + extension; // Generate a unique name for the image
+                var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/farmers", fileName); // Set save location
+
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath)!); // Ensure the folder exists
+
+                using (var stream = new FileStream(savePath, FileMode.Create)) // Create the file
+                {
+                    await ImageFile.CopyToAsync(stream); // Save the image to the server
                 }
 
-                var fileName =
-                    Guid.NewGuid() + extension;
-
-                var savePath =
-                    Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot/images/farmers",
-                        fileName);
-
-                Directory.CreateDirectory(
-                    Path.GetDirectoryName(savePath)!);
-
-                using var stream =
-                    new FileStream(savePath, FileMode.Create);
-
-                await ImageFile.CopyToAsync(stream);
-
-                farmers.ImagePath =
-                    "/images/farmers/" + fileName;
-            }
+                farmers.ImagePath = "/images/farmers/" + fileName; // Update the record with the new path
+            } // End image logic
             else
-            {
-                // KEEP EXISTING IMAGE
-                farmers.ImagePath =
-                    existingFarmer.ImagePath;
+            { // If no new image was uploaded
+                farmers.ImagePath = existingFarmer.ImagePath; // Keep the old image path
             }
 
-            if (ModelState.IsValid)
-            {
-                _context.Update(farmers);
-                await _context.SaveChangesAsync();
+            if (ModelState.IsValid) // Check if all other form data follows the rules
+            { // Start save
+                _context.Update(farmers); // Mark record for update
+                await _context.SaveChangesAsync(); // Commit changes to DB
+                return RedirectToAction(nameof(Index)); // Go back to the list
+            } // End save
 
-                return RedirectToAction(nameof(Index));
-            }
+            return View(farmers); // Return the form if validation failed
+        } // End of Edit POST
 
-            return View(farmers);
-        }
         // GET: Farmers/Delete/5
+        [HttpGet] // Loads delete confirmation
+        [Authorize(Roles = "Admin,Developer")] // Only Admins or Developers should be allowed to delete profiles
         public async Task<IActionResult> Delete(int? id) // Method to load delete confirmation page
         { // Start of Delete
             if (id == null) // Checks if ID is missing
@@ -167,7 +159,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Delete
 
         // POST: Farmers/Delete/5
-        [HttpPost, ActionName("Delete")] // POST request mapped to the "Delete" confirmation button
+        [HttpPost, ActionName("Delete")] // Final deletion process
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> DeleteConfirmed(int id) // Final logic to remove farmer
         { // Start of DeleteConfirmed

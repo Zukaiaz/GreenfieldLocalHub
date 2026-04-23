@@ -1,87 +1,104 @@
 ﻿@model IEnumerable<GreenFieldLocalHub.Models.OrderProducts>
 @{
     ViewData["Title"] = "Order Details";
-    var firstItem = Model.FirstOrDefault();
+    var firstItem = Model?.FirstOrDefault();
 }
-<h1>Order Details</h1>
-@if (firstItem != null)
-{
-    <div>
-        <p><strong>Order Date:</strong> @firstItem.Orders.OrderDate</p>
-        <p>
-            <strong>Status:</strong>
-            @if (User.IsInRole("Farmer")) @* Check if the logged-in user is a "Farmer". If not, the rest of this code is ignored. *@
-            {
-                <form asp-controller="Orders" asp-action="UpdateStatus" method="post" style="display:inline;"> @* Create a form that tells the server: "Go to the Orders controller and run the UpdateStatus logic." *@
-                    @Html.AntiForgeryToken() @* A security feature that proves this request is coming from your actual website and not a hacker. *@
-                    <input type="hidden" name="id" value="@firstItem.Orders.OrdersId" /> @* A 'invisible' field that stores the Order ID, so the server knows exactly which order to update. *@
-                    @* The dropdown menu. 'onchange="this.form.submit()"' means it saves automatically the moment you click a choice. *@
-                    <select name="status" class="form-select" style="display:inline; width:auto;" onchange="this.form.submit()">
-                        @* Option for 'Pending'. The 'selected' part makes sure it's pre-highlighted if the order is currently Pending. *@
-                        <option value="Pending" selected="@(firstItem.Orders.OrderTrackingStatus == "Pending")">Pending</option>
-                        @* Option for 'Confirmed'. Checks if this is the current status to show it as selected. *@
-                        <option value="Confirmed" selected="@(firstItem.Orders.OrderTrackingStatus == "Confirmed")">Confirmed</option>
-                        @* Option for 'Preparing'. Checks if this is the current status to show it as selected. *@
-                        <option value="Preparing" selected="@(firstItem.Orders.OrderTrackingStatus == "Preparing")">Preparing</option>
-                        @* Option for 'Out for Delivery'. Checks if this is the current status to show it as selected. *@
-                        <option value="Out for Delivery" selected="@(firstItem.Orders.OrderTrackingStatus == "Out for Delivery")">Out for Delivery</option>
-                        @* Option for 'Delivered'. Checks if this is the current status to show it as selected. *@
-                        <option value="Delivered" selected="@(firstItem.Orders.OrderTrackingStatus == "Delivered")">Delivered</option>
-                        @* Option for 'Ready for Collection'. Checks if this is the current status to show it as selected. *@
-                        <option value="Ready for Collection" selected="@(firstItem.Orders.OrderTrackingStatus == "Ready for Collection")">Ready for Collection</option>
-                        @*  Option for 'Collected'. Checks if this is the current status to show it as selected. *@
-                        <option value="Collected" selected="@(firstItem.Orders.OrderTrackingStatus == "Collected")">Collected</option>
-                        @* Closing tag for the dropdown menu. *@
-                    </select> @* Closing tag for the form. *@
-                </form> @* Closing bracket for the "Farmer" check. *@
-            }
-            else
-            {
-                @firstItem.Orders.OrderTrackingStatus 
-            }
-        </p>
-        <p>
-            <strong>Total Amount:</strong> £@firstItem.Orders.TotalAmount.ToString("0.00")
-            @if ((decimal)ViewBag.DiscountAmount > 0)
-            {
-                <span style="color:green;">(Loyalty Discount @ViewBag.Tier: -£@(((decimal)ViewBag.DiscountAmount).ToString("0.00")))</span>
-            }
-        </p>
-        @if (firstItem.Orders.Delivery)
+
+<link rel="stylesheet" href="~/css/ordersD.css" />
+
+<div class="details-container">
+    <div class="details-card">
+        @if (firstItem != null && firstItem.Orders != null)
         {
-            <p><strong>Order Method:</strong> Delivery</p>
-            <p><strong>Delivery Type:</strong> @firstItem.Orders.DeliveryType</p>
+            <div class="details-header">
+                <div>
+                    <h1>Order #@firstItem.Orders.OrdersId</h1>
+                    @* Simplified date string to avoid FormatException *@
+                    <p class="order-date">Placed on @firstItem.Orders.OrderDate.ToShortDateString()</p>
+                </div>
+                <div class="status-section">
+                    <span class="label">Current Status:</span>
+                    @if (User.IsInRole("Farmer"))
+                    {
+                        <form asp-controller="Orders" asp-action="UpdateStatus" method="post" class="status-form">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@firstItem.Orders.OrdersId" />
+                            <select name="status" class="status-select" onchange="this.form.submit()">
+                                <option value="Pending" selected="@(firstItem.Orders.OrderTrackingStatus == "Pending" ? "selected" : null)">Pending</option>
+                                <option value="Confirmed" selected="@(firstItem.Orders.OrderTrackingStatus == "Confirmed" ? "selected" : null)">Confirmed</option>
+                                <option value="Preparing" selected="@(firstItem.Orders.OrderTrackingStatus == "Preparing" ? "selected" : null)">Preparing</option>
+                                <option value="Out for Delivery" selected="@(firstItem.Orders.OrderTrackingStatus == "Out for Delivery" ? "selected" : null)">Out for Delivery</option>
+                                <option value="Delivered" selected="@(firstItem.Orders.OrderTrackingStatus == "Delivered" ? "selected" : null)">Delivered</option>
+                                <option value="Ready for Collection" selected="@(firstItem.Orders.OrderTrackingStatus == "Ready for Collection" ? "selected" : null)">Ready for Collection</option>
+                                <option value="Collected" selected="@(firstItem.Orders.OrderTrackingStatus == "Collected" ? "selected" : null)">Collected</option>
+                            </select>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="status-badge">@firstItem.Orders.OrderTrackingStatus</span>
+                    }
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-block">
+                    <h3>Billing Summary</h3>
+                    <p class="total-row"><strong>Total Amount:</strong> <span class="price-big">£@firstItem.Orders.TotalAmount.ToString("F2")</span></p>
+                    @if ((decimal)ViewBag.DiscountAmount > 0)
+                    {
+                        <p class="discount-text">
+                            <span class="badge-discount">@ViewBag.Tier Tier</span>
+                            Saved £@(((decimal)ViewBag.DiscountAmount).ToString("F2"))
+                        </p>
+                    }
+                </div>
+
+                <div class="info-block">
+                    <h3>Fulfillment</h3>
+                    @if (firstItem.Orders.Delivery)
+                    {
+                        <p><strong>Method:</strong> 🚚 Delivery</p>
+                        <p><strong>Type:</strong> @firstItem.Orders.DeliveryType</p>
+                    }
+                    else if (firstItem.Orders.Collection)
+                    {
+                        <p><strong>Method:</strong> 🧺 Collection</p>
+                        <p><strong>Date:</strong> @firstItem.Orders.CollectionDate?.ToString("D")</p>
+                    }
+                </div>
+            </div>
+
+            <div class="products-section">
+                <h2>Items in this Order</h2>
+                <div class="table-wrapper">
+                    <table class="details-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Unit Price</th>
+                                <th>Qty</th>
+                                <th class="text-right">Line Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="product-name">@item.Products.ProductName</td>
+                                    <td>£@item.Products.ProductPrice.ToString("F2")</td>
+                                    <td>@item.ProductsQuantity</td>
+                                    <td class="text-right font-bold">£@((item.Products.ProductPrice * item.ProductsQuantity).ToString("F2"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         }
-        @if (firstItem.Orders.Collection)
-        {
-            <p><strong>Order Method:</strong> Collection</p>
-            <p><strong>Collection Date:</strong> @firstItem.Orders.CollectionDate</p>
-        }
-    </div> 
-    <hr />
-    <h2>Products Ordered</h2>
-    <table>
-        <thead>
-            <tr>
-                <th style="text-align:left; padding-right:20px;">Product</th>
-                <th style="text-align:left; padding-right:20px;">Price</th>
-                <th style="text-align:left; padding-right:20px;">Quantity</th>
-                <th style="text-align:left; padding-right:20px;">Line Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td style="padding-right:20px;">@item.Products.ProductName</td>
-                    <td style="padding-right:20px;">£@item.Products.ProductPrice.ToString("0.00")</td>
-                    <td style="padding-right:20px;">@item.ProductsQuantity</td>
-                    <td style="padding-right:20px;">£@((item.Products.ProductPrice * item.ProductsQuantity).ToString("0.00"))</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-<div style="margin-top:20px;">
-    <a asp-action="Index">Back to List</a>
+
+        <div class="details-footer">
+            <a asp-action="Index" class="btn-back">← Back to Orders</a>
+        </div>
+    </div>
 </div>

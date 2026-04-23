@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="~/css/HomeP.css" asp-append-version="true" />
 }
 
-<!-- HERO -->
 <section class="hero-section">
     <div class="hero-shape">
         <div class="hero-text">
@@ -24,83 +23,109 @@
     </div>
 </section>
 
-<!-- PERKS -->
 <section class="perks-bar">
     <div class="perk-item">
-        <div class="perk-icon-placeholder">🚚</div>
+        <div class="perk-icon-placeholder">
+            <img src="/images/delivery.png" alt="Free Delivery" class="perk-img" />
+        </div>
         <span>Free delivery</span>
     </div>
     <div class="perk-item">
-        <div class="perk-icon-placeholder">🌱</div>
+        <div class="perk-icon-placeholder">
+            <img src="/images/organic.png" alt="100% Organic" class="perk-img" />
+        </div>
         <span>100% Organic</span>
     </div>
     <div class="perk-item">
-        <div class="perk-icon-placeholder">👨‍🌾</div>
+        <div class="perk-icon-placeholder">
+            <img src="/images/farmer.png" alt="Farm Grown" class="perk-img" />
+        </div>
         <span>Farm Grown</span>
     </div>
 </section>
 
-<!-- FEATURED PRODUCTS -->
-<h2 class="section-title">Featured Products</h2>
-<div class="featured-grid">
-    @foreach (var product in Model)
-    {
-        <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductsId" class="featured-card">
-            @if (!string.IsNullOrEmpty(product.ImagePath))
-            {
-                <img src="@product.ImagePath" alt="@product.ProductName" class="featured-card-img" />
-            }
-            else
-            {
-                <div class="featured-card-img-placeholder">No image</div>
-            }
-            <div class="featured-card-body">
-                <div class="featured-card-name">@product.ProductName</div>
-                <div class="featured-card-price">£@product.ProductPrice.ToString("0.00")</div>
-            </div>
-        </a>
-    }
-</div>
+<section class="featured-products-section">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="featured-grid">
+        @foreach (var product in Model)
+        {
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductsId" class="featured-card">
+                <div class="featured-card-img-wrapper">
+                    @if (!string.IsNullOrEmpty(product.ImagePath))
+                    {
+                        <img src="@product.ImagePath" alt="@product.ProductName" class="featured-card-img" />
+                    }
+                    else
+                    {
+                        <div class="featured-card-img-placeholder">No image</div>
+                    }
+                </div>
 
-<!-- REVIEWS -->
-<section class="reviews-section">
-    <h2 class="section-title">Reviews</h2>
-    <div class="reviews-grid">
-        <div class="review-card">
-            <div class="review-stars">★★★★★</div>
-            <div class="review-title">Amazing quality!</div>
-            <div class="review-body">The vegetables were so fresh, you could taste the difference immediately.</div>
-            <div class="review-author">
-                <div class="review-avatar">SJ</div>
-                <div class="review-author-info">
-                    <div class="review-author-name">Sarah J.</div>
-                    <div class="review-author-date">March 2026</div>
+                <div class="featured-card-body">
+                    <div class="featured-card-name">@product.ProductName</div>
+                    <div class="featured-card-price">£@product.ProductPrice.ToString("0.00")</div>
                 </div>
-            </div>
+            </a>
+        }
+    </div>
+</section>
+
+
+<section class="mission-parallax">
+    <div class="parallax-overlay">
+        <div class="mission-container">
+            <h2 class="mission-title">Our Mission</h2>
+            <div class="mission-line"></div>
+            <p class="mission-text">
+                At GreenField, we believe the shortest distance between the farm and your fork is the path to a healthier planet.
+                By connecting you directly with local growers, we’re reducing carbon footprints, supporting local families,
+                and bringing the true taste of the season back to your table.
+            </p>
+            <a asp-controller="Farmers" asp-action="Index" class="mission-link">
+                Meet the hands that grow
+            </a>
         </div>
-        <div class="review-card">
-            <div class="review-stars">★★★★★</div>
-            <div class="review-title">Love supporting local</div>
-            <div class="review-body">Great to know exactly where my food comes from. Will order again!</div>
-            <div class="review-author">
-                <div class="review-avatar">TM</div>
-                <div class="review-author-info">
-                    <div class="review-author-name">Tom M.</div>
-                    <div class="review-author-date">February 2026</div>
-                </div>
-            </div>
+    </div>
+</section>
+
+<section class="impact-bar">
+    <div class="impact-container">
+        <div class="impact-item">
+            <span class="impact-number">45+</span>
+            <span class="impact-label">Local Farms</span>
         </div>
-        <div class="review-card">
-            <div class="review-stars">★★★★☆</div>
-            <div class="review-title">Fast delivery</div>
-            <div class="review-body">Arrived quickly and everything was well packaged. Highly recommend.</div>
-            <div class="review-author">
-                <div class="review-avatar">PK</div>
-                <div class="review-author-info">
-                    <div class="review-author-name">Priya K.</div>
-                    <div class="review-author-date">April 2026</div>
-                </div>
-            </div>
+        <div class="impact-item">
+            <span class="impact-number">100%</span>
+            <span class="impact-label">Plastic Free</span>
+        </div>
+        <div class="impact-item">
+            <span class="impact-number">24h</span>
+            <span class="impact-label">Harvest to Door</span>
+        </div>
+        <div class="impact-item">
+            <span class="impact-number">12k</span>
+            <span class="impact-label">Meals Delivered</span>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <h2 class="section-title">From Soil to Suitcase</h2>
+    <div class="steps-container">
+        <div class="step-card">
+            <span class="step-number">01</span>
+            <h3>You Order</h3>
+            <p>Select the freshest seasonal produce directly from our digital hub.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-number">02</span>
+            <h3>They Harvest</h3>
+            <p>Our farmers receive your order and pick your produce at peak ripeness.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-number">03</span>
+            <h3>We Deliver</h3>
+            <p>Your box is packed and delivered to your doorstep within 24 hours.</p>
         </div>
     </div>
 </section>

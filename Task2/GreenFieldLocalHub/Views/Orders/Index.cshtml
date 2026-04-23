@@ -1,87 +1,79 @@
 ﻿@model IEnumerable<GreenFieldLocalHub.Models.Orders>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Order History";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/ordersP.css" />
 
-<table class="table">
-    <thead>
-        <tr>
-            @if (User.IsInRole("Farmer") || User.IsInRole("Admin"))
-            {
-                <th>Customer</th>
-            }
-            <th>
-                @Html.DisplayNameFor(model => model.TotalAmount)
-            </th>
-            <th>Items</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Delivery)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Collection)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeliveryType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderTrackingStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CollectionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-                @if (User.IsInRole("Farmer") || User.IsInRole("Admin"))
-                {
-                    <td>
-                        @{
-                            var emailDict = (Dictionary<string, string>)ViewBag.UserEmails;
-                            var userEmail = emailDict != null && emailDict.ContainsKey(item.UserId) ? emailDict[item.UserId] : "Unknown";
+<div class="orders-container">
+    <div class="orders-header">
+        <h1>@(User.IsInRole("Farmer") || User.IsInRole("Admin") ? "Manage Orders" : "My Orders")</h1>
+        <p class="subtitle">Track and manage your farm-fresh deliveries.</p>
+    </div>
+
+    <div class="orders-list">
+        @foreach (var item in Model)
+        {
+            <div class="order-card">
+                <div class="order-card-header">
+                    <div class="id-group">
+                        <span class="label">Order ID</span>
+                        <span class="value">#@item.OrdersId</span>
+                    </div>
+                    <div class="status-badge @item.OrderTrackingStatus.ToString().ToLower()">
+                        @item.OrderTrackingStatus
+                    </div>
+                </div>
+
+                <div class="order-card-body">
+                    <div class="order-info-grid">
+
+                        @if (User.IsInRole("Farmer") || User.IsInRole("Admin"))
+                        {
+                            <div class="info-item">
+                                <span class="info-label">Customer</span>
+                                @{
+                                    var emailDict = (Dictionary<string, string>)ViewBag.UserEmails;
+                                    var userEmail = emailDict != null && emailDict.ContainsKey(item.UserId) ? emailDict[item.UserId] : "Unknown";
+                                }
+                                <span class="info-value">@userEmail</span>
+                            </div>
                         }
-                        @userEmail
-                    </td>
-                }
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAmount)
-            </td>
-                <td>
-                    @foreach (var op in item.OrderProducts)
-                    {
-                        <div>@op.Products.ProductName x @op.ProductsQuantity</div>
-                    }
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Delivery)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Collection)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeliveryType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderTrackingStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CollectionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.OrdersId">Details</a> |
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+                        <div class="info-item">
+                            <span class="info-label">Total Amount</span>
+                            <span class="info-value price">£@item.TotalAmount.ToString("F2")</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Order Date</span>
+                            <span class="info-value">@item.OrderDate.ToString("dd MMM yyyy")</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label">Method</span>
+                            <span class="info-value">
+                                @(item.Delivery ? $"Delivery ({item.DeliveryType})" : $"Collection ({item.CollectionDate?.ToString("dd MMM")})")
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="order-items-preview">
+                        <span class="info-label">Items</span>
+                        <div class="items-tags">
+                            @foreach (var op in item.OrderProducts)
+                            {
+                                <span class="item-tag">@op.Products.ProductName x @op.ProductsQuantity</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-card-footer">
+                    <a asp-action="Details" asp-route-id="@item.OrdersId" class="btn-details">View Full Details</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

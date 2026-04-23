@@ -1,0 +1,246 @@
+﻿.create-product-container {
+    max-width: 650px;
+    margin: 50px auto;
+    padding: 0 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.create-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+}
+
+.create-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.create-header h1 {
+    font-weight: 800;
+    color: #2c2c1e;
+    margin: 0;
+}
+
+.create-header p {
+    color: #999;
+    font-size: 0.95rem;
+}
+
+/* ─────────────────────────────
+    FORM LAYOUT
+───────────────────────────── */
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #6c7a4d;
+    margin-bottom: 20px;
+    border-left: 4px solid #6c7a4d;
+    padding-left: 12px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.field-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.styled-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 15px;
+    border: 2px solid #eee;
+    background: #fafafa;
+    transition: 0.3s;
+}
+
+    .styled-input:focus {
+        background: #fff;
+        border-color: #6c7a4d;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(108, 122, 77, 0.1);
+    }
+
+.form-grid-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* ─────────────────────────────
+    IMAGE UPLOAD
+───────────────────────────── */
+.image-upload-zone {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fdfdfb;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px dashed #e0e0d0;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    transition: 0.3s;
+}
+
+    .upload-label:hover {
+        border-color: #6c7a4d;
+        transform: scale(1.05);
+    }
+
+.upload-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.preview-box {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+#imagePreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.preview-label {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #6c7a4d;
+    color: white;
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* ─────────────────────────────
+    SWITCH TOGGLE
+───────────────────────────── */
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+    .switch input {
+        display: none;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+input:checked + .slider {
+    background-color: #6c7a4d;
+}
+
+    input:checked + .slider:before {
+        transform: translateX(24px);
+    }
+
+.toggle-text {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+/* ─────────────────────────────
+    ACTIONS
+───────────────────────────── */
+.create-actions {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-submit {
+    background: #6c7a4d;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-submit:hover {
+        background: #5a6641;
+        box-shadow: 0 10px 20px rgba(108, 122, 77, 0.2);
+    }
+
+.btn-back {
+    text-align: center;
+    text-decoration: none;
+    color: #aaa;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+    .btn-back:hover {
+        color: #2c2c1e;
+    }

@@ -1,6 +1,59 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<link rel="stylesheet" href="~/css/privacy.css" />
+
+<div class="privacy-container">
+    <div class="privacy-card">
+        <div class="privacy-header">
+            <div class="header-icon">🛡️</div>
+            <h1>@ViewData["Title"]</h1>
+            <p class="last-updated">Last Updated: April 2026</p>
+        </div>
+
+        <div class="privacy-content">
+            <section class="policy-section">
+                <h2>1. Introduction</h2>
+                <p>
+                    Welcome to <strong>GreenField Local Hub</strong>. We value your privacy and are committed to
+                    protecting your personal data. This policy outlines how we handle information for our farmers
+                    and customers.
+                </p>
+            </section>
+
+            <section class="policy-section">
+                <h2>2. Data We Collect</h2>
+                <p>To provide our services, we collect the following information:</p>
+                <ul>
+                    <li><strong>Account Info:</strong> Name, email address, and account roles (e.g., Farmer, Customer).</li>
+                    <li><strong>Transaction Data:</strong> Details about products listed, orders placed, and fulfillment methods.</li>
+                    <li><strong>Media:</strong> Product images uploaded by farmers for the shop.</li>
+                </ul>
+            </section>
+
+            <section class="policy-section">
+                <h2>3. How We Use Your Data</h2>
+                <p>Your data is used strictly for:</p>
+                <ul>
+                    <li>Processing and tracking orders between farmers and customers.</li>
+                    <li>Managing farmer dashboards and inventory levels.</li>
+                    <li>Providing loyalty discounts based on order history.</li>
+                </ul>
+            </section>
+
+            <section class="policy-section">
+                <h2>4. Data Security</h2>
+                <p>
+                    We implement industry-standard security measures to ensure your data is safe from unauthorized
+                    access. Transactional data is stored securely within our local hub database.
+                </p>
+            </section>
+
+            <div class="privacy-footer">
+                <p>If you have questions about your data, please contact the GreenField Support Team.</p>
+                <a asp-controller="Home" asp-action="Index" class="btn-home">Return Home</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization; // Imports security tools for page acc
 
 namespace GreenFieldLocalHub.Controllers // Defines the container for this controller
 { // Start of namespace
+    [Authorize(Roles = "Developer")] // Security: Restricts access to all actions in this controller to users in the 'Developer' role
     public class OrderProductsController : Controller // Defines the class that links products to specific orders
     { // Start of class
         private readonly ApplicationDbContext _context; // Declares a private variable for the database connection
@@ -21,6 +22,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of constructor
 
         // GET: OrderProducts
+        [HttpGet] // Specifies that this method handles GET requests
         public async Task<IActionResult> Index() // Method to show a list of all order-product links
         { // Start of Index method
             var applicationDbContext = _context.OrderProducts // Starts a query on the OrderProducts table
@@ -30,6 +32,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Index method
 
         // GET: OrderProducts/Details/5
+        [HttpGet] // Specifies that this method handles GET requests
         public async Task<IActionResult> Details(int? id) // Method to show info for one specific item in an order
         { // Start of Details method
             if (id == null) // Checks if the ID was missing from the URL
@@ -50,6 +53,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Details method
 
         // GET: OrderProducts/Create
+        [HttpGet] // Specifies that this method handles GET requests
         public IActionResult Create() // Method to load the "Add Product to Order" form
         { // Start of Create method
             ViewData["OrdersId"] = new SelectList(_context.Set<Orders>(), "OrdersId", "OrdersId"); // Prepares a dropdown of Order IDs
@@ -58,8 +62,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Create method
 
         // POST: OrderProducts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost] // Defines this as a POST request (saving data)
         [ValidateAntiForgeryToken] // Security check to prevent cross-site request forgery
         public async Task<IActionResult> Create([Bind("OrderProductsId,OrdersId,ProductsId,ProductsQuantity")] OrderProducts orderProducts) // Logic to save a new item to an order
@@ -76,6 +78,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Create POST method
 
         // GET: OrderProducts/Edit/5
+        [HttpGet] // Specifies that this method handles GET requests
         public async Task<IActionResult> Edit(int? id) // Method to load the edit form
         { // Start of Edit method
             if (id == null) // Checks if ID is missing
@@ -94,8 +97,6 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Edit method
 
         // POST: OrderProducts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost] // Defines this as a POST request
         [ValidateAntiForgeryToken] // Security check
         public async Task<IActionResult> Edit(int id, [Bind("OrderProductsId,OrdersId,ProductsId,ProductsQuantity")] OrderProducts orderProducts) // Logic to save changes
@@ -131,6 +132,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the container for this contr
         } // End of Edit POST method
 
         // GET: OrderProducts/Delete/5
+        [HttpGet] // Specifies that this method handles GET requests
         public async Task<IActionResult> Delete(int? id) // Method to load the delete confirmation page
         { // Start of Delete method
             if (id == null) // Checks if ID is missing

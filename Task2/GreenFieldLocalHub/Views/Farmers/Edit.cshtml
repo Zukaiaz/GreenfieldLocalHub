@@ -1,117 +1,117 @@
 ﻿@model GreenFieldLocalHub.Models.Farmers
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Farmer Profile";
 }
 
-<h1>Edit</h1>
+@* Link to the custom styling for the edit page *@
+<link rel="stylesheet" href="~/css/farmersE.css" />
 
-<h4>Farmers</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="edit-container">
+    <div class="edit-header">
+        <h1>Update Profile</h1>
+        <p>Modify your farm information or update your profile image.</p>
+    </div>
+
+    <div class="edit-card">
+        @* enctype="multipart/form-data" is required for image/file uploads to work *@
         <form asp-action="Edit" enctype="multipart/form-data">
 
+            @* These hidden inputs ensure the IDs are preserved during the save process *@
             <input type="hidden" asp-for="FarmersId" />
             <input type="hidden" asp-for="UserId" />
 
-            <div class="form-group">
-                <label asp-for="FarmerName"></label>
-                <input asp-for="FarmerName" class="form-control" />
-                <span asp-validation-for="FarmerName" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="error-summary"></div>
+
+            @* Farmer Name Edit Field *@
+            <div class="input-group">
+                <label asp-for="FarmerName" class="field-label"></label>
+                <input asp-for="FarmerName" class="field-input" />
+                <span asp-validation-for="FarmerName" class="error-message"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="FarmerEmail"></label>
-                <input asp-for="FarmerEmail" class="form-control" />
+            @* Email Edit Field *@
+            <div class="input-group">
+                <label asp-for="FarmerEmail" class="control-label"></label>
+                @* type="email" triggers mobile keyboards to show the '@' key and validates format *@
+                <input asp-for="FarmerEmail"
+                       class="form-control"
+                       type="email"
+                       placeholder="farmer@example.com" />
                 <span asp-validation-for="FarmerEmail" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="FarmingMethod"></label>
-                <input asp-for="FarmingMethod" class="form-control" />
-                <span asp-validation-for="FarmingMethod" class="text-danger"></span>
+            @* Farming Method Edit Field *@
+            <div class="input-group">
+                <label asp-for="FarmingMethod" class="field-label"></label>
+                <input asp-for="FarmingMethod" class="field-input" />
+                <span asp-validation-for="FarmingMethod" class="error-message"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="FarmerInfo"></label>
-                <input asp-for="FarmerInfo" class="form-control" />
-                <span asp-validation-for="FarmerInfo" class="text-danger"></span>
+            @* Farmer Bio Edit Field *@
+            <div class="input-group">
+                <label asp-for="FarmerInfo" class="field-label"></label>
+                <textarea asp-for="FarmerInfo" class="field-input textarea"></textarea>
+                <span asp-validation-for="FarmerInfo" class="error-message"></span>
             </div>
 
-            <!-- IMAGE UPLOAD -->
-            <div class="form-group">
-                <label>Profile Image</label>
-                <input type="file"
-                       name="ImageFile"
-                       class="form-control"
-                       accept="image/*"
-                       id="imageUpload" />
+            @* IMAGE UPLOAD SECTION *@
+            <div class="input-group">
+                <label class="field-label">Update Profile Image</label>
+                <div class="file-upload-wrapper">
+                    <input type="file"
+                           name="ImageFile"
+                           class="file-input-hidden"
+                           accept="image/*"
+                           id="imageUpload" />
+                    <label for="imageUpload" class="file-label-custom">Choose New Photo</label>
+                </div>
 
-                <span class="text-danger">
+                @* Server-side error message if image upload fails *@
+                <span class="error-message">
                     @ViewData["ImageError"]
                 </span>
             </div>
 
-            <!-- PREVIEW -->
-            <div class="form-group mt-2"
-                 id="previewContainer"
-                 style="display:none;">
-
-                <label>Preview:</label><br />
-
-                <img id="imagePreview"
-                     src="#"
-                     alt="Image Preview"
-                     style="width:150px;
-                    height:150px;
-                    object-fit:cover;
-                    border-radius:8px;
-                    border:1px solid #ccc;" />
+            @* JAVASCRIPT IMAGE PREVIEW CONTAINER *@
+            <div class="preview-section" id="previewContainer" style="display:none;">
+                <label class="field-label">New Image Preview:</label>
+                <div class="preview-box">
+                    <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid rounded" />
+                </div>
             </div>
 
-            <!-- SAVE BUTTON -->
-            <div class="form-group mt-3">
-                <input type="submit"
-                       value="Save"
-                       class="btn btn-primary" />
+            @* FORM SAVE ACTION *@
+            <div class="button-group">
+                <button type="submit" class="btn-save">Save Changes</button>
+                <a asp-action="Index" class="btn-cancel">Cancel</a>
             </div>
 
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{
+        @* Enables real-time browser validation based on model data annotations *@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
     <script>
-        document.getElementById('imageUpload')
-            .addEventListener('change', function (e) {
-
+        @* Client-side script to show the selected image immediately before uploading *@
+        document.getElementById('imageUpload').addEventListener('change', function (e) {
             const file = e.target.files[0];
-            const preview =
-                document.getElementById('imagePreview');
-
-            const container =
-                document.getElementById('previewContainer');
+            const preview = document.getElementById('imagePreview');
+            const container = document.getElementById('previewContainer');
 
             if (file) {
                 const reader = new FileReader();
-
                 reader.onload = function (e) {
                     preview.src = e.target.result;
                     container.style.display = 'block';
                 }
-
                 reader.readAsDataURL(file);
-            }
-            else {
+            } else {
                 preview.src = '#';
                 container.style.display = 'none';
             }

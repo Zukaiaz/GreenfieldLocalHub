@@ -1,91 +1,175 @@
-﻿/* ─────────────────────────────
-   PAGE TITLE
+﻿
+/* ─────────────────────────────
+    HERO PARALLAX
 ───────────────────────────── */
-h1 {
+.hero-parallax {
+    /* Path to your image */
+    background-image: url('/images/public-domain-vectors-k_niy3JYHLM-unsplash.jpg');
+    height: 450px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* --- THE BREAKOUT FIX --- */
+    width: 100vw; /* Force it to be exactly 100% of browser width */
+    position: relative;
+    left: 50%; /* Move to the middle of the screen */
+    right: 50%; /* Move to the middle of the screen */
+    margin-left: -50vw; /* Pull back by half the browser width */
+    margin-right: -50vw; /* Pull back by half the browser width */
+    /* Remove the gap at the top (adjust if your navbar is taller/shorter) */
+    margin-top: -60px !important; /* This "pulls" it up into the gap */
+    /* Ensure it doesn't overlap the navbar's shadow if it has one */
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Dark overlay to make text readable */
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-title {
     font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
-    color: #2c2c1e;
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.hero-subtitle {
+    font-family: 'Hedvig Letters Serif', serif;
+    color: #f0f0f0;
+    font-size: 1.2rem;
+    margin-top: 10px;
 }
 
 /* ─────────────────────────────
-   GRID LAYOUT
+    RESPONSIVE HERO
+───────────────────────────── */
+@media (max-width: 768px) {
+    .hero-parallax {
+        height: 300px;
+        /* Parallax often breaks on mobile, so we disable fixed attachment */
+        background-attachment: scroll;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+}
+
+/* ─────────────────────────────
+    GRID LAYOUT
 ───────────────────────────── */
 .farmers-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    /* Uses auto-fit to be naturally responsive */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding-bottom: 3rem;
 }
 
 /* ─────────────────────────────
-   CARD
+    CARD
 ───────────────────────────── */
 .farmer-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     color: inherit;
     background: white;
-    border-radius: 18px;
-    padding: 1.2rem 1.3rem;
-    border: 1px solid rgba(140,151,104,0.2);
-    box-shadow: 0 6px 20px rgba(140,151,104,0.1);
+    border-radius: 24px; /* Softer, more modern corners */
+    padding: 1rem; /* Padding inside the card border */
+    border: 1px solid rgba(140, 151, 104, 0.15);
+    box-shadow: 0 10px 30px rgba(44, 44, 30, 0.05);
     position: relative;
     overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-    /* gradient hover overlay */
-    .farmer-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(221,161,94,0.08), transparent);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .farmer-card:hover::after {
-        opacity: 1;
-    }
-
-    /* lift effect */
+    /* Lift and Glow effect */
     .farmer-card:hover {
-        transform: translateY(-6px) scale(1.01);
-        box-shadow: 0 12px 30px rgba(140,151,104,0.18);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(140, 151, 104, 0.18);
+        border-color: rgba(140, 151, 104, 0.4);
     }
 
 /* ─────────────────────────────
-   CONTENT
+    IMAGE & CONTAINER
+───────────────────────────── */
+/* New container to allow the zoom effect without breaking corners */
+.farmer-img-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 18px;
+    margin-bottom: 1.2rem;
+}
+
+.farmer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.farmer-card:hover .farmer-img {
+    transform: scale(1.1);
+}
+
+/* ─────────────────────────────
+    CONTENT & TYPOGRAPHY
 ───────────────────────────── */
 .farmer-card-body {
-    position: relative;
-    z-index: 2;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.farmer-method {
+    display: inline-block;
+    background: #f4f5f0;
+    color: #8C9768;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    margin-bottom: 0.8rem;
+    width: fit-content;
 }
 
 .farmer-name {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.15rem;
     color: #2c2c1e;
-    margin-bottom: 0.3rem;
-}
-
-.farmer-method {
-    font-family: 'Hedvig Letters Serif', serif;
-    font-size: 0.85rem;
-    color: #8C9768;
-    font-weight: 600;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
 }
 
 .farmer-info {
     font-family: 'Hedvig Letters Serif', serif;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     color: #6e6e5a;
-    line-height: 1.5;
-    margin-bottom: 0.8rem;
-    /* clamp text */
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    /* Maintain 3-line clamp */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -93,50 +177,64 @@ h1 {
 }
 
 .farmer-email {
-    font-size: 0.75rem;
-    color: #aaa;
+    font-size: 0.8rem;
+    color: #999;
     font-family: 'Poppins', sans-serif;
+    margin-top: auto; /* Pushes email to the bottom */
+    border-top: 1px solid #f0f0f0;
+    padding-top: 0.8rem;
 }
 
 /* ─────────────────────────────
-   ENTRY ANIMATION
+    ENTRY ANIMATION
 ───────────────────────────── */
 .farmer-card {
     opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s ease forwards;
+    animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-    /* stagger effect */
-    .farmer-card:nth-child(1) {
-        animation-delay: 0.1s;
-    }
+/* Dynamic Stagger for the first 10 cards */
+@for $i from 1 through 10 {
+    .farmer-card:nth-child(#{$i}) {
+        animation-delay: #
 
-    .farmer-card:nth-child(2) {
-        animation-delay: 0.2s;
-    }
+{
+    $i * 0.1
+}
 
-    .farmer-card:nth-child(3) {
-        animation-delay: 0.3s;
-    }
+s;
+}
+}
 
-    .farmer-card:nth-child(4) {
-        animation-delay: 0.4s;
-    }
+/* Fallback if you aren't using SASS/SCSS: */
+.farmer-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
 
-    .farmer-card:nth-child(5) {
-        animation-delay: 0.5s;
-    }
+.farmer-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
 
-    .farmer-card:nth-child(6) {
-        animation-delay: 0.6s;
-    }
+.farmer-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
 
-/* animation keyframe */
+.farmer-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.farmer-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.farmer-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(25px);
+        transform: translateY(30px);
     }
 
     to {
@@ -146,24 +244,15 @@ h1 {
 }
 
 /* ─────────────────────────────
-   RESPONSIVE
+    RESPONSIVE ADJUSTMENTS
 ───────────────────────────── */
-@media (max-width: 900px) {
-    .farmers-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 @media (max-width: 600px) {
     .farmers-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
-}
 
-.farmer-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover; /* keeps it nice and cropped */
-    border-radius: 12px;
-    margin-bottom: 0.6rem;
+    h1.section-title {
+        font-size: 1.6rem;
+    }
 }
