@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zuzan\\Documents\\Github\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj": {}
+    "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zuzan\\Documents\\Github\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj": {
+    "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zuzan\\Documents\\Github\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
+        "projectUniqueName": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
         "projectName": "GreenFieldLocalHub",
-        "projectPath": "C:\\Users\\zuzan\\Documents\\Github\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
-        "packagesPath": "C:\\Users\\zuzan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zuzan\\Documents\\Github\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\obj\\",
+        "projectPath": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\GreenFieldLocalHub.csproj",
+        "packagesPath": "C:\\Users\\Digi-T-Y2-12\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\zuzan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Digi-T-Y2-12\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -42,14 +42,18 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
+          "auditMode": "all"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.Google": {
+              "target": "Package",
+              "version": "[9.0.15, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.0, )"
@@ -98,6 +102,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[9.0.0, 9.0.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -106,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

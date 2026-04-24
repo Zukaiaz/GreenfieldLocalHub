@@ -17,6 +17,46 @@
       "PackagePath": "staticwebassets\\css\\ProductsP.css"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\basketP.css",
+      "PackagePath": "staticwebassets\\css\\basketP.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\farmerdashboard.css",
+      "PackagePath": "staticwebassets\\css\\farmerdashboard.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\farmersD.css",
+      "PackagePath": "staticwebassets\\css\\farmersD.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\farmersE.css",
+      "PackagePath": "staticwebassets\\css\\farmersE.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\ordersC.css",
+      "PackagePath": "staticwebassets\\css\\ordersC.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\ordersD.css",
+      "PackagePath": "staticwebassets\\css\\ordersD.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\ordersP.css",
+      "PackagePath": "staticwebassets\\css\\ordersP.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\privacy.css",
+      "PackagePath": "staticwebassets\\css\\privacy.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\productC.css",
+      "PackagePath": "staticwebassets\\css\\productC.css"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\productsE.css",
+      "PackagePath": "staticwebassets\\css\\productsE.css"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -25,24 +65,76 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\amanda-wolbert-NqyJZprqP9c-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\amanda-wolbert-NqyJZprqP9c-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\andrew-ridley-6KCS---7jbc-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\andrew-ridley-6KCS---7jbc-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\anne-nygard-eUjzGp1pGws-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\anne-nygard-eUjzGp1pGws-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\armbrustanna-green-onions-699943.jpg",
       "PackagePath": "staticwebassets\\images\\armbrustanna-green-onions-699943.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\art-rachen-Asj5DFw8UAw-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\art-rachen-Asj5DFw8UAw-unsplash.jpg"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\bajarita-berner-rose-75320.jpg",
       "PackagePath": "staticwebassets\\images\\bajarita-berner-rose-75320.jpg"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\becca-paul-Q-XawiS4KUc-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\becca-paul-Q-XawiS4KUc-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\brooke-cagle-EenUxvVltMs-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\brooke-cagle-EenUxvVltMs-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\christine-siracusa-XJY1C5LVNn8-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\christine-siracusa-XJY1C5LVNn8-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\david-foodphototasty-JJcT6VJWDlg-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\david-foodphototasty-JJcT6VJWDlg-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\default.png",
       "PackagePath": "staticwebassets\\images\\default.png"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\delivery.png",
+      "PackagePath": "staticwebassets\\images\\delivery.png"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\engin-akyurt-Y5n8mCpvlZU-unsplash.jpg",
       "PackagePath": "staticwebassets\\images\\engin-akyurt-Y5n8mCpvlZU-unsplash.jpg"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmer.png",
+      "PackagePath": "staticwebassets\\images\\farmer.png"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg",
+      "PackagePath": "staticwebassets\\images\\farmers\\0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg",
       "PackagePath": "staticwebassets\\images\\farmers\\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\gabi-miranda-dxb_HSjoQ40-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\gabi-miranda-dxb_HSjoQ40-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\geertje-caliguire-JNoODfMAyLA-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\geertje-caliguire-JNoODfMAyLA-unsplash.jpg"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\gregory-hayes-QFmNQXLPbZc-unsplash.jpg",
@@ -57,20 +149,152 @@
       "PackagePath": "staticwebassets\\images\\jackmac34-carrots-673184_1920.jpg"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\jake-gard-CetB-bTDBtY-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\jake-gard-CetB-bTDBtY-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\jed-owen-1JgUGDdcWnM-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\jed-owen-1JgUGDdcWnM-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\jed-owen-ajZibDGpPew-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\jed-owen-ajZibDGpPew-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\jennifer-schmidt-XkUJ_hgBZX4-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\jennifer-schmidt-XkUJ_hgBZX4-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\joanna-stolowicz-KcDwPR4cL5k-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\joanna-stolowicz-KcDwPR4cL5k-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\jocelyn-morales-hFVjgO8JGSU-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\jocelyn-morales-hFVjgO8JGSU-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\karolina-kolodziejczak-CNhsp0UcrDc-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\karolina-kolodziejczak-CNhsp0UcrDc-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\kate-cullen-cjEoFVjaMfQ-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\kate-cullen-cjEoFVjaMfQ-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\land-o-lakes-inc-0VIqR7HmDZw-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\land-o-lakes-inc-0VIqR7HmDZw-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\land-o-lakes-inc-BlXa_riHlp4-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\land-o-lakes-inc-BlXa_riHlp4-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\land-o-lakes-inc-JUivXruBs2U-unsplash.jpg",
       "PackagePath": "staticwebassets\\images\\land-o-lakes-inc-JUivXruBs2U-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\land-o-lakes-inc-iFx1WMvjvpw-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\land-o-lakes-inc-iFx1WMvjvpw-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\luciano-liu-I8Qxi5Hmxp8-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\luciano-liu-I8Qxi5Hmxp8-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\marko-anastasijevic-ipcIeLJsoNg-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\marko-anastasijevic-ipcIeLJsoNg-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\matthewsjackie-copyright-6142611.jpg",
+      "PackagePath": "staticwebassets\\images\\matthewsjackie-copyright-6142611.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\morgane-perraud-Jc2JGFFsfNI-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\morgane-perraud-Jc2JGFFsfNI-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\nick-collins-udo5pIvRfrA-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\nick-collins-udo5pIvRfrA-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\organic.png",
+      "PackagePath": "staticwebassets\\images\\organic.png"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\phil-hearing-Ar1tfafpKb0-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\phil-hearing-Ar1tfafpKb0-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\4b055c40-cf2d-4560-9786-84f7cb549d63.png",
+      "PackagePath": "staticwebassets\\images\\products\\4b055c40-cf2d-4560-9786-84f7cb549d63.png"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\70d769c0-b262-4f16-b63a-9cf7c5036d30.jpg",
       "PackagePath": "staticwebassets\\images\\products\\70d769c0-b262-4f16-b63a-9cf7c5036d30.jpg"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\7236449d-0460-44ae-8436-e456c17b6a27.png",
+      "PackagePath": "staticwebassets\\images\\products\\7236449d-0460-44ae-8436-e456c17b6a27.png"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg",
       "PackagePath": "staticwebassets\\images\\products\\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg"
     },
     {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\public-domain-vectors-k_niy3JYHLM-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\public-domain-vectors-k_niy3JYHLM-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\public-domain-vectors-sLqTNHnm0AY-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\public-domain-vectors-sLqTNHnm0AY-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\randy-fath-5aJVJvJ9rG8-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\randy-fath-5aJVJvJ9rG8-unsplash.jpg"
+    },
+    {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\randy-fath-dDc0vuVH_LU-unsplash.jpg",
       "PackagePath": "staticwebassets\\images\\randy-fath-dDc0vuVH_LU-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\roberta-sorge-kp9UVn-PUac-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\roberta-sorge-kp9UVn-PUac-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\saikiran-kesari-zSn8VuwV7Kg-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\saikiran-kesari-zSn8VuwV7Kg-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\tim-mossholder-xDwEa2kaeJA-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\tim-mossholder-xDwEa2kaeJA-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\tony-pham-TV7m_tpmqhw-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\tony-pham-TV7m_tpmqhw-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\valentina-ivanova-6IorVhJSylY-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\valentina-ivanova-6IorVhJSylY-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\vino-li-v7H-fV9Ydkk-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\vino-li-v7H-fV9Ydkk-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\zoe-richardson-D_VjFp1ds1Y-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\zoe-richardson-D_VjFp1ds1Y-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\zoe-richardson-W_ISm5LwKHQ-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\zoe-richardson-W_ISm5LwKHQ-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\zoe-richardson-siD6uufCyt8-unsplash.jpg",
+      "PackagePath": "staticwebassets\\images\\zoe-richardson-siD6uufCyt8-unsplash.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\js\\accessability.js",
+      "PackagePath": "staticwebassets\\js\\accessability.js"
     },
     {
       "Id": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\js\\site.js",

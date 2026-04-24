@@ -23,7 +23,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for the Basket
 
         // GET: Baskets
         [HttpGet] // Explicitly marks this as a GET request
-        [Authorize(Roles = "Standard,Admin,Developer")] // Allows access only to logged-in users with these roles
+        [Authorize] // Allows access only to logged-in users with these roles
         public async Task<IActionResult> Index() // Main action to load the "My Basket" page
         { // Opens Index method scope
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Retrieves the unique ID of the currently logged-in user
@@ -118,7 +118,7 @@ namespace GreenFieldLocalHub.Controllers // Defines the namespace for the Basket
 
         // GET: Baskets/Create
         [HttpGet] // Marks this as a GET request
-        [Authorize(Roles = "Developer")] // Restricts this to Developers
+        [Authorize] // Restricts this to Developers
         public IActionResult Create() // Action to load the create form
         { // Opens method
             return RedirectToAction(nameof(Index)); // Instantly redirects to Index as baskets are handled automatically

@@ -1,4 +1,0 @@
-Farmer dashboard
-Instead of orderID it says the products
-Also shows the user email
-

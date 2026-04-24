@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v9.0": {
       "GreenFieldLocalHub/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": "9.0.15",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "9.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.12",
           "Microsoft.AspNetCore.Identity.UI": "9.0.12",
@@ -593,6 +594,14 @@
         "resources": {
           "lib/net6.0/zh-Hant/Humanizer.resources.dll": {
             "locale": "zh-Hant"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/9.0.15": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "9.0.15.0",
+            "fileVersion": "9.0.1526.17607"
           }
         }
       },
@@ -2367,7 +2376,14 @@
         }
       },
       "System.Diagnostics.EventLog/8.0.0": {},
-      "System.Formats.Asn1/9.0.12": {},
+      "System.Formats.Asn1/9.0.12": {
+        "runtime": {
+          "lib/net9.0/System.Formats.Asn1.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1225.60609"
+          }
+        }
+      },
       "System.IdentityModel.Tokens.Jwt/6.35.0": {
         "dependencies": {
           "Microsoft.IdentityModel.JsonWebTokens": "6.35.0",
@@ -2494,7 +2510,14 @@
         }
       },
       "System.Text.Encodings.Web/8.0.0": {},
-      "System.Text.Json/9.0.12": {},
+      "System.Text.Json/9.0.12": {
+        "runtime": {
+          "lib/net9.0/System.Text.Json.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1225.60609"
+          }
+        }
+      },
       "System.Threading.Channels/7.0.0": {},
       "System.Threading.Tasks.Dataflow/8.0.0": {},
       "System.Threading.Tasks.Extensions/4.5.4": {},
@@ -2885,6 +2908,13 @@
       "sha512": "sha512-VIXB7HCUC34OoaGnO3HJVtSv2/wljPhjV7eKH4+TFPgQdJj2lvHNKY41Dtg0Bphu7X5UaXFR4zrYYyo+GNOjbA==",
       "path": "humanizer.core.zh-hant/2.14.1",
       "hashPath": "humanizer.core.zh-hant.2.14.1.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Google/9.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SdKGux15f8v2bc8srCCOmMC90BXmIWYWeOtyLjjphHiYMoJoLeDau7VbPddT4k5AHHSTnqH7QbG4vngRfBKxdw==",
+      "path": "microsoft.aspnetcore.authentication.google/9.0.15",
+      "hashPath": "microsoft.aspnetcore.authentication.google.9.0.15.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/9.0.12": {
       "type": "package",
