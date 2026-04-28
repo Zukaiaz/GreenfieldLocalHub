@@ -558,6 +558,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>GreenFieldLocalHub</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/GreenFieldLocalHub</BasePath>
+      <RelativePath>images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>4vevum7fye</Fingerprint>
+      <Integrity>AH21UET5IdPTAiS7XnSi0m9Ikcyf6HiRerjMSZ6NQiQ=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg'))">
       <SourceType>Package</SourceType>
       <SourceId>GreenFieldLocalHub</SourceId>
@@ -1079,6 +1097,42 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>GreenFieldLocalHub</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/GreenFieldLocalHub</BasePath>
+      <RelativePath>images/products/ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>np95bd57jf</Fingerprint>
+      <Integrity>lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>GreenFieldLocalHub</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/GreenFieldLocalHub</BasePath>
+      <RelativePath>images/products/e5ef5782-1e08-4079-a922-ae502c858d6e.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>np95bd57jf</Fingerprint>
+      <Integrity>lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\public-domain-vectors-k_niy3JYHLM-unsplash.jpg'))">
       <SourceType>Package</SourceType>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Ck67L3XNISSPFCKGkb9nqE4NRppCDikRShpXPSrTdLs=",
+  "Hash": "5p0rwMRYAhqzRq3mOGBLlUWcUeiblhPPub1TPIzNaWQ=",
   "Source": "GreenFieldLocalHub",
   "BasePath": "_content/GreenFieldLocalHub",
   "Mode": "Default",
@@ -4952,6 +4952,27 @@
       "OriginalItemSpec": "wwwroot\\images\\farmers\\0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg"
     },
     {
+      "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg",
+      "SourceId": "GreenFieldLocalHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\",
+      "BasePath": "_content/GreenFieldLocalHub",
+      "RelativePath": "images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "4vevum7fye",
+      "Integrity": "AH21UET5IdPTAiS7XnSi0m9Ikcyf6HiRerjMSZ6NQiQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\farmers\\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg",
       "SourceId": "GreenFieldLocalHub",
       "SourceType": "Discovered",
@@ -5559,6 +5580,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg",
+      "SourceId": "GreenFieldLocalHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\",
+      "BasePath": "_content/GreenFieldLocalHub",
+      "RelativePath": "images/products/ac522d65-5bd4-496e-b7ce-65377b0b7be2#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "np95bd57jf",
+      "Integrity": "lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg",
+      "SourceId": "GreenFieldLocalHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\",
+      "BasePath": "_content/GreenFieldLocalHub",
+      "RelativePath": "images/products/e5ef5782-1e08-4079-a922-ae502c858d6e#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "np95bd57jf",
+      "Integrity": "lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg"
     },
     {
       "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\public-domain-vectors-k_niy3JYHLM-unsplash.jpg",
@@ -21965,6 +22028,88 @@
       ]
     },
     {
+      "Route": "images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.4vevum7fye.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1200754"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"AH21UET5IdPTAiS7XnSi0m9Ikcyf6HiRerjMSZ6NQiQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 24 Apr 2026 12:33:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4vevum7fye"
+        },
+        {
+          "Name": "label",
+          "Value": "images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-AH21UET5IdPTAiS7XnSi0m9Ikcyf6HiRerjMSZ6NQiQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1200754"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"AH21UET5IdPTAiS7XnSi0m9Ikcyf6HiRerjMSZ6NQiQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 24 Apr 2026 12:33:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-AH21UET5IdPTAiS7XnSi0m9Ikcyf6HiRerjMSZ6NQiQ="
+        }
+      ]
+    },
+    {
       "Route": "images/farmers/e6a7fb49-6542-46d9-a453-79ab61515f56.jpg",
       "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg",
       "Selectors": [],
@@ -24339,6 +24484,170 @@
         {
           "Name": "integrity",
           "Value": "sha256-utyKAJOGqPslWQ+0uAJc9Eisb7jOeeL2cxHOOwx4cNk="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4573987"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 24 Apr 2026 12:34:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/ac522d65-5bd4-496e-b7ce-65377b0b7be2.np95bd57jf.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4573987"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 24 Apr 2026 12:34:07 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "np95bd57jf"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/e5ef5782-1e08-4079-a922-ae502c858d6e.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4573987"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 24 Apr 2026 12:34:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/e5ef5782-1e08-4079-a922-ae502c858d6e.np95bd57jf.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "4573987"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 24 Apr 2026 12:34:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "np95bd57jf"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/e5ef5782-1e08-4079-a922-ae502c858d6e.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-lfB5mJK/H5G0U+AjPjNriuJ1kJS4lXrP5zUg2KqLdaQ="
         }
       ]
     },
