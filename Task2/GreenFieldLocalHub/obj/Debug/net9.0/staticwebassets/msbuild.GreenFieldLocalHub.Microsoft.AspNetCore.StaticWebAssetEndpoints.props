@@ -372,6 +372,18 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"pmf9bkpb9s"},{"Name":"integrity","Value":"sha256-nz3suHEKNp72sFj/ZB1\u002Btxr1mW4P8/kxdNDGnVu7XGY="},{"Name":"label","Value":"_content/GreenFieldLocalHub/images/farmers/0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4130339"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022nz3suHEKNp72sFj/ZB1\u002Btxr1mW4P8/kxdNDGnVu7XGY=\u0022"},{"Name":"Last-Modified","Value":"Fri, 24 Apr 2026 11:21:05 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/GreenFieldLocalHub/images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62.0bi2hn6nl3.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"0bi2hn6nl3"},{"Name":"integrity","Value":"sha256-1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA="},{"Name":"label","Value":"_content/GreenFieldLocalHub/images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1598391"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00221Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 29 Apr 2026 14:02:10 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/GreenFieldLocalHub/images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"1598391"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u00221Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA=\u0022"},{"Name":"Last-Modified","Value":"Wed, 29 Apr 2026 14:02:10 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/GreenFieldLocalHub/images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.4vevum7fye.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\farmers\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
@@ -731,6 +743,18 @@
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"uj7eb5m9m8"},{"Name":"integrity","Value":"sha256-utyKAJOGqPslWQ\u002B0uAJc9Eisb7jOeeL2cxHOOwx4cNk="},{"Name":"label","Value":"_content/GreenFieldLocalHub/images/products/9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1418417"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022utyKAJOGqPslWQ\u002B0uAJc9Eisb7jOeeL2cxHOOwx4cNk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 20 Apr 2026 13:39:05 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/GreenFieldLocalHub/images/products/ac154923-88ca-4a21-92d6-bc7e929419e4.cfqtif9wh2.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"cfqtif9wh2"},{"Name":"integrity","Value":"sha256-\u002BFb14JPqDdn2v\u002BtSQIuJyEZpCLFTEWyfD\u002BY0sr2\u002BroI="},{"Name":"label","Value":"_content/GreenFieldLocalHub/images/products/ac154923-88ca-4a21-92d6-bc7e929419e4.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"2354616"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022\u002BFb14JPqDdn2v\u002BtSQIuJyEZpCLFTEWyfD\u002BY0sr2\u002BroI=\u0022"},{"Name":"Last-Modified","Value":"Wed, 29 Apr 2026 14:00:47 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/GreenFieldLocalHub/images/products/ac154923-88ca-4a21-92d6-bc7e929419e4.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-\u002BFb14JPqDdn2v\u002BtSQIuJyEZpCLFTEWyfD\u002BY0sr2\u002BroI="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"2354616"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022\u002BFb14JPqDdn2v\u002BtSQIuJyEZpCLFTEWyfD\u002BY0sr2\u002BroI=\u0022"},{"Name":"Last-Modified","Value":"Wed, 29 Apr 2026 14:00:47 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/GreenFieldLocalHub/images/products/ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\products\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg'))</AssetFile>

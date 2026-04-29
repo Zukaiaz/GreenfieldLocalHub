@@ -104,6 +104,7 @@ wwwroot\images\delivery.png
 wwwroot\images\engin-akyurt-Y5n8mCpvlZU-unsplash.jpg
 wwwroot\images\farmer.png
 wwwroot\images\farmers\0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg
+wwwroot\images\farmers\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg
 wwwroot\images\farmers\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg
 wwwroot\images\farmers\e6a7fb49-6542-46d9-a453-79ab61515f56.jpg
 wwwroot\images\gabi-miranda-dxb_HSjoQ40-unsplash.jpg
@@ -134,6 +135,7 @@ wwwroot\images\products\4b055c40-cf2d-4560-9786-84f7cb549d63.png
 wwwroot\images\products\70d769c0-b262-4f16-b63a-9cf7c5036d30.jpg
 wwwroot\images\products\7236449d-0460-44ae-8436-e456c17b6a27.png
 wwwroot\images\products\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg
+wwwroot\images\products\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg
 wwwroot\images\products\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg
 wwwroot\images\products\e5ef5782-1e08-4079-a922-ae502c858d6e.jpg
 wwwroot\images\public-domain-vectors-k_niy3JYHLM-unsplash.jpg

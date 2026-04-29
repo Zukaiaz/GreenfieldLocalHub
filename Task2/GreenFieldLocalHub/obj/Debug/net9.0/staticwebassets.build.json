@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5p0rwMRYAhqzRq3mOGBLlUWcUeiblhPPub1TPIzNaWQ=",
+  "Hash": "ZRggq2OLxqC1IlvOd8GyhKtBKcIZeCaKFrcrg+2pSIA=",
   "Source": "GreenFieldLocalHub",
   "BasePath": "_content/GreenFieldLocalHub",
   "Mode": "Default",
@@ -4952,6 +4952,27 @@
       "OriginalItemSpec": "wwwroot\\images\\farmers\\0b58696c-9d79-47f7-97a7-1b0cae97dd97.jpg"
     },
     {
+      "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg",
+      "SourceId": "GreenFieldLocalHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\",
+      "BasePath": "_content/GreenFieldLocalHub",
+      "RelativePath": "images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "0bi2hn6nl3",
+      "Integrity": "1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\farmers\\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg",
       "SourceId": "GreenFieldLocalHub",
       "SourceType": "Discovered",
@@ -5580,6 +5601,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\products\\9a33b6a2-1d07-48a2-8fbf-4114f5fb4e76.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg",
+      "SourceId": "GreenFieldLocalHub",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\",
+      "BasePath": "_content/GreenFieldLocalHub",
+      "RelativePath": "images/products/ac154923-88ca-4a21-92d6-bc7e929419e4#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "cfqtif9wh2",
+      "Integrity": "+Fb14JPqDdn2v+tSQIuJyEZpCLFTEWyfD+Y0sr2+roI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\products\\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg"
     },
     {
       "Identity": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac522d65-5bd4-496e-b7ce-65377b0b7be2.jpg",
@@ -22028,6 +22070,88 @@
       ]
     },
     {
+      "Route": "images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62.0bi2hn6nl3.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1598391"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 29 Apr 2026 14:02:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "0bi2hn6nl3"
+        },
+        {
+          "Name": "label",
+          "Value": "images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA="
+        }
+      ]
+    },
+    {
+      "Route": "images/farmers/7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\7c6b16dc-ff02-4b04-9f88-20da88087c62.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1598391"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 29 Apr 2026 14:02:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-1Knifd8dbfrdgU0NMHI2u9MrwAt2ph9lKUSIOvW8BsA="
+        }
+      ]
+    },
+    {
       "Route": "images/farmers/81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.4vevum7fye.jpg",
       "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\farmers\\81a7f2f3-0ed6-4c72-b5b7-5b2cd84c2af7.jpg",
       "Selectors": [],
@@ -24484,6 +24608,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-utyKAJOGqPslWQ+0uAJc9Eisb7jOeeL2cxHOOwx4cNk="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/ac154923-88ca-4a21-92d6-bc7e929419e4.cfqtif9wh2.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2354616"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+Fb14JPqDdn2v+tSQIuJyEZpCLFTEWyfD+Y0sr2+roI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 29 Apr 2026 14:00:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "cfqtif9wh2"
+        },
+        {
+          "Name": "label",
+          "Value": "images/products/ac154923-88ca-4a21-92d6-bc7e929419e4.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+Fb14JPqDdn2v+tSQIuJyEZpCLFTEWyfD+Y0sr2+roI="
+        }
+      ]
+    },
+    {
+      "Route": "images/products/ac154923-88ca-4a21-92d6-bc7e929419e4.jpg",
+      "AssetFile": "C:\\Users\\Digi-T-Y2-12\\Documents\\GitHub\\GreenfieldLocalHub\\Task2\\GreenFieldLocalHub\\wwwroot\\images\\products\\ac154923-88ca-4a21-92d6-bc7e929419e4.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2354616"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+Fb14JPqDdn2v+tSQIuJyEZpCLFTEWyfD+Y0sr2+roI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 29 Apr 2026 14:00:47 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+Fb14JPqDdn2v+tSQIuJyEZpCLFTEWyfD+Y0sr2+roI="
         }
       ]
     },
